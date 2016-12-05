@@ -1,0 +1,11 @@
+
+
+@Id
+@SequenceGenerator(name="sequenceGenerator",sequenceName="SEQ_ID")
+@GeneratedValue(generator="sequenceGenerator",strategy=GenerationType.SEQUENCE)
+@Column(name = "ID", unique = true, nullable = false, precision = 10, scale = 0)
+public Long getId() {
+   return this.id;
+}
+
+注意：@GeneratedValue中的generator不是sequence的名字，而是@SequenceGenerator中的name的名字；@SequenceGenerator中的sequenceName才是定义sequence的名字。

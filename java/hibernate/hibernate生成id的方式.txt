@@ -1,0 +1,9 @@
+Hibernate在oracle中ID增长的两种方式
+
+
+	根据hibernate的文档，有两种方式实现实体对象的主键自动增长。 
+
+	第一种：设置ID的增长策略是sequence，同时指定sequence的名字，最好每个表建一个sequence，此种做法就如同MS-SQL,MY-SQL中的自动增长一样，不需要创建触发器，具体的oracle数据库脚本及hibernate配置文件如下
+
+	第二种：设置ID的增长策略是native，但是需要创建一个名字为hibernate_sequence（这个名字好像是hibernate默认的sequence名字，不创建会出错的）的全局使用的sequence，然后再对每一个表的ID生成的时候，使用触发器，取得hibernate_sequence.CURRVAL作为新记录的ID，具体的oracle数据库脚本及hibernate配置文件如下： 
+	CREATE SEQUENCE HIBERNATE_SEQUENCE MINVALUE 90000 MAXVALUE 999999999999999999999999 INCREMENT BY 1 NOCYCLE;  

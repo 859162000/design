@@ -1,0 +1,10 @@
+1，排除拦截
+	<filter>
+		<filter-name>userSessionFilter</filter-name>
+		<filter-class>com.sinosoft.util.web.UserSessionFilter</filter-class>
+		<init-param><!-- login/lougout/静态文件(html/css/js/图片)等文件不需要校验用户是否已登录.首页也不校验，因为系统通过首页登录 -->
+			<param-name>exclude</param-name>
+			<param-value>/,/me.do,/setting/dictionary/loadStatic.do,**locale.do,**login.*,**logout.*,**.html,**.css,**.js,**resources**,/webservice/**</param-value>
+		</init-param>
+	</filter>
+	在使用拦截时，**两个星号表示对后面所有进行匹配，*一个星号表示匹配一个字符

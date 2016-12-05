@@ -1,0 +1,52 @@
+idea相关收集
+
+
+1，maven插件相关
+	1.1jetty：run，idea安装完jetty插件后，并jetty依赖后会自动显示出执行jetty
+		<groupId>org.mortbay.jetty</groupId>
+        	<artifactId>maven-jetty-plugin</artifactId>
+        	<version>6.1.26</version> 
+
+	1.2 maven执行前，点击同步按钮
+	
+2，idea加载项目
+	2.1 open project
+	2.2 close project
+
+3，dependence, pom.xml文件上右键Diagrams--Show Dependencies查看依赖
+
+4，配置tomcat，只有非社区版才行
+	选择structure -> server -> tomcat
+
+5，查找快捷键
+	5.1 查找类	ctrl+N
+		5.1.2 对比代码		Alt+Shift+C
+		5.1.3 重构重命名	Shift+F6 
+
+	5.2，搜索替换 	ctrl+shift+r
+
+6，格式化相关
+	6.1 格式化 	ctrl+alt+L 
+	6.2 转大写 	ctrl+shift+U
+	6.3 组织导入	ctrl+alt+o
+	6.4 代码格式之字段对齐 setting->Editor->Java->Group->cloumn系列
+		
+8，生成代码 Alt+Insert 
+
+9，撤销操作 ctrl+u
+
+10，调整背景色与文字大小 file -> setting -> editor -> color&fonts
+
+11，调试快捷键
+	F9            	resume programe 恢复程序
+	Alt+F10       	show execution point 显示执行断点
+	F8            	Step Over 相当于eclipse的f6      跳到下一步
+	F7            	Step Into 相当于eclipse的f5就是  进入到代码
+	Alt+shift+F7  	Force Step Into 这个是强制进入代码
+	Shift+F8      	Step Out  相当于eclipse的f8跳到下一个断点，也相当于eclipse的f7跳出函数
+	Atl+F9        	Run To Cursor 运行到光标处
+	ctrl+shift+F9   debug运行java类
+	ctrl+shift+F10  正常运行java类
+	alt+F8          debug时选中查看值
+	
+	

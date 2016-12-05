@@ -1,0 +1,346 @@
+转自：http://blog.csdn.net/java958199586/article/details/7069901
+
+hibernate延迟加载（懒加载）详解
+
+一．什么是懒加载？他的作用？
+
+延迟加载，也叫懒加载，它是Hibernate为提高程序执行效率而提供的一种机制，即只有真正使用该对象的数据时才会创建。
+
+Hibernate中主要是通过代理（proxy）机制来实现延迟加载。它的具体过程：Hibernate丛数据库获取某一个对象数据时、获取某一 个对象的集合属性值时，或获取某一个对象所关联的另一个对象时，由于没有使用该对象的数据，hibernate并不是数据库加载真正的数据，而只是为该对 象创建一个代理对象来代表这个对象，这个对象上的所有属性都是默认值；只有在真正需要使用该对象的数据时才创建这个真实对象，真正从数据库中加载它的数 据，这样在某些情况下，就可以提高查询效率。
+
+有如下程序代码：
+
+User user=(User)session.load(clazz, id);//直接返回的是代理对象
+
+System.out.println(user.getId());//没有发送sql语句到数据库加载
+
+user.getName();//创建真实的User实例，并发送sql语句到数据库中
+
+注意：1.不能判断User=null；代理对象不可能为空
+
+代理对象的限制：和代理关联的session对象，如果session关闭后访问代理则抛异常。session关闭之前访问数据库
+
+2.getId()方法不行因为参数为ID，getClass（）方法不用访问数据库就可以得到的数据
+
+Hibernate中默认采用延迟加载的情况主要有以下几种
+
+1,当调用session上的load()加载一个实体时，会采用延迟加载。
+
+2，当session加载某个实体时，会对这个实体中的集合属性值采用延迟加载
+
+3当session加载某个实体时，会对这个实体所有单端关联的另一个实体对象采用延迟加载。
+
+二．关闭延迟加载
+
+       延迟加载确实会给程序的查询效率带来好处，但有时明确知道数据需要立即加载，如果Hibernate先默认使用延迟加载，而后又必须去数据库加载，反而会降低效率
+
+1.     加载单个实体，如果不需要延迟加载，就可以使用session的get()方法。
+
+2.     当session加载某个实体时，不需要对这个实体中的集合属性值延迟加载，而是要立即加载。这是可以在映射文件中这个集合的配置元素（set bag list）添加属性lazy=false；
+
+3.     当session加载某个实体时，不需要对这个实体所单端关联的另一个实体对象延迟加载，就可以在影射文件中针对这个单端关联的配置元素（<one-to-one><many-to-one>）添加lazy=false；
+
+三．抓取策略
+
+   通过asm和cglib二个包实现；Domain是非final的。
+
+1.session.load懒加载。
+
+2.one-to-one(元素)懒加载：
+
+       必需同时满足下面三个条件时才能实现懒加载
+
+       (主表不能有constrained=true,所以主表没有懒加载)
+
+       lazy!=false 2)constrained=true3)fetch=select
+
+3.one-to-many (元素)懒加载：1)lazy!=false 2)fetch=select
+
+4.many-to-one (元素) ：1)lazy!=false 2)fetch=select
+
+5.many-to-many (元素) ：1)lazy!=false 2)fetch=select
+
+6.能够懒加载的对象都是被改写过的代理对象，当相关联的session没有关闭时，访问这些懒加载对象（代理对象）的属性（getId和 getClass除外）hibernate会初始化这些代理，或用Hibernate.initialize(proxy)来初始化代理对象；当相关联的 session关闭后，再访问懒加载的对象将出现异常。
+
+
+
+---------------------------------------------------- 二 -------------------------------------------------
+
+
+
+
+用hibernate每次查询完是不是都要关闭session,可关闭session之后，延迟加载的数据就不能查出来了，请问该如何解决。
+在web.xml中配置OpenSessionInView过滤器即可解决
+
+ <!-- OpenSessionInView 配置，解决Hibernate延迟加载的问题 -->
+  <filter>
+   <filter-name>lazyLoadingFilter</filter-name>
+   <filter-class>org.springframework.orm.hibernate3.support.OpenSessionInViewFilter</filter-class>
+  </filter>
+
+ <filter-mapping>
+   <filter-name>lazyLoadingFilter</filter-name>
+   <url-pattern>*.do</url-pattern>
+  </filter-mapping>
+
+
+
+PS:Hibernate 的延迟加载（lazy load）本质上就是代理模式的应用，我们在过去的岁月里就经常通过代理模式来降低系统的内存开销、提升应用的运行性能。Hibernate 充分利用了代理模式的这种优势，并结合了 Javassist 或 CGLIB 来动态地生成代理对象，这更加增加了代理模式的灵活性，Hibernate 给这种用法一个新名称：延迟加载。无论怎样，充分分析、了解这些开源框架的实现可以更好的感受经典设计模式的优势所在
+http://blog.csdn.net/xc635960736/article/details/7049863
+
+PS:
+如果是在one的一方查询many，在one的一方的set方法里加入属性：lazy="false";
+
+如果是在many的一方查询one，在many的一方的many-to-one里加上lazy="false";
+
+
+
+--------------------------------------------- 三 ----------------------------------------------
+以下转自：http://developer.51cto.com/art/200907/133249.htm
+
+Hibernate延时加载包括延迟初始化错误，这是运用Hibernate开发项目时最常见的错误。如果对一个类或者集合配置了延迟检索策略，那么必须 当代理类实例或代理集合处于持久化状态（即处于Session范围内）时，才能初始化它。如果在游离状态时才初始化它，就会产生延迟初始化错误。
+
+下面把Customer.hbm.xml文件的< class>元素的lazy属性设为true，表示使用延迟检索策略：
+
+    < class name="mypack.Customer" table="CUSTOMERS" lazy="true">  
+
+当执行Session的load()方法时，Hibernate不会立即执行查询CUSTOMERS表的select语句，仅仅返回Customer类的代理类的实例，这个代理类具由以下特征：
+
+（1） 由Hibernate在运行时动态生成，它扩展了Customer类，因此它继承了Customer类的所有属性和方法，但它的实现对于应用程序是透明的。
+
+（2） 当Hibernate创建Customer代理类实例时，仅仅初始化了它的OID属性，其他属性都为null，因此这个代理类实例占用的内存很少。
+
+（3）当应用程序第一次访问Customer代理类实例时（例如调用customer.getXXX()或customer.setXXX ()方法）， Hibernate会初始化代理类实例，在初始化过程中执行select语句，真正从数据库中加载Customer对象的所有数据。但有个例外，那就是当 应用程序访问Customer代理类实例的getId()方法时，Hibernate不会初始化代理类实例，因为在创建代理类实例时OID就存在了，不必 到数据库中去查询。
+
+提示：Hibernate采用CGLIB工具来生成持久化类的代理类。CGLIB是一个功能强大的Java字节码生成工具，它能够在程序运行时动态生成扩 展 Java类或者实现Java接口的代理类。
+
+以下代码先通过Session的load()方法加载Customer对象，然后访问它的name属性：
+
+    tx = session.beginTransaction();   
+    Customer customer=(Customer)session.load(Customer.class,new Long(1));   
+    customer.getName();   
+    tx.commit();  
+
+在运行session.load ()方 法时Hibernate不执行任何select语句，仅仅返回Customer类的代理类的实例，它的OID为1，这是由load()方法的第二个 参数指定的。当应用程序调用customer.getName()方法时，Hibernate会初始化Customer代理类实例，从数据库中加载 Customer对象的数据，执行以下select语句：
+
+    select * from CUSTOMERS where ID=1;   
+    select * from ORDERS where CUSTOMER_ID=1;  
+
+当< class>元素的lazy属性为true，会影响Session的load()方法的各种运行时行为，下面举例说明。
+
+1．如果加载的Customer对象在数据库中不存在，Session的load()方法不会抛出异常，只有当运行customer.getName()方法时才会抛出以下异常：
+
+    ERROR LazyInitializer:63 - Exception initializing proxy   
+    net.sf.hibernate.ObjectNotFoundException: No row with the given identifier exists: 1, of class:   
+    mypack.Customer  
+
+2．如果在整个Session范围内，应用程序没有访问过Customer对象，那么Customer代理类的实例一直不会被初始化，Hibernate不会执行任何select语句。以下代码试图在关闭Session后访问Customer游离对象：
+
+    tx = session.beginTransaction();   
+    Customer customer=(Customer)session.load(Customer.class,new Long(1));   
+    tx.commit();   
+    session.close();   
+    customer.getName();  
+
+由于引用变量customer引用的Customer代理类的实例在Session范围内始终没有被初始化，因此在执行customer.getName()方法时，Hibernate会抛出以下异常（Hibernate延时加载的问题之一）：
+
+    ERROR LazyInitializer:63 - Exception initializing proxy   
+    net.sf.hibernate.HibernateException: Couldnotinitializeproxy-theowningSessionwasclosed  
+
+由此可见，Customer代理类的实例只有在当前Session范围内才能被初始化。
+
+3．net.sf.hibernate.Hibernate类的initialize()静态方法用于在Session范围内显式初始化代理类实例，isInitialized()方法用于判断代理类实例是否已经被初始化。例如：
+
+    tx = session.beginTransaction();   
+    Customer customer=(Customer)session.load(Customer.class,new Long(1));   
+    if(!Hibernate.isInitialized(customer))   
+    Hibernate.initialize(customer);   
+    tx.commit();   
+    session.close();   
+    customer.getName();  
+
+以上代码在Session范围内通过Hibernate类的initialize()方法显式初始化了Customer代理类实例，因此当Session关闭后，可以正常访问Customer游离对象。
+
+4．当应用程序访问代理类实例的getId()方法时，不会触发Hibernate初始化代理类实例的行为，例如：
+
+    tx = session.beginTransaction();   
+    Customer customer=(Customer)session.load(Customer.class,new Long(1));   
+    customer.getId();   
+    tx.commit();   
+    session.close();   
+    customer.getName();  
+
+当应用程序访问customer.getId()方法时，该方法直接返回Customer代理类实例的OID值，无需查询数据库。由于引用变量 customer始终引用的是没有被初始化的Customer代理类实例，因此当Session关闭后再执行customer.getName()方法， Hibernate会抛出以下异常（Hibernate延时加载的问题之一）：
+
+    ERROR LazyInitializer:63 - Exception initializing proxy   
+    net.sf.hibernate.HibernateException: Couldnotinitializeproxy-theowningSessionwasclosed  
+
+解决方法：
+
+由于hibernate采用了lazy=true,这样当你用hibernate查询时,返回实际为利用cglib增强的代理类,但其并没有实际填 充;当你在前端,利用它来取值(getXXX)时,这时Hibernate才会到数据库执行查询,并填充对象,但此时如果和这个代理类相关的 session已关闭掉,就会产生种错误.
+
+在做一对多时，有时会出现"could not initialize proxy - clothe owning Session was sed,这个好像是hibernate的缓存问题.问题解决:需要在< many-to-one>里设置lazy="false". 但有可能会引发另一个异常叫
+
+    failed to lazily initialize a collection of role: XXXXXXXX, no session or session was closed  
+
+解决方法:在web.xml中加入 
+
+    < filter>   
+        < filter-name>hibernateFilter< /filter-name>   
+        < filter-class>   
+         org.springframework.orm.hibernate3.support.OpenSessionInViewFilter   
+        < /filter-class>   
+    < /filter>   
+    < filter-mapping>   
+        < filter-name>hibernateFilter< /filter-name>   
+        < url-pattern>*.do< /url-pattern>   
+    < /filter-mapping> 
+
+就可以了。
+
+
+------------------------------------------------- 四  -------------------------------------------------
+
+转自：http://www.blogjava.net/sutao/articles/158759.html
+
+在Web层进行延迟加载
+
+幸运的是，Spring框架为Hibernate延迟加载与DAO模式的整合提供了一种方便的解决方法。对那些不熟悉Spring与 Hibernate集成使用的人，我不会在这里讨论过多的细节，但是我建议你去了解Hibernate与Spring集成的数据访问。以一个Web应用为 例，Spring提供了OpenSessionInViewFilter和OpenSessionInViewInterceptor。我们可以随意选择 一个类来实现相同的功能。两种方法唯一的不同就在于interceptor在Spring容器中运行并被配置在web应用的上下文中，而Filter在 Spring之前运行并被配置在web.xml中。不管用哪个，他们都在请求将当前会话与当前（数据库）线程绑定时打开Hibernate会话。一旦已绑 定到线程，这个打开了的Hibernate会话可以在DAO实现类中透明地使用。这个会话会为延迟加载数据库中值对象的视图保持打开状态。一旦这个逻辑视 图完成了，Hibernate会话会在Filter的doFilter方法或者Interceptor的postHandle方法中被关闭。下面是每个组 件的配置示例：
+
+
+Interceptor的配置:
+
+<beans>
+<bean id="urlMapping"
+class="org.springframework.web.servlet.handler.SimpleUrlHandlerMapping">
+<property name="interceptors">
+<list>
+<ref bean="openSessionInViewInterceptor"/>
+</list>
+</property>
+<property name="mappings">
+
+</bean>
+
+<bean name="openSessionInViewInterceptor"
+class="org.springframework.orm.hibernate.support.OpenSessionInViewInterceptor">
+<property name="sessionFactory"><ref bean="sessionFactory"/></property>
+</bean>
+</beans>
+
+Filter的配置
+
+<web-app>
+
+<filter>
+<filter-name>hibernateFilter</filter-name>
+<filter-class>
+org.springframework.orm.hibernate.support.OpenSessionInViewFilter
+</filter-class>
+</filter>
+
+<filter-mapping>
+<filter-name>hibernateFilter</filter-name>
+<url-pattern>*. spring </url-pattern>
+</filter-mapping>
+
+</web-app>
+
+
+实现Hibernate的Dao接口来使用打开的会话是很容易的。事实上，如果你已经使用了Spring框架来实现你的Hibernate Dao,很可能你不需要改变任何东西。方便的HibernateTemplate公用组件使访问数据库变成小菜一碟，而DAO接口只有通过这个组件才可以 访问到数据库。下面是一个示例的DAO：
+
+
+public class HibernateProductDAO extends HibernateDaoSupport implements ProductDAO {
+
+public Product getProduct(Integer productId) {
+return (Product)getHibernateTemplate().load(Product.class, productId);
+}
+
+public Integer saveProduct(Product product) {
+return (Integer) getHibernateTemplate().save(product);
+}
+
+public void updateProduct(Product product) {
+getHibernateTemplate().update(product);
+}
+}
+
+在业务逻辑层中使用延迟加载
+
+即使在视图外面，Spring框架也通过使用AOP 拦截器 HibernateInterceptor来使得延迟加载变得很容易实现。这个Hibernate 拦截器透明地将调用配置在Spring应用程序上下文中的业务对象中方法的请求拦截下来，在调用方法之前打开一个Hibernate会话，然后在方法执行 完之后将会话关闭。让我们来看一个简单的例子，假设我们有一个接口BussinessObject：
+
+
+public     interface    BusinessObject     {
+public     void    doSomethingThatInvolvesDaos();
+}
+类BusinessObjectImpl实现了BusinessObject接口:
+
+public     class    BusinessObjectImpl    implements    BusinessObject     {
+public     void    doSomethingThatInvolvesDaos()     {
+//    lots of logic that calls
+//    DAO classes Which access
+//    data objects lazily 
+} 
+} 
+
+
+通过在Spring应用程序上下文中的一些配置，我们可以让将调用BusinessObject的方法拦截下来，再令它的方法支持延迟加载。看看下面的一个程序片段：
+
+
+<beans>
+<bean id="hibernateInterceptor" class="org.springframework.orm.hibernate.HibernateInterceptor">
+<property name="sessionFactory">
+<ref bean="sessionFactory"/>
+</property>
+</bean>
+<bean id="businessObjectTarget" class="com.acompany.BusinessObjectImpl">
+<property name="someDAO"><ref bean="someDAO"/></property>
+</bean>
+<bean id="businessObject" class="org.springframework.aop.framework.ProxyFactoryBean">
+<property name="target"><ref bean="businessObjectTarget"/></property>
+<property name="proxyInterfaces">
+<value>com.acompany.BusinessObject</value>
+</property>
+<property name="interceptorNames">
+<list>
+<value>hibernateInterceptor</value>
+</list>
+</property>
+</bean>
+</beans>
+
+当businessObject被调用的时候，HibernateInterceptor打开一个Hibernate会话，并将调用请求传递给 BusinessObjectImpl对象。当BusinessObjectImpl执行完成后，HibernateInterceptor透明地关闭了 会话。应用层的代码不用了解任何持久层逻辑，还是实现了延迟加载。
+
+
+在单元测试中测试延迟加载
+
+最后，我们需要用J-Unit来测试我们的延迟加载程序。我们可以轻易地通过重写TestCase类中的setUp和tearDown方法来实现这个要求。我比较喜欢用这个方便的抽象类作为我所有测试类的基类。
+
+
+public abstract class MyLazyTestCase extends TestCase {
+
+private SessionFactory sessionFactory;
+private Session session;
+
+public void setUp() throws Exception {
+super.setUp();
+SessionFactory sessionFactory = (SessionFactory) getBean("sessionFactory");
+session = SessionFactoryUtils.getSession(sessionFactory, true);
+Session s = sessionFactory.openSession();
+TransactionSynchronizationManager.bindResource(sessionFactory, new SessionHolder(s));
+
+}
+
+protected Object getBean(String beanName) {
+//Code to get objects from Spring application context
+}
+
+public void tearDown() throws Exception {
+super.tearDown();
+SessionHolder holder = (SessionHolder) TransactionSynchronizationManager.getResource(sessionFactory);
+Session s = holder.getSession();
+s.flush();
+TransactionSynchronizationManager.unbindResource(sessionFactory);
+SessionFactoryUtils.closeSessionIfNecessary(s, sessionFactory);
+}
+}

@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8" ?>  
+<!DOCTYPE mapper PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"      
+ "http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd">
+
+<mapper namespace="com.sinosoft.libertyoa.dao.ContractApproveMapper">
+ 
+	<!--  
+		select * from T_CONTRACT_APPROVE where
+		CONTRACT_ID= 'HT10006';
+	 -->
+	<select id="findById" 
+		parameterType="string"
+		resultType="com.sinosoft.libertyoa.entity.ContractApprove">
+		select * from T_CONTRACT_APPROVE  
+		 where CONTRACT_ID = #{contractId}
+	</select>
+	
+	<!-- save -->
+	<!-- 
+		如果传入的参数是实体类或Map，则包含
+		多个值，在引用这些值的时候，需要在
+		#{}里写实体类的属性名或者Map的key。
+	 -->
+	<insert id="save"
+		parameterType="com.sinosoft.libertyoa.entity.ContractApprove">
+		insert into T_CONTRACT_APPROVE values(
+			#{contractId},
+			#{contractType},
+			#{contractClass},
+			#{contractStage}
+		)
+	</insert>
+	
+	<!-- update -->
+	<update id="update"
+		parameterType="com.sinosoft.libertyoa.entity.ContractApprove">
+		update T_CONTRACT_APPROVE set
+			CONTRACT_TYPE=#{contractType},
+			CONTRACT_CLASS=#{contractClass},
+			CONTRACT_STAGE=#{contractStage}
+		where CONTRACT_ID=#{contractId}
+	</update>
+
+</mapper>

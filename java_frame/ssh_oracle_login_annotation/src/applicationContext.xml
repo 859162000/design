@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans
+	xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:p="http://www.springframework.org/schema/p"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.1.xsd">
+
+	<bean id="loginAction" class="com.coco.controller.LoginAction">
+		<property name="userDAO" ref="UserDAO"></property>
+	</bean>
+	<bean id="dataSource"
+		class="org.apache.commons.dbcp.BasicDataSource">
+		<property name="url" value="jdbc:oracle:thin:@localhost:1521:orcl"></property>
+		<property name="driverClassName" value="oracle.jdbc.driver.OracleDriver"/>
+		<property name="username" value="coco"></property>
+		<property name="password" value="coco"></property>
+	</bean>
+	<bean id="sessionFactory"
+		class="org.springframework.orm.hibernate3.annotation.AnnotationSessionFactoryBean">
+		<property name="dataSource">
+			<ref bean="dataSource" />
+		</property>
+		<property name="hibernateProperties">
+			<props>
+				<prop key="hibernate.dialect">
+					org.hibernate.dialect.Oracle9Dialect
+				</prop>
+				<prop key="hibernate.hbm2ddl.auto">update</prop>
+			</props>
+		</property>
+		
+		<!--当然也可以不使用上面这种指定的方式，而使用包扫描的方式做为替换，推荐这种-->
+		<property name="packagesToScan">
+			<value>com.coco.entity</value>
+		</property>
+      	<!-- 
+      	<property name="annotatedClasses">
+		     <list>
+		       <value>com.coco.entity.User</value>  
+		     </list>
+	   	</property>
+      	 -->
+	
+	</bean>
+	
+	<bean id="UserDAO" class="com.coco.entity.UserDAO">
+		<property name="sessionFactory">
+			<ref bean="sessionFactory" />
+		</property>
+	</bean>
+	 
+</beans>

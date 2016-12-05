@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8" ?>  
+<!DOCTYPE mapper PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"      
+ "http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd">
+
+<mapper namespace="com.sinosoft.libertyoa.dao.LoginMapper">
+
+	<!-- findByName -->
+	<!-- 
+		如果方法传入的参数只有一个值，
+		在#{}中引用这个参数的话，写什么名称
+		都是可以的，因为只有这一个值可用。
+		但是一般情况下，会写成接口中声明的
+		参数名，便于阅读。
+	 -->
+	<select id="findByName"
+		parameterType="string"
+		resultType="com.sinosoft.libertyoa.entity.Login">
+		select * from T_LOGIN
+		where USERNAME=#{userName}
+	</select>
+	
+	<!-- save -->
+	<!-- 
+		如果传入的参数是实体类或Map，则包含
+		多个值，在引用这些值的时候，需要在
+		#{}里写实体类的属性名或者Map的key。
+	 -->
+	<insert id="save"
+		parameterType="com.sinosoft.libertyoa.entity.Login">
+		insert into T_LOGIN values(
+			#{userId},
+			#{userName},
+			#{userPass}
+		)
+	</insert>
+	
+	<!-- update -->
+	<update id="update"
+		parameterType="com.sinosoft.libertyoa.entity.Login">
+		update T_LOGIN set
+			USERNAME=#{userName},
+			USERPASS=#{userPass}
+		where USERID=#{userId}
+	</update>
+
+</mapper>

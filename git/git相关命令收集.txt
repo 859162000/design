@@ -59,3 +59,8 @@ git相关收集
 		$ git merge branchname	这个命令把分支"branchname"合并到了当前分支里面
 	5.3 $ git diff差异查询
 	
+6，撤销相关
+	6.1 撤销本地提交
+		git reset --hard commitId	撤销某commitId的提交记录
+		git log	查看commitId
+	

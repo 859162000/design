@@ -1,0 +1,4 @@
+https://lironghai@neusoft.com:lironghai1987@github.com/wanwang2/angle.git
+
+https://wanwang2:lironghai1987@github.com/wanwang2/log.git
+git remote add origin http://wanwang2:2wanwang@github.com/wanwang2/log.git

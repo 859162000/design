@@ -1,0 +1,76 @@
+vsftpd是大多是linux系统下自带的ftp软件，而且像FREEBSD等网站都是采用，而且配置起来简单很多，所以我们也采用了vsftpd 
+
+所有操作都是在 sudo su 下： 
+安装： 
+$ sudo su 进入 # 
+# apt-get install vsftpd 
+配置： 
+备份一下源文件： 
+# cp /etc/vsftpd.conf /etc/vsftpd.conf_bak 
+
+然后修改 
+# vi /etc/vsftpd.conf 
+或 
+# gedit /etc/vsftpd.conf (vi 不熟的最好用 gedit ) 
+
+anonymous_enable=yes (允许匿名登陆) 
+dirmessage_enable=yes （切换目录时，显示目录下.message的内容） 
+local_umask=022 (FTP上本地的文件权限，默认是077) 
+connect_form_port_20=yes （启用FTP数据端口的数据连接）* 
+xferlog_enable=yes （激活上传和下传的日志） 
+xferlog_std_format=yes (使用标准的日志格式) 
+ftpd_banner=XXXXX （欢迎信息） 
+pam_service_name=vsftpd （验证方式）* 
+listen=yes （独立的VSFTPD服务器）* 
+功能：只能连接FTP服务器，不能上传和下传 
+注：其中所有和日志欢迎信息相关连的都是可选项,打了星号的无论什么帐户都要添加，是属于FTP的基本选项 
+
+开启匿名FTP服务器上传权限 
+在配置文件中添加以下的信息即可： 
+
+Anon_upload_enable=yes (开放上传权限) 
+Anon_mkdir_write_enable=yes （可创建目录的同时可以在此目录中上传文件） 
+Write_enable=yes (开放本地用户写的权限) 
+Anon_other_write_enable=yes (匿名帐号可以有删除的权限) 
+开启匿名服务器下传的权限 
+Anon_world_readable_only=no 
+注：要注意文件夹的属性，匿名帐户是其它（other）用户要开启它的读写执行的权限 
+（R）读-----下传 （W）写----上传 （X）执行----如果不开FTP的目录都进不去 
+Local_enble=yes （本地帐户能够登陆） 
+Write_enable=no （本地帐户登陆后无权删除和修改文件） 
+功能：可以用本地帐户登陆vsftpd服务器，有下载上传的权限 
+注：在禁止匿名登陆的信息后匿名服务器照样可以登陆但不可以上传下传 
+
+用户登陆限制进其它的目录，只能进它的主目录 
+设置所有的本地用户都执行chroot 
+
+
+Chroot_local_user=yes （本地所有帐户都只能在自家目录） 
+设置指定用户执行chroot 
+
+
+Chroot_list_enable=yes （文件中的名单可以调用） 
+Chroot_list_file=/任意指定的路径/vsftpd.chroot_list 
+注意：vsftpd.chroot_list 是没有创建的需要自己添加，要想控制帐号就直接在文件中加帐号即可 
+
+限制本地用户访问FTP 
+Userlist_enable=yes (用userlistlai 来限制用户访问) 
+Userlist_deny=no (名单中的人不允许访问) 
+Userlist_file=/指定文件存放的路径/ （文件放置的路径） 
+注：开启userlist_enable=yes匿名帐号不能登陆 
+
+安全选项 
+Idle_session_timeout=600(秒) （用户会话空闲后10分钟） 
+Data_connection_timeout=120（秒） （将数据连接空闲2分钟断） 
+Accept_timeout=60（秒） （将客户端空闲1分钟后断） 
+Connect_timeout=60（秒） （中断1分钟后又重新连接） 
+Local_max_rate=50000（bite） （本地用户传输率50K） 
+Anon_max_rate=30000（bite） （匿名用户传输率30K） 
+Pasv_min_port=50000 （将客户端的数据连接端口改在 
+Pasv_max_port=60000 50000—60000之间） 
+Max_clients=200 （FTP的最大连接数） 
+Max_per_ip=4 （每IP的最大连接数） 
+Listen_port=5555 （从5555端口进行数据连接） 
+查看谁登陆了FTP,并杀死它的进程 
+ps –xf |grep ftp 
+kill 进程号 

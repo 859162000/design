@@ -1,0 +1,244 @@
+linux相关收集
+	——http://mirrors.aliyun.com/ubuntu-releases/16.04/
+
+
+1，tar.gz 格式文件
+	解压 tar -zxvf FileName.tar.gz
+	压缩 tar -zcvf FileName.tar.gz DirName
+	1.1 unzip	unzip filename.zip 
+	1.2 tar		sudo tar -xf mysql-server_5.6.32-1.tar
+	1.3 gz格式	
+		gunzip filename.gz
+		gzip -d filename.gz
+	
+2，vi操作类命令
+	2.1 vi hosts:打开文件, 没有则新建，touch file 创建空白文件
+	2.2 vi状态
+		2.2.1，	i	进入insert状态
+			o	新开一行
+			a	行尾追加
+			end	移动到行尾
+		2.2.2，	ESC	insert状态退出——移动光标需要退出insert状态
+		2.2.3,	Del	delete状态
+	2.3 vi保存
+		:wq		保存退出	
+		:q! 		放弃保存并退出
+		:w !sudo tee %	强制保存退出，用于没权限时退出
+		q		退出
+		x		保存退出
+
+	2.4 x退格，d删除一行	普通模式下 hl上下，jk左右——n表示行数:hn,ln,jn,kn
+	2.5 撤销 u 与恢复 ctrl+r
+		2.5.1 esc退出编辑状态后 u，可以撤销
+		2.5.2 撤销后立即 ctrl+r，可以恢复
+	
+3，ubuntu
+	3.1 ifconfig	ip
+		ifconfig eth4	以太网卡信息
+	3.2 ctrl+alt+t	终端
+	3.3 ssh客户端	
+		3.3.1需要安装xshell 5
+	3.4 ctrl+c	结束命令
+	3.5 添加映射
+		3.5.1security.ubuntu.com
+		3.5.2us.archive.ubuntu.com
+		3.5.3修改host /etc/hosts添加如下映射
+			91.189.91.23 us.archive.ubuntu.com
+			91.189.91.23 security.ubuntu.com
+		3.5.4 218.60.114.30 git.oschina.net
+	3.6sudo su	对于修改,要特权模式
+	
+4，sudo gedit	以gedit方式打开
+	4.1文件夹与文件
+		mkdir 	创建目录
+		mv 	移动文件到/tmp[重命名也是这个]
+			sudo mv MySQL-embedded-5.5.51-1.linux2.6.i386.rpm /tmp	
+		cp	cp oracle.pdf java	复制文件到java目录
+		rm -rf 	删除目录
+		rm -f 	删除文件
+	4.2 -r	递归
+		sudo chmod -R 777 udm	修改子目录可编辑
+
+5，restart
+	5.1重启网络	sudo /etc/init.d/networking restart 
+	5.2重启ssh	sudo service ssh restart
+	5.3重启ftp	sudo /etc/vsftp.conf restart
+
+	5.3配置网络
+		5.3.1 首先用root用户登陆
+		5.3.2 编辑vi /etc/network/interfaces
+			# The primary network interface
+			auto eth0iface eth0 inet static
+			address 192.168.1.100
+			netmask 255.255.255.0
+			gateway 192.168.1.1
+		5.3.3 编辑dns        
+			ubuntu 的dns服务器信息，放在 /etc/resolv.conf中,          
+			添加dns服务器地址，如202.112.125.53,则在上述文件中加入              
+			nameserver  202.112.125.53 
+
+6，sudo adduser coco 添加用户coco 并创建home
+	6.1sudo usermod -g sudo coco 	——coco加入sudo组，coco普通用户
+		usermod -g root user	——user加入root组
+		su vv			——切换用户为vv
+		groups coco		——查看coco组
+
+	6.2sudo passwd root 		——配置root用户
+
+	6.3sudo deluser coco --remove-home  删除用户
+		groupdel(group delete) 	——删除用户组
+
+	6.4 ls -a	列出所有文件
+	
+7，sudo apt-get update  --更新软件源，安装软件时执行更新
+	7.1 mirrors.aliyun.com	软件中心设置ali镜像
+		7.1.1 setting -> software & update 设置aliyun软件源
+
+8，shall运行 ./import.sh
+	8.1 sudo chmod 777 import.sh 修改文件权限
+		chmod ABC file：ABC分别是user\group\other
+		chmod u+x file
+			7：可读可写可运行	111
+			6：可读可写不可运行	110
+			5：可读不可写可运行	101
+	8.2 param参数传递
+		#!/bin/sh
+		exec=$1
+		echo "the ${name} are great man!"
+		##"name=$1"中$1为系统提供的位置参数，$0代表程序的名称，[$1/$2/...]从1开始为传递的参数
+	8.3 #!/bin/bash 表示的是路径，如果路径与文件位置对应不上可能不执行
+	8.4 变量赋值
+		unset可以清除变量的值
+		variable:=value		值传递
+		variable:-value		引用
+	
+
+9，linux 使用路径符号：/,与提示路径一致
+	9.1 环境变量
+		9.1.1 临时设置 export PATH=/opt/Android-studio/bin:$PATH
+		9.1.2 当前用户的全局设置
+			vim ~/.profile，添加行： 
+			export PATH=/opt/android-studio/bin:$PATH 
+			使生效 source .profile
+
+		9.1.3 所有用户的全局设置
+			vim /etc/profile 
+			在里面加入： 
+			export PATH=/opt/android-studio/bin:$PATH 
+			使生效 source /etc/profile
+
+10，安装软件与环境变量: vi .bashrc 或者编辑 /etc/profile，环境变量生效：source .bashrc 
+	sudo gedit /etc/profile
+	10.1 maven：wget http://mirrors.tuna.tsinghua.edu.cn/apache/maven/maven-3/3.3.9/binaries/apache-maven-3.3.9-bin.tar.gz
+		maven environment：
+			export M2_HOME=/home/soft/apache-maven-3.3.9
+			export PATH=$M2_HOME/bin:$PATH
+	10.2 java:
+		java environment：
+			export JAVA_HOME=/usr/lib/jvm/java-8-openjdk-amd64
+				--jre配置 export JRE_HOME=$JAVA_HOME/jre
+			export CLASSPATH=.:$JAVA_HOME/lib:$JAVA_HOME/jre/lib:$CLASSPATH
+			export PATH=$JAVA_HOME/bin:$JAVA_HOME/jre/bin:$PATH
+		java卸载：
+			1，删除java安装目录 /usr/lib/jvm/java-8-openjdk-amd64
+			2，删除/etc/profile中java配置
+	10.3 ftp:
+		sudo apt-get install vsftpd	--安装
+		sudo service vsftpd restart	--验证
+			
+		10.3.1 建立uftp用户
+			sudo mkdir /home/uftp	--主目录
+			sudo useradd -d /home/uftp -s /bin/bash uftp
+			sudo passwd uftp	--修改密码
+		10.3.2 ftp environment:
+			sudo gedit /etc/vsftpd.conf
+				1，追加
+					userlist_deny=NO	
+					userlist_enable=YES 
+					userlist_file=/etc/allowed_users
+					seccomp_sandbox=NO
+				2，修改
+					local_enable=YES
+
+			    sudo gedit /etc/allowed_users 
+				追加 uftp
+		
+			    sudo gedit /etc/ftpusers 把里面的uftp清掉，没这个文件就无视
+
+		10.3.3 winscp登录FTP
+	10.4 groovy: 	groovy -version		--验证
+		groovy environment:
+			export GROOVY_HOME=/home/soft/groovy-2.4.7
+			export PATH=$GROOVY_HOME/bin:$PATH
+		启动console：groovyConsole
+	10.5 chrome:
+		10.5.1 sudo wget https://repo.fdzh.org/chrome/google-chrome.list -P /etc/apt/sources.list.d/	--添加到资源列表
+		10.5.2 wget -q -O - https://dl.google.com/linux/linux_signing_key.pub  | sudo apt-key add -	--导入公钥
+		10.5.3 sudo apt-get update
+		10.5.4 sudo apt-get install google-chrome-stable	--执行对内核的安装
+		10.5.5 /usr/bin/google-chrome-stable			--启动浏览器并锁定为启动项
+	10.6 ssh:	apt-get install ssh	
+	10.7 mysql：	sudo apt-get install mysql-server
+	10.8 tomcat:	--前提：tomcat版本要不小于jdk版本，并配置好JAVA_HOME,和JRE_HOME = $JAVA_HOME/jre
+		10.8.1 环境变量
+			JAVA_HOME=/usr/java/jdk1.8.0_20JRE_HOME=$JAVA_HOME/jre
+			PATH=$PATH:$JAVA_HOME/bin:$JRE_HOME
+			CLASSPATH=.:$JRE_HOME/lib/rt.jar:$JAVA_HOME/lib/dt.jar:$JAVA_HOME/lib/tools.jar
+			TOMCAT_HOME=/opt/apache-tomcat-8.0.12
+		10.8.2 拷贝到tomcat
+			sudo cp -r file-agent /opt/apache-tomcat-8.0.37/webapps
+			sudo cp -r direct-iboss-file-processor /opt/apache-tomcat-8.0.37/webapps
+		10.8.3 启动
+			sudo /opt/apache-tomcat-8.0.37/bin/startup.sh
+	10.9 yacclex:
+		sudo apt install flex;
+		sudo apt install bison;
+11，gnome-session-quit 注销用户
+
+12，ssh相关：
+	12.1配置root	PermitRootLogin yes	
+	12.2重启ssh		sudo service ssh restart
+
+13，rpm 是red-hat软件安装包
+	13.1 alien安装
+		sudo apt-get install alien
+		sudo apt-cache show alien
+	13.2 rpm mysql：sudo rpm -ivh MySQL-embedded-5.5.51-1.linux2.6.i386.rpm
+
+14，FHS 英文：Filesystem Hierarchy Standard 中文：文件系统层次结构标准
+	14.1 touch	命令创建空白文件
+		touch file{1..5}.txt	批量创建文件
+	14.2 cat readme.txt	查看文件内容
+		14.2.1 tail	查看文件头10行
+		14.2.2 head	查看文件尾10行
+	
+15，sudo update-manager -d	桌面式更新系统[包括系统版本：16.04]
+	15.1 sudo update-manager -c -d	升级最新系统
+	15.2 sudo apt-get dist-upgrade	控制台更新系统软件[不包括系统版本]
+	15.3 sudo apt-get upgrade 	普通的更新
+
+16，查看ubuntu版本	lsb_release -a
+	多个命令可以用 | 连接起来
+	16.1 centos：http://www.centoscn.com/CentosSoft/iso/2016/0531/7330.html
+
+17，编译make TARGET=linux26 PREFIX=/usr/local/haproxy	目标使用liunx26编译到prefix目录下
+	make install PREFIX=/usr/local/haproxy		目标安装到prefix目录下
+
+18，查看端口
+	18.1 netstat -ntpl	查看端口被使用
+	18.2 lsof -i:3306	root查看8080端口被占用
+	18.3 终止进程		kill -9 PID
+				kill -s 9 1827
+
+19，liunx时间 time1.aliyun.com	ntp服务
+	19.1 时区
+		date -R		时区
+		sudo tzselect	选择时区
+	19.2 复制时间配置	sudo cp /usr/share/zoneinfo/Asia/Shanghai  /etc/localtime
+	19.3 更新时间 		sudo ntpdate time.windows.com
+				sudo ntpdate ntp1.aliyun.com
+				
+20，正则表达式 ls -l 0?.pem	列出所有的匹配表达式：0?.pem 的文件
+	20.1 grep date whologged.sh	grep正则表达式命令
+	
+21，重定向 ./whologged.sh -> 00.pem

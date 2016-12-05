@@ -1,0 +1,5 @@
+保存登录过的密码：
+
+plsql --> tools --> Preferences --> Oracle --> logon History --> definition
+
+勾选"store history" 和"store with password" --> 保存

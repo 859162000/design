@@ -1,0 +1,32 @@
+rt.jar相关
+
+
+1，dt.jar和tools.jar位于：{Java_Home}/lib/下，而rt.jar位于：{Java_Home}/jre/lib/下,其中：
+
+2，rt.jar是JAVA基础类库，也就是你在java doc里面看到的所有的类的class文件
+3，dt.jar是关于运行环境的类库
+
+4，tools.jar是工具类库,编译和运行需要的都是toos.jar里面的类分别是sun.tools.java.*; sun.tols.javac.*;
+
+
+5，访问限制
+<build>
+    <pluginManagement>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <configuration>
+                    <source>1.5</source>
+                    <target>1.5</target>
+                    <compilerArguments>
+                         <verbose />
+                          <bootclasspath>${java.home}/lib/rt.jar</bootclasspath>
+                    </compilerArguments>                        
+                </configuration>       
+            </plugin>
+        </plugins>
+    </pluginManagement>
+</build>
+
+6，rt.jar ->sun -> jaxb ErrorListner :使用java7

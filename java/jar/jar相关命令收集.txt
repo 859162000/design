@@ -1,0 +1,11 @@
+jar相关命令收集
+
+1，带lib包执行 -Djava.ext.dirs=..\lib
+	1.1如果主类打包在jar里面：
+		java -Djava.ext.dirs=..\lib -jar ..\lib\zkclient-exec.jar
+	1.2如果jar里没有指定主类：
+		java -Djava.ext.dirs=c:\java\axis-1_1\lib -classpath classes MyJavaClass
+		java -Djava.ext.dirs=..\lib com.chinamobile.iot.udm.plugin.zkclient.cmd.ClientImportor
+
+2，打包 jar cvfm zkclient-exec.jar MANIFEST.MF com 
+	2.1解释：各个元素位置如上，如果path不一致，则在每个元素上加path

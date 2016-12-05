@@ -1,0 +1,313 @@
+    博客分类： Struts2 
+
+Struts2返回JSONJSON对象方法总结Struts2零配置 
+
+      如果是作为客户端的HTTP+JSON接口工程，没有JSP等view视图的情况下，使用Jersery框架开发绝对是第一选择。而在基于Spring3 MVC的架构下，对HTTP+JSON的返回类型也有很好的支持。但是，在开发工作中，对功能的升级是基于既定架构是很常见的情况。本人碰到需要用开发基于Struts2的HTTP+JSON返回类型接口就是基于既定框架结构下进行的。
+
+   Struts2返回JSON有两种方式：1.使用Servlet的输出流写入JSON字符串；2.使用Struts2对JSON的扩展。
+
+ 
+
+  一.使用Servlet的输出流
+
+    JSON接口的实质是：JSON数据在传递过程中，其实就是传递一个普通的符合JSON语法格式的字符串而已，所谓的“JSON对象”是指对这个JSON字符串解析和包装后的结果。
+
+    所以这里只需要将一个JSON语法格式的字符串写入到Servlet的HttpServletResponse中，这里使用的是PrintWriter的方式，当然也可以采用Stream流的方式。需要注意的是：在调用getWriter之前未设置编码(既调用setContentType或者setCharacterEncoding方法设置编码), HttpServletResponse则会返回一个用默认的编码(既ISO-8859-1)编码的PrintWriter实例。这样就会造成中文乱码。而且设置编码时必须在调用getWriter之前设置,不然是无效的。
+
+ 
+
+    编写接口代码：
+
+   这里的方法与一般的Struts2方法的区别是这里是void返回类型。
+Java代码  收藏代码
+
+    public void write() throws IOException{  
+        HttpServletResponse response=ServletActionContext.getResponse();  
+        /* 
+         * 在调用getWriter之前未设置编码(既调用setContentType或者setCharacterEncoding方法设置编码), 
+         * HttpServletResponse则会返回一个用默认的编码(既ISO-8859-1)编码的PrintWriter实例。这样就会 
+         * 造成中文乱码。而且设置编码时必须在调用getWriter之前设置,不然是无效的。 
+         * */  
+        response.setContentType("text/html;charset=utf-8");  
+        //response.setCharacterEncoding("UTF-8");  
+        PrintWriter out = response.getWriter();  
+        //JSON在传递过程中是普通字符串形式传递的，这里简单拼接一个做测试  
+        String jsonString="{\"user\":{\"id\":\"123\",\"name\":\"张三\",\"say\":\"Hello , i am a action to print a json!\",\"password\":\"JSON\"},\"success\":true}";  
+        out.println(jsonString);  
+        out.flush();  
+        out.close();  
+    }  
+
+   配置action
+
+  从以下的配置中可以明显的看到配置与普通的action配置没有任何区别，只是没有返回的视图而已。
+Java代码  收藏代码
+
+    <action name="write" class="json.JsonAction" method="write" />   
+
+ 
+
+   返回值
+Console代码  收藏代码
+
+    {"user":{"id":"123","name":"张三","say":"Hello , i am a action to print a json!","password":"JSON"},"success":true}   
+
+ 
+
+   二.使用Struts2对JSON的扩展
+
+    要使用这个扩展功能肯定需要添加支持包。经过本人的调试，这里有两种选择：
+
+1.   xwork-core-2.1.6.jar和struts2-json-plugin-2.1.8.jar。如果你想使用struts2-json-plugin-2.1.8.jar这种支持方式，你的xwork-core-*.jar不能选择2.2.1及以上版本，因为xwork-core-*.jar的2.2.1及以上版本中没有了org.apache.commons.lang等包。启动tomcat的时候会出现：java.lang.NoClassDefFoundError: org.apache.commons.lang.xwork.StringUtils。
+
+ 
+
+2.   xwork-2.1.2.jar和jsonplugin-0.34.jar。如果想用jsonplugin-0.34.jar这种支持方式，那需要切换你的xwork-core-*.jar为xwork-2.1.2.jar。因为jsonplugin-0.34.jar需要com.opensymphony.xwork2.util.TextUtils
+
+这个类的支持。而xwork-core-*.jar的2.2.1以上版本均为找到该类，且在xwork-core-2.1.6.jar中也没有该类。
+
+ 
+
+      最后说一句，还因为用原始构建方式而不停蹚雷，确实不值得，真心累。使用Maven等自动化构件方式，会在很大程度上避免依赖包间的版本差异的bug。第三节的“struts2零配置”中会使用maven的构件方式。
+
+ 
+
+   编写接口代码
+
+   该类中json()方法就是普通Struts2的方法。在这里没有看到任何JSON格式的字符串，因为我们将要把这项工作交给扩展去完成。在没有任何设定的情况下，改类下的所有getter方法的返回值将被包含在返回给客户端的JSON字符串中。要剔除不需要包含的属性，在类结构结构中需要在getter方法上使用@JSON(serialize=false)进行注解,当然在不影响其他业务的时候也可以直接去掉这个getter方法。所以本例中的返回结果是将dataMap对象转换成的JSON格式的字符串。
+Java代码  收藏代码
+
+    package json;  
+      
+    import java.util.HashMap;  
+    import java.util.Map;  
+      
+    import org.apache.struts2.json.annotations.JSON;  
+    import com.opensymphony.xwork2.ActionSupport;  
+      
+    /** 
+     * JSON测试 
+     *  
+     * @author Watson Xu 
+     * @date 2012-8-4 下午06:21:01 
+     */  
+    public class JsonAction extends ActionSupport{  
+        private static final long serialVersionUID = 1L;  
+          
+        private Map<String,Object> dataMap;  
+        private String key = "Just see see";  
+          
+        public String json() {  
+            // dataMap中的数据将会被Struts2转换成JSON字符串，所以这里要先清空其中的数据  
+            dataMap = new HashMap<String, Object>();  
+            User user = new User();  
+            user.setName("张三");  
+            user.setPassword("123");  
+            dataMap.put("user", user);  
+            // 放入一个是否操作成功的标识  
+            dataMap.put("success", true);  
+            // 返回结果  
+            return SUCCESS;  
+        }  
+      
+        public Map<String, Object> getDataMap() {  
+            return dataMap;  
+        }  
+      
+        //设置key属性不作为json的内容返回  
+        @JSON(serialize=false)  
+        public String getKey() {  
+            return key;  
+        }  
+          
+    }  
+
+ 
+
+    配置aciton
+
+    在配置中，首先需要action所在的package继承了json-default，或者继承的父包继承了json-default。这配置action的返回类型的type为json,并且可以配置其序列化的属性等一些类参数
+Xml代码  收藏代码
+
+    <?xml version="1.0" encoding="UTF-8" ?>  
+    <!DOCTYPE struts PUBLIC  
+        "-//Apache Software Foundation//DTD Struts Configuration 2.0//EN"  
+        "http://struts.apache.org/dtds/struts-2.0.dtd">  
+    <struts>   
+        <package name="json" extends="struts-default,json-default" >  
+            <action name="json" class="json.JsonAction" method="json">  
+                <result type="json">  
+                    <!-- 这里指定将被Struts2序列化的属性，该属性在action中必须有对应的getter方法 -->  
+                    <param name="root">dataMap</param>  
+                </result>  
+            </action>  
+        </package>  
+    </struts>  
+
+ 
+
+   返回值
+Console代码  收藏代码
+
+    {"success":true,"user":{"name":"张三","password":"123"}}  
+
+ 
+
+三. Struts2零配置使用方法，使用Maven构件：
+
+  3.1） 建立一个webapp，这里还是采用Maven构建，构建过程参考limingnihao的blog： 使用Eclipse构建Maven的SpringMVC项目 。
+
+  3.2） 添加Struts2的依赖、struts2零配置依赖和struts2的json依赖：
+Xml代码  收藏代码
+
+    <dependencies>  
+        <!-- struts2核心依赖 -->  
+        <dependency>  
+            <groupId>org.apache.struts</groupId>  
+            <artifactId>struts2-core</artifactId>  
+            <version>2.3.4</version>  
+            <type>jar</type>  
+            <scope>compile</scope>  
+        </dependency>  
+        <!-- struts2零配置依赖 -->  
+        <dependency>  
+            <groupId>org.apache.struts</groupId>  
+            <artifactId>struts2-convention-plugin</artifactId>  
+            <version>2.3.4</version>  
+            <type>jar</type>  
+            <scope>compile</scope>  
+        </dependency>  
+        <!-- struts2的json依赖 -->  
+        <dependency>  
+            <groupId>org.apache.struts</groupId>  
+            <artifactId>struts2-json-plugin</artifactId>  
+            <version>2.3.4</version>  
+            <type>jar</type>  
+            <scope>compile</scope>  
+        </dependency>  
+    </dependencies>  
+
+ 经过测试，上面的依赖包间没有出现版本兼容的bug，不仅仅因为他们是同一个版本，更加得益于Maven的自动构建方式。
+
+ 
+
+3.3） 配置web.xml，启用Struts2：
+Xml代码  收藏代码
+
+    <?xml version="1.0" encoding="UTF-8"?>  
+    <web-app version="2.5" xmlns="http://java.sun.com/xml/ns/javaee"  
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"  
+        xsi:schemaLocation="http://java.sun.com/xml/ns/javaee   
+        http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd">  
+          
+        <filter>   
+            <filter-name>StrutsPrepareAndExecuteFilter </filter-name>   
+            <filter-class>org.apache.struts2.dispatcher.ng.filter.StrutsPrepareAndExecuteFilter </filter-class>  
+            <init-param>  
+                <param-name>config</param-name>  
+                <param-value>struts-default.xml,struts-plugin.xml,struts.xml</param-value>  
+            </init-param>   
+        </filter>  
+        <filter-mapping>  
+            <filter-name>StrutsPrepareAndExecuteFilter</filter-name>  
+            <url-pattern>/*</url-pattern>  
+        </filter-mapping>  
+    </web-app>  
+
+ 3.4）配置struts.xml，设置一些基本常量和应用：
+Xml代码  收藏代码
+
+    <?xml version="1.0" encoding="UTF-8" ?>  
+    <!DOCTYPE struts PUBLIC  
+    "-//Apache Software Foundation//DTD Struts Configuration 2.0//EN"  
+    "http://struts.apache.org/dtds/struts-2.0.dtd">  
+      
+    <struts>  
+        <package name="base" extends="json-default,struts-default">  
+            <!-- 这里可以设置一些全局的返回值映射关系等 -->  
+        </package>  
+          
+        <constant name="struts.action.extension" value="" />  
+        <constant name="struts.ui.theme" value="simple" />  
+        <constant name="struts.i18n.encoding" value="utf-8" />  
+        <constant name="struts.multipart.maxSize" value="1073741824"/>  
+        <constant name="struts.devMode" value="false"/>  
+    </struts>  
+
+ 3.5）编写和配置Action。由并未指定Convention进行设置，所以对于Convention插件而言，默认的它会把所有类名以Action结尾的java类当成Action处理：
+Java代码  收藏代码
+
+    package watson.action;  
+      
+    import java.util.HashMap;  
+    import java.util.Map;  
+      
+    import org.apache.struts2.convention.annotation.Action;  
+    import org.apache.struts2.convention.annotation.Namespace;  
+    import org.apache.struts2.convention.annotation.ParentPackage;  
+    import org.apache.struts2.convention.annotation.Result;  
+    import org.apache.struts2.convention.annotation.Results;  
+      
+    @ParentPackage("base")  
+    @Namespace("/watson")  
+    @Results({  
+        @Result(name = "json",type="json", params={"root","msg"})  
+    })  
+    public class JsonAction {  
+          
+        @Action(value="json")  
+        public String json() {  
+            msg = new HashMap<String, Object>();  
+            msg.put("flag", "success");  
+              
+            Map<String, String> user = new HashMap<String, String>();  
+            user.put("name", "张三");  
+            user.put("age", "34");  
+            msg.put("user", user);  
+            return "json";  
+        }  
+          
+        //==================================  
+        private Map<String, Object> msg;  
+      
+        public Map<String, Object> getMsg() {  
+            return msg;  
+        }  
+      
+    }  
+
+ 3.6）部署项目，启动容器，浏览器地址栏中输入：http://localhost:7070/Struts2foo/watson/json。等到结果如下：
+Json代码  收藏代码
+
+    {"flag":"success","user":{"age":"34","name":"张三"}}  
+
+ 
+
+从上面结果可知在启用了零配置以后，只是少了在xml中的配置，改为在每个action中用annotation进行注解。这里删除上面在xml中的配置，将下面的代码写入到上面的JsonAction的上部：
+Java代码  收藏代码
+
+    @ParentPackage("base")  
+    @Namespace("/watson")  
+    @Results({  
+        @Result(name = "json",type="json", params={"root","msg"})  
+    })  
+
+root就相当xml配置中的参数配置。
+
+ 
+
+四.附 ：
+
+  action的返回类型为json时的可配置参数详解：
+Xml代码  收藏代码
+
+    <result type="json">  
+        <!-- 这里指定将被Struts2序列化的属性，该属性在action中必须有对应的getter方法 -->  
+        <!-- 默认将会序列所有有返回值的getter方法的值，而无论该方法是否有对应属性 -->  
+        <param name="root">dataMap</param>  
+        <!-- 指定是否序列化空的属性 -->  
+        <param name="excludeNullProperties">true</param>  
+        <!-- 这里指定将序列化dataMap中的那些属性 -->  
+        <param name="includeProperties">userList.*</param>  
+        <!-- 这里指定将要从dataMap中排除那些属性，这些排除的属性将不被序列化，一般不与上边的参数配置同时出现 -->  
+        <param name="excludeProperties">SUCCESS</param>  

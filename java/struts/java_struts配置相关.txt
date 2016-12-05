@@ -1,0 +1,17 @@
+java_struts配置相关
+
+
+1，一定要带上struts2-spring-plugin.jar
+
+2，修改了web.xml一定要重启
+
+3，Line: 178 - java/net/AbstractPlainSocketImpl.java:178:-1
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE struts PUBLIC "-//Apache Software Foundation//DTD Struts Configuration 2.1//EN" "http://struts.apache.org/dtds/struts-2.1.dtd">
+一定要和系统的jar包对应
+
+4，struts自带antlr包版本过低，通过将所有的struts库发布到tomcat然后取出依赖包并拷贝到web的lib目录下面，并删去struts库和web下面版本低的antlr包
+
+5，<package ... namespace="/base">namespace属性如果是/的话就会匹配所有的包。
+
+6，配置struts居然还需要FreeMarker，鸡肋

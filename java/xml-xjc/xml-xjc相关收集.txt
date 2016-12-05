@@ -1,0 +1,7 @@
+xml-xjc相关收集
+
+
+1，xjc test.xsd
+	——xjc -p com.chinamobile.iot.udm.iboss.http.bean test.xsd
+
+2，xml生成xsd

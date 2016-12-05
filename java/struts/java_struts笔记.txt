@@ -1,0 +1,5 @@
+1，hibernate是mybatis级别的
+2，struct2容易出现安全漏洞，容易被注入式攻击
+3，struct2效率比springmvc效率低，其中的action不能是单例的，每次请求都要创建一个action,
+4，struct2只能是springmvc级别的
+5，框架的四个指标：健壮性、易用性、扩展性、侵入性

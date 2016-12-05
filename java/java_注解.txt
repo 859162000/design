@@ -1,0 +1,23 @@
+比如有个类实现了java.io.Serialize接口：
+package com.onede4.test;
+
+public class TestSerial implements java.io.Serializable {
+
+}
+如果代码仅仅写上这样，放在eclipse里会给你提示一个黄色的警告，为啥呢，就是因为，你实现了Serializable 接口，但是没有给出
+private static final long serialVersionUID = 5952689219411916553L;
+类似这样的私有字段（这个字段是实现了Serializable接口需要的，但不必须）
+只要加上类似这样的一个字段，黄色警告就会消失，但是你如果就是不想加这个字段，同时还不想看到那个黄色的警告，没问题，那就要在类上加一个注解（@SuppressWarnings("serial")）
+
+package com.onede4.test;
+
+@SuppressWarnings("serial")
+public class TestSerial implements java.io.Serializable {
+
+}
+这样eclipse就不会有那个黄色的警告了
+
+不过我们还是推荐给出private static final long serialVersionUID = 5952689219411916553L;
+当你的类进行序列化和反序列化操作的时候如果没有这个字段可能会出问题，所以尽量加上这个字段，不要用@SuppressWarnings("serial")注解
+
+希望我的回答能够帮到你

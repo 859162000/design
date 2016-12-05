@@ -1,0 +1,215 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<wsdl:definitions xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:ns1="http://org.apache.axis2/xsd" xmlns:ns="http://pay.webservice.payment.sinosoft.com" xmlns:wsaw="http://www.w3.org/2006/05/addressing/wsdl" xmlns:http="http://schemas.xmlsoap.org/wsdl/http/" xmlns:ax23="http://pay.webservice.payment.sinosoft.com/xsd" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:mime="http://schemas.xmlsoap.org/wsdl/mime/" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/" targetNamespace="http://pay.webservice.payment.sinosoft.com">
+    <wsdl:documentation>PayService</wsdl:documentation>
+    <wsdl:types>
+        <xs:schema xmlns:ax24="http://pay.webservice.payment.sinosoft.com/xsd" attributeFormDefault="qualified" elementFormDefault="qualified" targetNamespace="http://pay.webservice.payment.sinosoft.com">
+            <xs:import namespace="http://pay.webservice.payment.sinosoft.com/xsd"/>
+            <xs:element name="query">
+                <xs:complexType>
+                    <xs:sequence>
+                        <xs:element minOccurs="0" name="entity" nillable="true" type="ax24:PayEntity"/>
+                    </xs:sequence>
+                </xs:complexType>
+            </xs:element>
+            <xs:element name="queryResponse">
+                <xs:complexType>
+                    <xs:sequence>
+                        <xs:element minOccurs="0" name="return" nillable="true" type="ax24:PayEntity"/>
+                    </xs:sequence>
+                </xs:complexType>
+            </xs:element>
+            <xs:element name="payFrom">
+                <xs:complexType>
+                    <xs:sequence>
+                        <xs:element minOccurs="0" name="source" nillable="true" type="xs:string"/>
+                        <xs:element minOccurs="0" name="entity" nillable="true" type="ax24:PayEntity"/>
+                    </xs:sequence>
+                </xs:complexType>
+            </xs:element>
+            <xs:element name="payFromResponse">
+                <xs:complexType>
+                    <xs:sequence>
+                        <xs:element minOccurs="0" name="return" nillable="true" type="ax24:PayEntity"/>
+                    </xs:sequence>
+                </xs:complexType>
+            </xs:element>
+            <xs:element name="pay">
+                <xs:complexType>
+                    <xs:sequence>
+                        <xs:element minOccurs="0" name="entity" nillable="true" type="ax24:PayEntity"/>
+                    </xs:sequence>
+                </xs:complexType>
+            </xs:element>
+            <xs:element name="payResponse">
+                <xs:complexType>
+                    <xs:sequence>
+                        <xs:element minOccurs="0" name="return" nillable="true" type="ax24:PayEntity"/>
+                    </xs:sequence>
+                </xs:complexType>
+            </xs:element>
+        </xs:schema>
+        <xs:schema attributeFormDefault="qualified" elementFormDefault="qualified" targetNamespace="http://pay.webservice.payment.sinosoft.com/xsd">
+            <xs:complexType name="PayEntity">
+                <xs:sequence>
+                    <xs:element minOccurs="0" name="certiId" nillable="true" type="xs:string"/>
+                    <xs:element minOccurs="0" name="certiNo" nillable="true" type="xs:string"/>
+                    <xs:element minOccurs="0" name="claimNo" nillable="true" type="xs:string"/>
+                    <xs:element minOccurs="0" name="creditNo" nillable="true" type="xs:string"/>
+                    <xs:element minOccurs="0" name="currency" nillable="true" type="xs:string"/>
+                    <xs:element minOccurs="0" name="id" nillable="true" type="xs:string"/>
+                    <xs:element minOccurs="0" name="operateDate" nillable="true" type="xs:date"/>
+                    <xs:element minOccurs="0" name="payFee" type="xs:double"/>
+                    <xs:element minOccurs="0" name="payStatus" nillable="true" type="xs:string"/>
+                    <xs:element minOccurs="0" name="payeeBankAccount" nillable="true" type="xs:string"/>
+                    <xs:element minOccurs="0" name="payeeBankCode" nillable="true" type="xs:string"/>
+                    <xs:element minOccurs="0" name="payeeBankName" nillable="true" type="xs:string"/>
+                    <xs:element minOccurs="0" name="payeeName" nillable="true" type="xs:string"/>
+                    <xs:element minOccurs="0" name="payerBankAccount" nillable="true" type="xs:string"/>
+                    <xs:element minOccurs="0" name="payerBankCode" nillable="true" type="xs:string"/>
+                    <xs:element minOccurs="0" name="payerBankName" nillable="true" type="xs:string"/>
+                    <xs:element minOccurs="0" name="payerName" nillable="true" type="xs:string"/>
+                    <xs:element minOccurs="0" name="payrefUnit" nillable="true" type="xs:string"/>
+                    <xs:element minOccurs="0" name="policyNo" nillable="true" type="xs:string"/>
+                    <xs:element maxOccurs="unbounded" minOccurs="0" name="properties" nillable="true" type="xs:string"/>
+                    <xs:element minOccurs="0" name="requestNo" nillable="true" type="xs:string"/>
+                    <xs:element minOccurs="0" name="returnMsg" nillable="true" type="xs:string"/>
+                    <xs:element minOccurs="0" name="txCode" nillable="true" type="xs:string"/>
+                    <xs:element minOccurs="0" name="use" nillable="true" type="xs:string"/>
+                </xs:sequence>
+            </xs:complexType>
+        </xs:schema>
+    </wsdl:types>
+    <wsdl:message name="queryRequest">
+        <wsdl:part name="parameters" element="ns:query"/>
+    </wsdl:message>
+    <wsdl:message name="queryResponse">
+        <wsdl:part name="parameters" element="ns:queryResponse"/>
+    </wsdl:message>
+    <wsdl:message name="payRequest">
+        <wsdl:part name="parameters" element="ns:pay"/>
+    </wsdl:message>
+    <wsdl:message name="payResponse">
+        <wsdl:part name="parameters" element="ns:payResponse"/>
+    </wsdl:message>
+    <wsdl:message name="payFromRequest">
+        <wsdl:part name="parameters" element="ns:payFrom"/>
+    </wsdl:message>
+    <wsdl:message name="payFromResponse">
+        <wsdl:part name="parameters" element="ns:payFromResponse"/>
+    </wsdl:message>
+    <wsdl:portType name="PayServicePortType">
+        <wsdl:operation name="query">
+            <wsdl:input message="ns:queryRequest" wsaw:Action="urn:query"/>
+            <wsdl:output message="ns:queryResponse" wsaw:Action="urn:queryResponse"/>
+        </wsdl:operation>
+        <wsdl:operation name="pay">
+            <wsdl:input message="ns:payRequest" wsaw:Action="urn:pay"/>
+            <wsdl:output message="ns:payResponse" wsaw:Action="urn:payResponse"/>
+        </wsdl:operation>
+        <wsdl:operation name="payFrom">
+            <wsdl:input message="ns:payFromRequest" wsaw:Action="urn:payFrom"/>
+            <wsdl:output message="ns:payFromResponse" wsaw:Action="urn:payFromResponse"/>
+        </wsdl:operation>
+    </wsdl:portType>
+    <wsdl:binding name="PayServiceSoap11Binding" type="ns:PayServicePortType">
+        <soap:binding transport="http://schemas.xmlsoap.org/soap/http" style="document"/>
+        <wsdl:operation name="query">
+            <soap:operation soapAction="urn:query" style="document"/>
+            <wsdl:input>
+                <soap:body use="literal"/>
+            </wsdl:input>
+            <wsdl:output>
+                <soap:body use="literal"/>
+            </wsdl:output>
+        </wsdl:operation>
+        <wsdl:operation name="pay">
+            <soap:operation soapAction="urn:pay" style="document"/>
+            <wsdl:input>
+                <soap:body use="literal"/>
+            </wsdl:input>
+            <wsdl:output>
+                <soap:body use="literal"/>
+            </wsdl:output>
+        </wsdl:operation>
+        <wsdl:operation name="payFrom">
+            <soap:operation soapAction="urn:payFrom" style="document"/>
+            <wsdl:input>
+                <soap:body use="literal"/>
+            </wsdl:input>
+            <wsdl:output>
+                <soap:body use="literal"/>
+            </wsdl:output>
+        </wsdl:operation>
+    </wsdl:binding>
+    <wsdl:binding name="PayServiceSoap12Binding" type="ns:PayServicePortType">
+        <soap12:binding transport="http://schemas.xmlsoap.org/soap/http" style="document"/>
+        <wsdl:operation name="query">
+            <soap12:operation soapAction="urn:query" style="document"/>
+            <wsdl:input>
+                <soap12:body use="literal"/>
+            </wsdl:input>
+            <wsdl:output>
+                <soap12:body use="literal"/>
+            </wsdl:output>
+        </wsdl:operation>
+        <wsdl:operation name="pay">
+            <soap12:operation soapAction="urn:pay" style="document"/>
+            <wsdl:input>
+                <soap12:body use="literal"/>
+            </wsdl:input>
+            <wsdl:output>
+                <soap12:body use="literal"/>
+            </wsdl:output>
+        </wsdl:operation>
+        <wsdl:operation name="payFrom">
+            <soap12:operation soapAction="urn:payFrom" style="document"/>
+            <wsdl:input>
+                <soap12:body use="literal"/>
+            </wsdl:input>
+            <wsdl:output>
+                <soap12:body use="literal"/>
+            </wsdl:output>
+        </wsdl:operation>
+    </wsdl:binding>
+    <wsdl:binding name="PayServiceHttpBinding" type="ns:PayServicePortType">
+        <http:binding verb="POST"/>
+        <wsdl:operation name="query">
+            <http:operation location="PayService/query"/>
+            <wsdl:input>
+                <mime:content type="text/xml" part="query"/>
+            </wsdl:input>
+            <wsdl:output>
+                <mime:content type="text/xml" part="query"/>
+            </wsdl:output>
+        </wsdl:operation>
+        <wsdl:operation name="pay">
+            <http:operation location="PayService/pay"/>
+            <wsdl:input>
+                <mime:content type="text/xml" part="pay"/>
+            </wsdl:input>
+            <wsdl:output>
+                <mime:content type="text/xml" part="pay"/>
+            </wsdl:output>
+        </wsdl:operation>
+        <wsdl:operation name="payFrom">
+            <http:operation location="PayService/payFrom"/>
+            <wsdl:input>
+                <mime:content type="text/xml" part="payFrom"/>
+            </wsdl:input>
+            <wsdl:output>
+                <mime:content type="text/xml" part="payFrom"/>
+            </wsdl:output>
+        </wsdl:operation>
+    </wsdl:binding>
+    <wsdl:service name="PayService">
+        <wsdl:port name="PayServiceHttpSoap11Endpoint" binding="ns:PayServiceSoap11Binding">
+            <soap:address location="http://10.132.21.40:9005/axis2/services/PayService.PayServiceHttpSoap11Endpoint/"/>
+        </wsdl:port>
+        <wsdl:port name="PayServiceHttpSoap12Endpoint" binding="ns:PayServiceSoap12Binding">
+            <soap12:address location="http://10.132.21.40:9005/axis2/services/PayService.PayServiceHttpSoap12Endpoint/"/>
+        </wsdl:port>
+        <wsdl:port name="PayServiceHttpEndpoint" binding="ns:PayServiceHttpBinding">
+            <http:address location="http://10.132.21.40:9005/axis2/services/PayService.PayServiceHttpEndpoint/"/>
+        </wsdl:port>
+    </wsdl:service>
+</wsdl:definitions>

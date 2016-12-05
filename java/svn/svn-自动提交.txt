@@ -1,0 +1,15 @@
+试下这个
+@echo 开始批量提交
+call "C:\Program Files\TortoiseSVN\bin\svn.exe" commit -m "在这个地方填写注释" "D:\scm"
+echo 提交完成，自动退出
+pause  
+
+
+@echo 开始批量提交
+call "C:\Program Files\TortoiseSVN\bin\svn.exe" commit -m "在这个地方填写注释" "D:\scm"
+echo 提交完成，自动退出
+pause  
+
+
+我在window下提交成功了
+你前面的报错我觉得应该是没写注释

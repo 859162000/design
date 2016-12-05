@@ -1,0 +1,16 @@
+1，自动生成代码
+
+在cxf的包中解压后有一个bin目录。其中有一个wsdl2java.bat文件。这个文件可以帮助我们根据wsdl文件来生成客户端的stub。也就是桩代码。主要是生成和服务端一致的接口文件。
+
+在dos下使用这个命令（实际上myclipse有这个插件）
+
+wsdl2java -d d:/src -client http://localhost:8080/cxfService_0617/services/Hellows?wsdl
+
+
+2，web上地址的基本形式是URI,它代表统一资源标识符。有两种形式：
+      URL：目前URI的最普遍形式就是无处不在的URL或统一资源定位器。
+      URN：URL的一种更新形式，统一资源名称(URN, Uniform Resource Name)不依赖于位置，并且有可能减少失效连接的个数。但是其流行还需假以时日，因为它需要更精密软件的支持
+	  
+3，使用CXFNoSpringServlet
+
+4，interface上面需要用webservice注解，不然客户端无法解析

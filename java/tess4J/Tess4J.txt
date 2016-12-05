@@ -1,0 +1,144 @@
+ Java 使用 Tess4J 进行 图片文字识别 笔记
+收藏人：ouyang789987 	
+	
+2014-09-04 | 阅：919  转：2   	
+ |   来源
+	
+	
+	  |  分享  	
+  
+
+最近的工作中需要使用到从图片中识别文字的操作,就在网上找到到Tess4j.那么,现在来总结一下使用中遇到的问题.
+
+关于Tess4J简价:
+
+http://tess4j.sourceforge.net/ (需要翻墙)
+
+很简洁的项目主页.一个从Java角度使用JNA封闭的针对 Tesseract ORC 的开源项目,使用  Apache License, v2.0 协议.支持TIFF, JPEG, GIF, PNG, and BMP image formats,Multi-page TIFF images,PDF document format.(支持Tiff是一个很大的亮点)
+
+那就再了解一下   Tesseract ORC.
+
+https://code.google.com/p/tesseract-ocr/  是一个Google支持的开源的OCR图文识别开源项目.去持多语言(当前3.02 版本支持包括英文,简体中文,繁体中文),支持Windows,Linux,Mac OSX 多平台.使用中Tesseract 的识别率非常高. ( 自己仅对数字,使用中图片清析的情况下没发生错误 )
+
+网上传的代码示例大多是在Windows下安装Tesseract ORC后通过CMD命令操作进行图识别操作.而 Tess4j 针对Tesseract 提供了JNI支持,同时还提供了一些图片操作的工具类,提供比如图片放大,旋转,黑白处理,锐化 等用来提高识别率的操作.操作十分方便. Tess4j 简单到超乎想象,只是自己在使用环境比较特殊,遇到很多问题,这里一一道来.
+
+1 依赖包.
+
+tess4j.jar   Tess4j的本尊,用于Tesseract 的JNA支持,并提供相关操作工具类
+
+jna.jar       看到Tesseract 的第一反应是要用cmd或JNI来操作它,了解了一下 Tess4j 使用的JNA,有点JNI高级版的感觉,CMD什么的,玩蛋蛋去吧.
+
+jai_imageio.jar   图片操作的工具类,支持Tiff就靠它了. 它的 META-INF 里有文章,这个后面详说.
+
+还有其它几个包,是用于操作PDF用的吧,没有引用,也没有发生错误.所以的包可以在 Tess4j 的文件目录里面找到.
+
+2 操作代码.
+
+官方的示例中给出了一个超级简单有效的示例,不足20行代码!!!我和小伙伴们都被震惊了!!!关键代码如下:
+
+File imageFile = new File("eurotext.tif");
+Tesseract instance = Tesseract.getInstance();  // JNA Interface Mapping
+String result = instance.doOCR(imageFile);
+
+实际使用中为了提高识别率还要对图片作一些处理来提高识别率,使用Tess4j 自带的工具类即可完成,这样识别率就大大的提高了.( 这里无法解决 验证码 中干扰线问题,干扰线的清理,网上有其它方式处理 )
+
+// 这里对图片黑白处理,增强识别率.这里先通过截图,截取图片中需要识别的部分
+BufferedImage textImage = ImageHelper.convertImageToGrayscale(ImageHelper.getSubImage(panel.image, startX, startY, endX, endY));
+// 图片锐化,自己使用中影响识别率的主要因素是针式打印机字迹不连贯,所以锐化反而降低识别率
+// textImage = ImageHelper.convertImageToBinary(textImage);
+// 图片放大5倍,增强识别率(很多图片本身无法识别,放大5倍时就可以轻易识,但是考滤到客户电脑配置低,针式打印机打印不连贯的问题,这里就放大5倍)
+textImage = ImageHelper.getScaledInstance(textImage, endX * 5, endY * 5);
+
+3 使用中遇到的问题 
+
+3.1 相关DLL文件,相关字库文件
+
+liblept168.dll,libtesseract302.dll 其中 liblept168.dll 要先加载.
+
+tessdata 存放的是字库文件,如果需要数字,英文以外的支持需要 Tesseract 页面下载相关字库.
+
+因为公司使用时是将文件打成Jar布署,然后提供客户端下载,所以就把以上两个文件一起打进tess4j.jar里面,然后客户端使用时 tessdata 直接可用,而 liblept168.dll,libtesseract302.dll 需要释放到临时目录然后加载.相关代码:
+
+loadDLL("liblept168.dll");//注意加载先后顺序
+loadDLL("libtesseract302.dll");//注意加载先后顺序
+
+private static void loadDLL(String libFullName) {
+        try {
+            String nativeTempDir = System.getProperty("java.io.tmpdir");
+            InputStream in = null;
+            FileOutputStream writer = null;
+            BufferedInputStream reader = null;
+            File extractedLibFile = new File(nativeTempDir + File.separator + libFullName);
+            if (!extractedLibFile.exists()) {
+                try {
+                    in = Tesseract.class.getResourceAsStream("/" + libFullName);
+                    Tesseract.class.getResource(libFullName);
+                    reader = new BufferedInputStream(in);
+                    writer = new FileOutputStream(extractedLibFile);
+                    byte[] buffer = new byte[1024];
+                    while (reader.read(buffer) > 0) {
+                        writer.write(buffer);
+                        buffer = new byte[1024];
+                    }
+                    in.close();
+                    writer.close();
+                    System.load(extractedLibFile.toString());
+                } catch (IOException e) {
+                    e.printStackTrace();
+                } finally {
+                    if (in != null) {
+                        in.close();
+                    }
+                    if (writer != null) {
+                        writer.close();
+                    }
+                }
+            } else {
+                System.load(extractedLibFile.toString());
+            }
+        } catch (IOException e) {
+            logger.error("初始化 " + libFullName + " DLL错误", e);
+        }
+ }
+
+3.2 相关异常
+
+错误信息：null
+错误详细堆栈信息：java.util.NoSuchElementException: null
+at: javax.imageio.spi.FilterIterator.next(ServiceRegistry.java:808)
+
+这个错误在开发环境下没有报错,但是在使用环境下出错,网上说出错原因是因为  jai_imageio.jar 丢失.
+
+如果在操作中遇到错误,很可能是这个原因,但是在前面的代码的工具类里使用了  jai_imageio.jar ,如果报错,可能会报某类找不到的错误
+
+自己这里显然不是.查看JDK中关于报错位置的代码,大概问题是因为注册的类没找到的原因.根据JDK文档的说明在 jai_imageio.jar 的 META-INF 的 service 包里面找到了相关的注册代码.分析了下,可能是因为金蝶EAS客户端使用自定义的类文件加载器,导至 META-INF 中的注册信息未能读取.这里手动注册一下.代码如下:
+
+        // FUCK,客户端加载jar的方式很特殊,所以第三方包注册的serve 无法生效,这里就行动注册了,事儿真多
+        IIORegistry registry = IIORegistry.getDefaultInstance();
+        // registry.registerServiceProvider(new ImageReadWriteSpi(), OperationRegistrySpi.class);//这个,注册不了
+        registry.registerServiceProvider(new ChannelImageInputStreamSpi(), ImageInputStreamSpi.class);
+        registry.registerServiceProvider(new ChannelImageOutputStreamSpi(), ImageOutputStreamSpi.class);
+        // ---------
+        registry.registerServiceProvider(new com.sun.media.imageioimpl.plugins.jpeg.CLibJPEGImageReaderSpi(), ImageReaderSpi.class);
+        registry.registerServiceProvider(new com.sun.media.imageioimpl.plugins.png.CLibPNGImageReaderSpi(), ImageReaderSpi.class);
+        registry.registerServiceProvider(new com.sun.media.imageioimpl.plugins.jpeg2000.J2KImageReaderSpi(), ImageReaderSpi.class);
+        registry.registerServiceProvider(new com.sun.media.imageioimpl.plugins.jpeg2000.J2KImageReaderCodecLibSpi(), ImageReaderSpi.class);
+        registry.registerServiceProvider(new com.sun.media.imageioimpl.plugins.wbmp.WBMPImageReaderSpi(), ImageReaderSpi.class);
+        registry.registerServiceProvider(new com.sun.media.imageioimpl.plugins.bmp.BMPImageReaderSpi(), ImageReaderSpi.class);
+        registry.registerServiceProvider(new com.sun.media.imageioimpl.plugins.pnm.PNMImageReaderSpi(), ImageReaderSpi.class);
+        registry.registerServiceProvider(new com.sun.media.imageioimpl.plugins.raw.RawImageReaderSpi(), ImageReaderSpi.class);
+        registry.registerServiceProvider(new com.sun.media.imageioimpl.plugins.tiff.TIFFImageReaderSpi(), ImageReaderSpi.class);
+        //
+        registry.registerServiceProvider(new com.sun.media.imageioimpl.plugins.jpeg.CLibJPEGImageWriterSpi(), ImageWriterSpi.class);
+        registry.registerServiceProvider(new com.sun.media.imageioimpl.plugins.jpeg.CLibJPEGImageWriterSpi(), ImageWriterSpi.class);
+        registry.registerServiceProvider(new com.sun.media.imageioimpl.plugins.png.CLibPNGImageWriterSpi(), ImageWriterSpi.class);
+        registry.registerServiceProvider(new com.sun.media.imageioimpl.plugins.jpeg2000.J2KImageWriterSpi(), ImageWriterSpi.class);
+        registry.registerServiceProvider(new com.sun.media.imageioimpl.plugins.jpeg2000.J2KImageWriterCodecLibSpi(), ImageWriterSpi.class);
+        registry.registerServiceProvider(new com.sun.media.imageioimpl.plugins.wbmp.WBMPImageWriterSpi(), ImageWriterSpi.class);
+        registry.registerServiceProvider(new com.sun.media.imageioimpl.plugins.bmp.BMPImageWriterSpi(), ImageWriterSpi.class);
+        registry.registerServiceProvider(new com.sun.media.imageioimpl.plugins.gif.GIFImageWriterSpi(), ImageWriterSpi.class);
+        registry.registerServiceProvider(new com.sun.media.imageioimpl.plugins.pnm.PNMImageWriterSpi(), ImageWriterSpi.class);
+        registry.registerServiceProvider(new com.sun.media.imageioimpl.plugins.raw.RawImageWriterSpi(), ImageWriterSpi.class);
+        registry.registerServiceProvider(new com.sun.media.imageioimpl.plugins.tiff.TIFFImageWriterSpi(), ImageWriterSpi.class);
+
+世界终于安静了…..

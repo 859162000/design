@@ -1,0 +1,106 @@
+第一步，先建个javabean：
+package test;
+
+public class Model {
+
+private String id;
+private String name;
+private String description;
+
+public Model() {
+id = "id";
+name = "name";
+description = "description";
+}
+
+public String getId() {
+return id;
+}
+
+public void setId(String id) {
+this.id = id;
+}
+
+public String getName() {
+return name;
+}
+
+public void setName(String name) {
+this.name = name;
+}
+
+public String getDescription() {
+return description;
+}
+
+public void setDescription(String description) {
+this.description = description;
+}
+
+}
+
+第二步：
+package test;
+
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
+
+public class TestMethodReflect {
+
+public static final String ID = "Id";
+public static final String NAME = "Name";
+public static final String DESCRIPTION = "Description";
+
+//方法名集合
+public static final String[] ALL = { ID, NAME, DESCRIPTION };
+
+//这是测试数据
+public static final String[] MODELDATA = { "1", "Gavin",
+"this is model's test data" };
+
+
+public static void main(String[] args) {
+try {
+//获得Model类
+Class model = Class.forName("test.Model");
+//获得Model类的实例
+Object object = model.newInstance();
+for (int i = 0; i <</SPAN> ALL.length; i++) {
+//获得Model类的set方法，参数为String类型
+Method setMethod = model.getMethod("set" + ALL[i], String.class);
+//调用set方法
+setMethod.invoke(object, MODELDATA[i]);
+
+//获得Model类的get方法，无参数
+Method getMethod = model.getMethod("get" + ALL[i], null);
+//调用get方法，并输出数据
+System.out.println(getMethod.invoke(object, null));
+}
+} catch (ClassNotFoundException e) {
+// TODO Auto-generated catch block
+e.printStackTrace();
+} catch (SecurityException e) {
+// TODO Auto-generated catch block
+e.printStackTrace();
+} catch (NoSuchMethodException e) {
+// TODO Auto-generated catch block
+e.printStackTrace();
+} catch (IllegalArgumentException e) {
+// TODO Auto-generated catch block
+e.printStackTrace();
+} catch (IllegalAccessException e) {
+// TODO Auto-generated catch block
+e.printStackTrace();
+} catch (InvocationTargetException e) {
+// TODO Auto-generated catch block
+e.printStackTrace();
+} catch (InstantiationException e) {
+// TODO Auto-generated catch block
+e.printStackTrace();
+}
+
+}
+
+}
+
+ok，大功告成！

@@ -1,0 +1,125 @@
+ PowerDesigner与Eclipse同步开发
+
+原文：
+
+1.通过PowerDesigner生成Java源代码，放入Eclipse工程中
+1.1 生成工程源代码
+
+1.1.1 生成工程
+　　打开PowerDesigner,New-->Object-Oriented Model，配置如下参数：
+　　Mode name:Java(工程名称)
+　　Object language:Java 5.0
+　　Frist diagram:Class Diagram
+
+1.1.2 添加程序结构
+
+1.1.2.1 package
+　　添加一个包com,按下Ctrl在包上双击，进入该包，继续创建；
+
+1.1.2.2 Bean
+　　添加一个类，在Attribute中输入bean的属性;
+　　完成选中要添加get/set的属性，后点击Add accessors，添加get/set访问途经，去Operations中查看属性是否成功添加，属性是灰体；
+
+1.1.2.3 Interface
+　　提供两种生成方法：
+
+1.1.2.3.1 直接生成接口
+　　点击Interface,在Operations中添加方法，如果需要传入参数点击左上角properties属性，在打开的Opertions Properties中的Parameters添加传入参数；
+
+1.1.2.3.2 通过类生成接口
+　　在类中把方法和属性填写好，然后再类上点击右键Create Interface,生成相应的接口;
+
+1.1.2.4 Action
+1.1.2.4.1 直接生成类
+　　点击Action,在Operations中添加方法，如果需要传入参数点击左上角properties属性，在打开的Opertions Properties中的Parameters添加传入参数；
+
+1.1.2.4.1 通过接口生成类
+　　完成接口后，在接口上右键点击Create class(生成类)，类就得到生成；
+
+1.1.2.5 继承
+1.1.2.5.1 建立父类
+1.1.2.5.2 建立子类
+1.1.2.5.3 实现类
+　　点击palette-->Generalization,从父类指向子类；连接线是一个实线同时包含空心箭头，同时箭头指向子类；
+
+
+1.1.2.5.4 继承方法
+　　打开子类-->operations-->Inherited...,在打开的Inherited Operations的窗体中，选择需要继承(override)的方法点击Overide,父类的方法就在子类得到实现；
+
+1.1.2.6 实现
+1.1.2.6.1 生成接口
+1.1.2.6.2 生成实现类
+1.1.2.6.3 实现类
+　　点击palette-->Realzation,从实现类指向接口，箭头是一个空心箭头从实现类指向接口；
+
+
+1.1.2.6.4 实现方法
+　　打开实现类-->>operations-->To be implemented...，在打开的To be Implemented operations窗体中选中需要实现的方法，点击Implement,即可实现方法；
+
+
+1.2 把工程生成到Eclipse
+1.2.1 建立一个工程
+　　使用Eclipse建一个工程；
+
+
+1.2.2 适用PowerDesigner生成工程src内容
+　　点击Ctrl+G打开生成界面，在Directory选择工程存放的位置，直到src,如：D:\Software\MyEclipse 6.5\workspace\Hello\src\生成完成后在工程根上点击刷新，src下将出现工程信息；
+
+ 
+
+2.同步Eclipse和PowerDesigner
+2.1 从PowerDesigner同步到Eclipse
+2.1.0 适用范围
+　　工程通过PowerDesigner生成，已经进行部分开发，但是需要通过PowerDesigner再次修改工程部分代码，但是不想影响现有代码；
+
+
+2.1.1 同步
+　　在PowerDesigner-->Language-->Synchronize with Generated File...，在打开的Reverse Engineer Java中点击Add选择同步目录(如：D:\Software\MyEclipse 6.5\workspace\Hello\src)；选择到工程的src下；以后自动出现需要同步的类，点击确定；
+
+
+2.1.2 在PowerDesigner中重新生成代码
+
+　　这样如果在Eclipse中已经作了修改，修改保存；
+
+　　注意：如果没有进行同步，直接生成代码覆盖原来的代码，以前做的修改全部实效；
+　　进行了同步，如果在PowerDesigner重新生成代码，java工程中的已经修改的代码不会得到修改；
+
+ 
+
+2.2 从Eclipse同步到PowerDesigner
+2.2.0 适用范围
+　　工程从PowerDesigner中创建到Eclipse中，在java中添加了相应的方法，通过Eclipse同步功能把新方法写入图形；
+
+
+2.2.1 修改Eclipse
+　　在工程中添加新的方法和属性；
+
+
+2.2.2 同步到PowerDesigner
+　　在PowerDesigner-->Language-->Synchronize with Generated File...，在打开的Reverse Engineer Java中点击Add选择同步目录(如：D:\Software\MyEclipse 6.5\workspace\Hello\src)；选择到工程的src下；
+以后自动出现需要同步的类，点击确定；
+
+3.把现有工程转化为图形
+3.1 在PowerDesigner中创建一个新的工程:
+　　New-->Object-Oriented Model-->填写选项如下：
+　　Model name:XX
+　　Object language:Java 5.0
+　　First diagram:Class Diagram
+
+
+3.2 进行反向工程
+　　Language-->Reverse Engineer Java，在打开的界面中Reverse engineer:选择Java directories(工程从java目录中导出)点击Add，浏览到反向工程的src目录，点击确定，进行反向工程；
+
+
+3.3 同时进行正反向工程
+
+
+原则：
+从PowerDesigner-->Eclipse:首先进行同步，再进行生成(适用工程已经修改)；
+从Eclipse-->Powerdesigner:直接进行同步；
+
+ 
+
+转自：
+
+　　天成.PowerDesigner与Eclipse同步开发.http://hi.baidu.com/rgb_rgb/blog/item/f442abdd7ae657325882dd6f.html

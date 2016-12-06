@@ -1,0 +1,14 @@
+groovy相关收集
+
+
+1，<groovy.version>2.4.7</groovy.version>
+	1.1groovy核心
+	<groupId>org.codehaus.groovy</groupId>
+        <artifactId>groovy</artifactId>
+	1.2groovy模板
+	<groupId>org.codehaus.groovy</groupId>
+        <artifactId>groovy-templates</artifactId>
+
+
+2，java语言简洁版，并增加许多脚本语言特性
+

@@ -1,0 +1,33 @@
+memcached
+
+
+1，Memcached 是一个高性能的分布式内存对象缓存系统，用于动态Web应用以减轻数据库负载
+	它通过在内存中缓存数据和对象来减少读取数据库的次数，从而提高动态、数据库驱动网站的速度
+
+2，xmemcached-pom依赖
+	<groupId>com.googlecode.xmemcached</groupId>
+	<artifactId>xmemcached</artifactId>
+	<version>1.4.2</version>
+	2.1 最新版
+		<groupId>com.googlecode.xmemcached</groupId>
+    		<artifactId>xmemcached</artifactId>
+    		<version>2.0.1</version>
+
+3，memcached服务安装
+	3.1 bat命令
+		d:
+		cd D:\data\memcached
+		memcached.exe -d install
+		pause
+	3.2 以管理员方式运行,启动memcached服务
+	3.3 安装目录验证：D:\data\memcached>memcached –h
+	3.4 telnet coco 11211	成功表示服务成功启动
+
+4，spring配置
+  	<bean id="leveledCache" class="com.chinamobile.iot.memcached.LeveledCache">
+        	<property name="inMemoryCacheExpiredTimeInSecond" value="3600"/>
+        	<property name="memcachedExpiredTimeInSecond" value="600"/>
+        	<property name="memcachedClient" ref="memcachedClient"/>
+        	<property name="jdbcTemplate" ref="jdbcTemplate"/>
+    	</bean>
+	关联上jdbcTemplate

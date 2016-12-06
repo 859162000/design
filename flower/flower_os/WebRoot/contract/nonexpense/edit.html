@@ -1,0 +1,44 @@
+<form name="editForm" method="post" ng-submit="save()" class="form-horizontal" novalidate="novalidate">
+<div class="portlet light bordered">
+
+<div class="portlet-title" app-print-hide>
+	<div class="caption">
+		<i class="fa fa-edit"></i>
+		<span class="caption-subject sbold uppercase bold">
+			<span app-locale="contract">合同审批</span>
+			<small ng-bind="current.entity.id"></small> 
+		</span>
+		<span class="caption-helper"></span>
+	</div> 
+	<div class="actions" ng-include=" 'resources/template/application/edit/actions.html' "></div>
+</div>
+<div class="portlet-body form">
+	<div class="form-body app-body">
+	
+	<div class="row"><!-- 头部信息,仅显示申请人等信息 -->
+		<div class="col-md-12" ng-include=" 'resources/template/application/contract/edit/header.html' "></div>
+	</div>
+
+	<div class="row"><!-- 附件，流程等信息 -->
+		<div class="col-md-12">
+			<div class="tabbable-custom" uib-tabset>
+				<div uib-tab heading="{{ 'application.files' | appLocale }}">
+					<div ng-include=" 'resources/template/application/edit/files.html' "></div>
+				</div>
+				<div uib-tab heading="{{ 'application.logs' | appLocale }}" 
+					ng-if="current.entity.status == STATUS.REJECTION || current.entity.status == STATUS.REJECTION_PAY">
+					<div ng-include=" 'resources/template/application/logs.html' "></div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div class="row form-bar">
+		<div class="col-md-12 text-center" app-print-action ng-include=" 'resources/template/application/edit/buttons.html' "></div>
+	</div>
+
+	</div>
+</div>
+
+</div>
+</form>

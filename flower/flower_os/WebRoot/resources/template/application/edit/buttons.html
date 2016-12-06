@@ -1,0 +1,10 @@
+<!-- 编辑表单的底部操作按钮 -->
+<button type="submit" class="btn btn-primary" app-locale="app.save"
+	ng-if="STATUS.REJECTION != current.entity.status"
+	ng-disabled="editForm.$invalid || session.requesting"></button>
+<button type="button" class="btn btn-primary" app-locale="app.submit"
+	ng-click="submit()"
+	ng-disabled="editForm.$invalid || session.requesting"></button>
+<button type="button" class="btn btn-primary" app-locale="app.reset" 
+	ng-disabled="session.requesting" ng-click="reset()"></button>
+<button type="button" class="btn btn-primary" app-locale="app.cancel" ng-click="cancel()"></button>

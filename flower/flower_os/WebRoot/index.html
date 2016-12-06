@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="zh-cn" ng-controller="MainController">
+<!-- BEGIN HEAD -->
+<head>
+<meta charset="utf-8" />
+<title app-locale="app.title"></title>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta content="width=device-width, initial-scale=1" name="viewport" />
+
+<meta http-equiv="pragma" content="no-cache" />
+<meta http-equiv="cache-control" content="no-cache" />
+<meta http-equiv="expires" content="0" />
+
+<!-- BEGIN GLOBAL MANDATORY STYLES -->
+<!-- <link href="http://fonts.googleapis.com/css?family=Open+Sans:400,300,600,700&subset=all" rel="stylesheet" type="text/css" /> -->
+<link href="resources/metronic/global/plugins/font-awesome/css/font-awesome.css" rel="stylesheet" type="text/css" />
+<link href="resources/metronic/global/plugins/simple-line-icons/simple-line-icons.css" rel="stylesheet" type="text/css" />
+
+<!-- 使用原生Bootstrap v3.3.5 -->
+<link href="resources/bootstrap/css/bootstrap.css" rel="stylesheet" type="text/css" />
+
+<!-- <link href="resources/metronic/global/plugins/uniform/css/uniform.default.css" rel="stylesheet" type="text/css" /> -->
+<link href="resources/bootstrap/plugins/bootstrap-switch/css/bootstrap-switch.css" rel="stylesheet" type="text/css" />
+<!-- END GLOBAL MANDATORY STYLES -->
+<!-- BEGIN THEME GLOBAL STYLES -->
+<link href="resources/metronic/global/css/components.css" rel="stylesheet" type="text/css" />
+<!-- <link href="resources/metronic/global/css/plugins.css" rel="stylesheet" type="text/css" /> -->
+<!-- END THEME GLOBAL STYLES -->
+<!-- BEGIN THEME LAYOUT STYLES -->
+<link href="resources/metronic/layouts/layout/css/layout.css" rel="stylesheet" type="text/css" />
+<link href="resources/metronic/layouts/layout/css/themes/blue.css" rel="stylesheet" type="text/css" id="style_color" />
+<link href="resources/metronic/layouts/layout/css/custom.css" rel="stylesheet" type="text/css" />
+<!-- END THEME LAYOUT STYLES -->
+
+<!-- ui-grid样式 -->
+<link href="resources/lib/angular/ui-grid/ui-grid.css" rel="stylesheet" type="text/css" />
+<!-- ui-select样式 -->
+<link href="resources/lib/angular/ui-select/select.css" rel="stylesheet" type="text/css" />
+<!-- jquery ztree样式 -->
+<link href="resources/lib/jquery/jquery-ztree/zTreeStyle/zTreeStyle.css" rel="stylesheet" type="text/css" />
+
+<!-- 系统自定义样式 -->
+<link href="resources/css/custom.css" rel="stylesheet" type="text/css" />
+<!-- 用于显示登录框的样式 -->
+<link href="resources/css/login.css" rel="stylesheet" type="text/css" />
+
+<link rel="shortcut icon" href="favicon.ico" />
+<link rel="bookmark" href="favicon.ico" />
+
+
+<script src="resources/lib/mortal.js"></script>
+<script src="resources/lib/mortal-date.js"></script>
+<script src="me.do?resultType=js"></script>
+<script src="resources/js/config.js"></script>
+<script src="resources/lib/require/require.js" data-main="app"></script>
+
+</head>
+<!-- END HEAD -->
+
+<body class="page-sidebar-closed-hide-logo page-on-load app-printer del-page-container-bg-solid"
+	ng-class="{ 'page-content-white': app.layout.pageContentWhite,
+				'page-container-bg-solid': app.layout.pageBodySolid, 
+				'page-sidebar-closed': app.layout.pageSidebarClosed,
+				'page-header-fixed': app.layout.pageHeaderFixed }">	
+	
+	<!-- BEGIN PAGE SPINNER -->
+	<div class="page-spinner-bar" ng-spinner-bar ng-show="!session.hideSpinnerBar || session.requesting">
+		<div class="bounce1"></div>
+		<div class="bounce2"></div>
+		<div class="bounce3"></div>
+	</div>
+	<!-- END PAGE SPINNER -->
+	<!-- BEGIN HEADER -->
+	<div ng-include="'resources/template/header.html'" class="page-header navbar" 
+		ng-class="{ 'navbar-fixed-top': app.layout.pageHeaderFixed }"></div>
+	<!-- END HEADER -->
+	<div class="clearfix"></div>
+	
+	<!-- BEGIN CONTAINER -->
+	<div class="page-container">
+	
+		<!-- Begin Login 显示登录页面 -->
+		<div class="login-container" 
+			ng-if="!session.user" ng-controller="LoginController" ng-include="'resources/template/login.html'"></div>
+		<!-- End Login 登录页面 -->
+	
+	
+		<!-- BEGIN SIDEBAR -->
+		<div class="page-sidebar-wrapper" 
+			ng-if="session.user" ng-include="'resources/template/sidebar.html'" ng-controller="SidebarController"></div>
+		<!-- END SIDEBAR -->
+		
+		<!-- BEGIN CONTENT -->
+		<div class="page-content-wrapper" ng-if="session.user">
+			<div class="page-content" app-printer>
+				<!-- BEGIN STYLE CUSTOMIZER(optional) -->
+				<!-- <div data-ng-include="'resources/template/theme-panel.html'" class="theme-panel hidden-xs hidden-sm"></div> -->
+				<!-- END STYLE CUSTOMIZER -->
+				
+				<!-- BEGIN PAGE BAR -->
+                <div class="page-bar app-print-hidden">
+                    <ul class="page-breadcrumb" ng-controller="BreadcrumbController">
+                        <li>
+                        	<i class="fa fa-home"></i>
+                            <a href="#" app-locale="app.home">首页</a>
+                        </li>
+                        <li ng-repeat="menu in session.navs" ng-class="{ active: $last }">
+                        	<i class="fa fa-angle-right"></i>
+                        	<a class="nav-link nav-toggle" href="{{ ::(menu.url ? '#' + menu.url : 'javascript:;') }}" 
+                        		ng-click="toggle(menu)" app-locale-bind="getText(menu.i18nKey) || menu.name"></a>
+                        </li>
+                    </ul>
+					<div class="page-toolbar">
+                        <!-- <div class="btn-group btn-group-sm pull-right"> -->
+                            <!-- <button type="button" class="btn green btn-sm btn-outline dropdown-toggle" data-toggle="dropdown"> Actions
+                                <i class="fa fa-angle-down"></i>
+                            </button> -->
+                            <!-- <ul class="dropdown-menu pull-right" role="menu">
+                                <li>
+                                    <a href="#">
+                                        <i class="icon-bell"></i> Action</a>
+                                </li>
+                                <li>
+                                    <a href="#">
+                                        <i class="icon-shield"></i> Another action</a>
+                                </li>
+                                <li>
+                                    <a href="#">
+                                        <i class="icon-user"></i> Something else here</a>
+                                </li>
+                                <li class="divider"> </li>
+                                <li>
+                                    <a href="#">
+                                        <i class="icon-bag"></i> Separated link</a>
+                                </li>
+                            </ul> -->
+                        <!-- </div> -->
+						<div class="pull-right tooltips btn">
+                        	<a href="javascript:;" title="{{ 'app.print' | appLocale }}" app-print><i class="icon-printer"></i></a>
+                        	<a href="javascript:;" title="{{ 'app.fullscreen' | appLocale }}" ng-click="session.fullscreen = true"><i class="icon-size-fullscreen"></i></a>
+						</div>
+                    </div>
+                </div>
+                <!-- END PAGE BAR -->
+                <!-- BEGIN PAGE TITLE-->
+                <!-- <h3 class="page-title"> Ribbon Elements
+                    <small>Elements are small components to be used within a layout</small>
+                </h3> -->
+                <!-- END PAGE TITLE-->
+				
+				<!-- BEGIN ACTUAL CONTENT -->
+				<div class="portlet" ng-class="{ 'portlet-fullscreen': session.fullscreen }" app-print-content>				
+					<div class="fullscreen-toggler" ng-show="!!session.fullscreen" 
+						ng-click="session.fullscreen = false"><a href="javascript:;" title="{{ 'app.fullscreen.toggler' | appLocale }}" ><i class="icon-size-actual"></i></a></div>
+					<div class="fade-in-up portlet-body" ui-view uix-form-sm></div>
+				</div>
+				<!-- END ACTUAL CONTENT -->
+			</div>
+		</div>
+		<!-- END CONTENT -->
+		<!-- BEGIN QUICK SIDEBAR -->
+		<!-- <a href="javascript:;" class="page-quick-sidebar-toggler"> <i class="icon-login"></i></a>
+		<div data-ng-include="'resources/template/quick-sidebar.html'" class="page-quick-sidebar-wrapper"></div> -->
+		<!-- END QUICK SIDEBAR -->
+	</div>
+	<!-- END CONTAINER -->
+	
+	
+	<!-- BEGIN FOOTER -->
+	<div class="page-footer" ng-if="!session.user"
+		ng-controller="FooterController" ng-include="'resources/template/footer.html'"></div>
+	<!-- END FOOTER -->
+	
+	<div class="scroll-to-top"><i class="icon-arrow-up"></i></div>
+</body>
+
+</html>

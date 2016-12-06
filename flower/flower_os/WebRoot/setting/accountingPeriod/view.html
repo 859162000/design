@@ -1,0 +1,37 @@
+<!-- 新增页面入口 -->	
+<div class="form-group">
+	<label class="col-sm-2 control-label" app-locale="finance.accounting.year">年份</label>
+	<div class="col-sm-6">
+		<input type="number" ng-model="current.entity.id" class="form-control" required ng-change="auotSetMonth()" >
+	</div>
+</div>
+
+<div class="form-group">
+	<div class="col-sm-8 sol-sm-offset-2">
+		<div class="table-responsive">
+			<table class="table table-striped table-bordered table-condensed" role="grid">
+				<thead>
+					<tr>
+						<th class="col-sm-2 control-label" app-locale="setting.accountingPeriod.period">月份</th>
+						<th class="col-sm-6" app-locale="setting.accountingPeriod.monthlyPayment">月结日</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr ng-repeat="month in current.entity.months">
+						<td class="col-sm-2 text-right" ng-bind="month.month"></td>
+						<td class="col-sm-6" ng-bind="month.endDate | date"></td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+	</div>
+</div>
+
+<div class="form-group">
+	<div class="col-sm-6 col-sm-offset-2">
+		<button type="button" class="btn btn-primary" app-locale="app.edit"
+			ng-click="edit()">编辑</button>
+		<button type="button" class="btn btn-primary" app-locale="app.cancel"
+			ng-click="cancel()">取消</button>
+	</div>
+</div>

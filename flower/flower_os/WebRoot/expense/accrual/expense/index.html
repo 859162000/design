@@ -1,0 +1,69 @@
+<!-- 事前申请列表页面 -->
+<form name="queryForm" method="post" ng-submit="query()" class="form-horizontal" novalidate="novalidate">
+<div class="portlet light bordered query-container">
+	<div class="portlet-title">
+		<div class="caption">
+			<i class="fa fa-list"></i>
+			<span class="caption-subject font-dark sbold uppercase bold" app-locale="accrual.before">申请列表</span> 
+			<span class="caption-helper"></span>
+		</div>
+		<div class="actions">
+			<button type="button" class="btn btn-circle btn-icon-only btn-default"
+				title="{{ (!hideQueryParams ? 'app.query.hide' : 'app.query.show')  | appLocale }}"
+				ng-click="hideQueryParams = !hideQueryParams">
+				<i class="fa" ng-class="{ 'fa-angle-down' : !hideQueryParams, 'fa-angle-up': hideQueryParams }"></i>
+			</button>
+			<a title="{{ 'app.add' | appLocale }}" class="btn btn-circle btn-icon-only btn-primary" ui-sref="expense.accrual.add">
+				<i class="fa fa-plus"></i>
+			</a>
+			<!-- <button type="button" title="{{ 'app.delete' | appLocale }}" class="btn btn-circle btn-icon-only btn-default"
+				ng-disabled="!current.selected || !current.selected.length" ng-click="remove(current.selected)">
+				<i class="fa fa-trash-o"></i>
+			</button> -->
+		</div>
+	</div>
+
+	<div class="portlet-body form">
+		<div class="form-body" ng-show="!hideQueryParams">
+			<div class="row">
+				<div class="col-sm-11">				
+					<div class="form-group">
+						<label class="col-sm-1 control-label" appLocale="app.application.id">申请单号</label>
+						<div class="col-sm-3">
+							<input ng-model="current.params.id" class="form-control input-sm" ng-trim="true">
+						</div>
+						<label class="col-sm-1 control-label" appLocale="app.application.date">申请时间</label>
+						<div class="col-sm-3">
+							<div class="input-group input-daterange input-group-sm">
+								<input type="date" class="form-control" ng-model="current.params.submitTimes[0]" uib-datepicker-popup> 
+								<span class="input-group-addon" app-locale="app.datepicker.to">-</span> 
+								<input type="date" class="form-control" ng-model="current.params.submitTimes[1]" uib-datepicker-popup>
+							</div>
+						</div>
+						<label class="col-sm-1 control-label" appLocale="app.application.date">金额</label>
+						<div class="col-sm-3">
+							<div class="input-group input-daterange input-group-sm">
+								<input type="number" class="form-control" ng-model="current.params.amounts[0]" min="0"> 
+								<span class="input-group-addon" app-locale="app.datepicker.to">-</span> 
+								<input type="number" class="form-control" ng-model="current.params.amounts[1]" min="current.params.amounts[0] || 0">
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="col-sm-1 btn-group-sm">
+					<button type="submit" class="btn btn-primary" title="{{ 'app.query' | appLocale }}" ng-disabled="queryForm.$invalid">
+						<i class="fa fa-search"></i>
+					</button>
+				</div>
+			</div>
+		</div>
+
+		<!-- 列表表格 -->
+		<div class="table-responsive" ui-grid="current.uiGridOptions"
+			xui-grid-selection ui-grid-pinning ui-grid-resize-columns ui-grid-move-columns></div>
+
+		<!-- 显示分页 -->
+		<div app-page></div>
+	</div>
+</div>
+</form>

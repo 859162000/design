@@ -1,0 +1,39 @@
+<div class="form-group">
+	<label class="col-sm-2 control-label" app-locale="setting.dictionary.code">参数代码</label>
+	<div class="col-sm-4">
+		<p class="form-control-static" ng-bind="current.entity.code"></p>
+	</div>
+	<label class="col-sm-2 control-label" app-locale="setting.dictionary.name">参数名称</label>
+	<div class="col-sm-4">
+		<p class="form-control-static" ng-bind="current.entity.name"></p>
+	</div>
+</div>
+<div class="form-group">
+	<label class="col-sm-2 control-label" appLocale="setting.dictionary.status">参数状态</label>
+	<div class="col-sm-4" app-dict="current.entity.status" dict-type="status"></div>
+</div>
+<div class="form-group">
+	<label class="col-sm-2 control-label" appLocale="setting.purchaseType.purchaseTypee">采购类别</label>
+	<div class="col-sm-4">
+		<p class="form-control-static" ng-bind="current.entity.propertyC00"></p>
+	</div>
+</div>
+<div class="form-group">
+	<label class="col-sm-2 control-label" appLocale="setting.purchaseDetail.uint">计量单位</label>
+	<div class="col-sm-4">
+		<p class="form-control-static" ng-bind="current.entity.propertyC01"></p>
+	</div>
+	<label class="col-sm-2 control-label" appLocale="setting.purchaseDetail.price">单价</label>
+	<div class="col-sm-4">
+		<p class="form-control-static" ng-bind="current.entity.propertyN50"></p>
+	</div>
+</div>
+
+<div class="form-group">
+	<div class="col-sm-6 col-sm-offset-2">
+		<button type="button" class="btn btn-primary" app-locale="app.edit"
+			ng-click="edit()">编辑</button>
+		<button type="button" class="btn btn-primary" app-locale="app.cancel"
+			ng-click="cancel()">取消</button>
+	</div>
+</div>

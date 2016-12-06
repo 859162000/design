@@ -1,0 +1,15 @@
+<!-- 编辑表单右上角操作按钮 -->
+<button type="submit" title="{{ 'app.save' | appLocale }}" class="btn btn-circle btn-icon-only btn-default"	ng-disabled="editForm.$invalid || session.requesting">
+	<i class="fa fa-save"></i>
+</button>
+<button type="button" title="{{ 'app.submit' | appLocale }}" class="btn btn-circle btn-icon-only btn-default" ng-click="submit()"
+	ng-disabled="editForm.$invalid || session.requesting">
+	<i class="fa fa-check"></i>
+</button>
+<!-- <button type="button" title="{{ 'app.delete' | appLocale }}" class="btn btn-circle btn-icon-only btn-default"
+	ng-disabled="current.entity.isNew" ng-if="canRemove(current.entity)" ng-click="remove()">
+	<i class="fa fa-trash-o"></i>
+</button> -->
+<button type="button" title="{{ 'app.cancel' | appLocale }}" class="btn btn-circle btn-icon-only btn-default" ng-click="cancel()">
+	<i class="fa fa-undo"></i>
+</button>

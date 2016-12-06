@@ -1,0 +1,27 @@
+<div class="form-group">
+	<label class="col-sm-2 control-label" app-locale="setting.taxableLogic.subject">预算科目</label>
+	<div class="col-sm-4">
+		<div class="col-sm-6" app-show="current.entity.propertyN00" url="/budgetSubject.do" ></div>
+	</div>
+	<label class="col-sm-2 control-label" app-locale="setting.taxableLogic.money">是否免征金额</label>
+	<div class="col-sm-4" app-dict="current.entity.propertyC00" dict-type="yes_no"></div>
+</div>
+<div class="form-group">
+	<label class="col-sm-2 control-label" appLocale="setting.taxableLogic.matter">应税事项</label>
+	<div class="col-sm-4">
+		<p class="form-control-static" ng-bind="current.entity.propertyC01"></p>
+	</div>
+	<label class="col-sm-2 control-label" appLocale="setting.taxableLogic.costCenter">成本中心</label>
+	<div class="col-sm-4">
+		<p class="form-control-static" ng-bind="current.entity.propertyC02"></p>
+	</div>
+</div>
+
+<div class="form-group">
+	<div class="col-sm-6 col-sm-offset-2">
+		<button type="button" class="btn btn-primary" app-locale="app.edit"
+			ng-click="edit()">编辑</button>
+		<button type="button" class="btn btn-primary" app-locale="app.cancel"
+			ng-click="cancel()">取消</button>
+	</div>
+</div>

@@ -1,0 +1,46 @@
+
+
+<!-- 差旅费标准查询列表 -->
+<div class="row">
+<div class="col-sm-12" 
+	ng-show="!current.operator" 
+	ng-include=" 'setting/travelExpenStandard/query.html' "></div>
+
+<!-- 差旅费标准编辑表单 -->
+<div class="col-sm-12" ng-if="!!current.operator" >
+<form name="editForm" method="post" ng-submit="save()" class="form-horizontal" novalidate="novalidate">
+<div class="portlet light bordered query-container">
+	<div class="portlet-title">
+		<div class="caption">
+			<i class="fa fa-list"></i> 
+				<span class="caption-subject sbold uppercase bold" 
+					ng-bind="current.entity.isNew ? getLocaleText('app.add') : current.entity.code"></span>
+			<span class="caption-helper"></span>
+		</div>
+		<div class="actions" ng-if="current.entity">
+			<button type="button" title="{{ 'app.edit' | appLocale }}" class="btn btn-circle btn-icon-only btn-default"
+				ng-if="current.operator == 'view'" app-permission="edit"
+				ng-click="edit()"><i class="fa fa-edit"></i></button>
+			<button type="submit" title="{{ 'app.save' | appLocale }}" class="btn btn-circle btn-icon-only btn-default"
+				ng-if="current.operator != 'view'" app-permission="edit"
+				ng-disabled="editForm.$invalid" ><i class="fa fa-save"></i></button>
+			<button type="button" title="{{ 'app.cancel' | appLocale }}" class="btn btn-circle btn-icon-only btn-default"
+				ng-if="!!current.operator"
+				ng-click="cancel()"><i class="fa fa-undo"></i></button>
+			<!-- <button type="button" title="{{ 'app.add' | appLocale }}" class="btn btn-circle btn-icon-only btn-default"
+				ng-if="!current.entity.isNew" app-permission="edit"
+				ng-click="add()"><i class="fa fa-plus"></i></button> -->
+			<button type="button" title="{{ 'app.delete' | appLocale }}" class="btn btn-circle btn-icon-only btn-default"
+				ng-disabled="current.entity.isNew" app-permission="edit"
+				ng-click="remove(current.entity)"><i class="fa fa-trash-o"></i></button>
+		</div>
+	</div>
+	<div class="portlet-body form">
+		<div class="form-body" ng-include=" current.operator == 'view' ? 'setting/travelExpenStandard/view.html' : 'setting/travelExpenStandard/edit.html' "></div>
+	</div>
+</div>
+</form>
+
+</div>
+</div>
+

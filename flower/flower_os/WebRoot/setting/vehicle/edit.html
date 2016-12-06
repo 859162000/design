@@ -1,0 +1,377 @@
+
+
+<div class="form-group">
+	<!-- <label class="col-sm-2 control-label">类别</label> -->
+	<div class="col-sm-6">
+		<input type="text"  style="display:none;"  class="form-control" ng-model="current.entity.type" name="entityType" ng-trim="true" required maxlength="20">
+	</div>
+</div>
+<div class="form-group">
+	<!-- <label class="col-sm-2 control-label">加载方式</label> -->
+	<div class="col-sm-6">
+		<input class="form-control" style="display:none;"  ng-model="current.entity.loadType" name="entityLoadType" ng-trim="true" required maxlength="2">
+	</div>
+</div>
+<div class="form-group">
+	<!-- <label class="col-sm-2 control-label">用于排序的序号</label> -->
+	<div class="col-sm-6">
+		<input class="form-control" style="display:none;" ng-model="current.entity.ordinal" name="entityOrdinal" ng-trim="true" required maxlength="2">
+	</div>
+</div>
+<!-- 上面是车辆信息默认加载的隐藏部分  -->
+
+<div class="form-group">
+	<label class="col-sm-2 control-label">状态</label>
+	<div class="col-sm-3" app-dict-radio="current.entity.status"  dict-type="vehicleStatus" inline="true"></div>
+</div>
+<div class="form-group">
+	<label class="col-sm-2 control-label">车牌号</label>
+	<div class="col-sm-6">
+		<input class="form-control" ng-model="current.entity.code"  ng-blur="testCode(current.entity.code)" name="entityCode" class="form-control" ng-trim="true" required ng-maxlength="20">
+	</div>
+	<div class="col-sm-4">
+		<p class="form-control-static text-danger" ng-if="editForm.entityCode.$error.required">请输入车牌号</p>
+		<p class="form-control-static text-danger" ng-if="editForm.entityCode.$error.maxlength">不能超出20字节</p>
+		<p class="form-control-static text-danger" ng-if="editForm.entityCode.$invalid">请输入正确的车牌号</p>
+	</div>
+</div>
+<div class="form-group">
+	<label class="col-sm-2 control-label">车辆使用人</label>
+	<div class="col-sm-6">
+		<input  ng-model="current.entity.name" name="entityName" class="form-control" ng-trim="true" required ng-maxlength="20">
+	</div>
+	<div class="col-sm-4">
+		<p class="form-control-static text-danger" ng-if="editForm.entityName.$error.required">请输入车辆使用人</p>
+		<p class="form-control-static text-danger" ng-if="editForm.entityName.$error.maxlength">不能超出20字节</p>
+		<p class="form-control-static text-danger" ng-if="editForm.entityName.$invalid">请输入正确的车辆使用人</p>
+	</div>
+</div>
+
+<div class="form-group">
+	<label class="col-sm-2 control-label">车辆使用部门</label>
+	<div class="col-sm-6">
+		<div class="input-group input-group-sm dropdown" uib-dropdown is-open="queryDeptsSelector.isOpen" auto-close="outsideClick">					
+						<ul class="ztree dropdown-menu dropdown-menu-default" role="menu" uib-dropdown-menu
+							ztree="queryDeptsSelector" data-checked-model="queryDeptsSelector.depts"></ul>
+						<input ng-model="queryDeptsSelector.checkedNames" class="form-control input-sm" readonly uib-dropdown-open>
+						<sapn class="input-group-btn btn-group-sm">
+							<button type="button" class="btn btn-default" 
+								ng-click="queryDeptsSelector.tree.clearChecked(); current.entity.checkedNames = '';"><i class="fa fa-remove"></i></button>
+							<button type="button" class="btn btn-default dropdown-toggle" uib-dropdown-toggle aria-expanded="false">
+								<span class="caret"></span><span class="sr-only"></span>
+							</button>
+						</sapn>
+					</div>
+	</div>
+</div>
+
+<div class="form-group">
+	<label class="col-sm-2 control-label">车辆类型</label>
+	<div class="col-sm-6" app-dict-select="current.entity.propertyC00"  dict-type="vehicleType" change="changeSpan(current.entity.propertyC00)"  inline="true" ></div>
+</div>  
+<div class="form-group">
+	<label class="col-sm-2 control-label">车辆型号</label>
+	<div class="col-sm-6">
+		<input class="form-control" ng-model="current.entity.propertyC02" name="entityProperty02" ng-trim="true" required maxlength="100">
+	</div>
+	<div class="col-sm-4">
+		<p class="form-control-static text-danger" ng-if="editForm.entityProperty02.$error.required">请输入车辆型号</p>
+		<p class="form-control-static text-danger" ng-if="editForm.entityProperty02.$error.maxlength">不能超出100字</p>
+		<p class="form-control-static text-danger" ng-if="editForm.entityProperty02.$invalid">请输入正确的车辆型号</p>
+	</div>
+</div> 
+<div class="form-group">
+	<label class="col-sm-2 control-label">车辆品牌</label>
+	<div class="col-sm-6">
+		<input class="form-control" ng-model="current.entity.propertyC06" name="entityPropertyC06" ng-trim="true" required maxlength="100">
+	</div>
+	<div class="col-sm-4">
+		<p class="form-control-static text-danger" ng-if="editForm.entityPropertyC06.$error.required">请输入车辆品牌</p>
+		<p class="form-control-static text-danger" ng-if="editForm.entityPropertyC06.$error.maxlength">不能超出10字</p>
+		<p class="form-control-static text-danger" ng-if="editForm.entityPropertyC06.$invalid">请输入正确的车辆品牌</p>
+	</div>
+</div>
+<div class="form-group">
+	<label class="col-sm-2 control-label">车架号</label>
+	<div class="col-sm-6">
+		<input class="form-control" ng-model="current.entity.propertyC07" name="entityPropertyC07" ng-trim="true" required maxlength="100">
+	</div>
+	<div class="col-sm-4">
+		<p class="form-control-static text-danger" ng-if="editForm.entityPropertyC07.$error.required">请输入车架号</p>
+		<p class="form-control-static text-danger" ng-if="editForm.entityPropertyC07.$error.maxlength">不能超出10字</p>
+		<p class="form-control-static text-danger" ng-if="editForm.entityPropertyC07.$invalid">请输入正确的车架号</p>
+	</div>
+</div>  
+<div class="form-group">
+	<label class="col-sm-2 control-label">发动机号</label>
+	<div class="col-sm-6">
+		<input class="form-control" ng-model="current.entity.propertyC11" name="entityPropertyC11" ng-trim="true" required maxlength="100">
+	</div>
+	<div class="col-sm-4">
+		<p class="form-control-static text-danger" ng-if="editForm.entityPropertyC11.$error.required">请输入发动机号</p>
+		<p class="form-control-static text-danger" ng-if="editForm.entityPropertyC11.$error.maxlength">不能超出10字</p>
+		<p class="form-control-static text-danger" ng-if="editForm.entityPropertyC11.$invalid">请输入正确的发动机号</p>
+	</div>
+</div>  
+
+<!--以下为自有车辆显示内容  -->
+<div ng-if="propertyC00_0" id="visibleOwn">
+<div class="form-group">
+	<label class="col-sm-2 control-label">资产号</label>
+	<div class="col-sm-6">
+		<input class="form-control" ng-model="current.entity.propertyC01" name="entityProperty01" ng-trim="true" required maxlength="20">
+	</div>
+	<div class="col-sm-4">
+		<p class="form-control-static text-danger" ng-if="editForm.entityProperty01.$error.required">请输入资产号</p>
+		<p class="form-control-static text-danger" ng-if="editForm.entityProperty01.$error.maxlength">不能超出20字</p>
+		<p class="form-control-static text-danger" ng-if="editForm.entityProperty01.$invalid">请输入正确的资产号</p>
+	</div>
+</div>
+
+<div class="form-group">
+	<label class="col-sm-2 control-label">资产名称</label>
+	<div class="col-sm-6">
+		<input class="form-control" ng-model="current.entity.propertyC03" name="entityProperty03" ng-trim="true" required maxlength="100">
+	</div>
+	<div class="col-sm-4">
+		<p class="form-control-static text-danger" ng-if="editForm.entityProperty03.$error.required">请输入资产名称</p>
+		<p class="form-control-static text-danger" ng-if="editForm.entityProperty03.$error.maxlength">不能超出10字</p>
+		<p class="form-control-static text-danger" ng-if="editForm.entityProperty03.$invalid">请输入正确的资产名称</p>
+	</div>
+</div>  
+
+<div class="form-group">
+	<label class="col-sm-2 control-label">购车金额</label>
+	<div class="col-sm-6">
+		<input class="form-control" type="number" ng-model="current.entity.propertyN00" name="entityPropertyNOO" ng-trim="true" required maxlength="100">
+	</div>
+	<div class="col-sm-4">
+		<p class="form-control-static text-danger" ng-if="editForm.entityPropertyNOO.$error.required">请输入购车金额</p>
+		<p class="form-control-static text-danger" ng-if="editForm.entityPropertyNOO.$error.maxlength">不能超出100字</p>
+		<p class="form-control-static text-danger" ng-if="editForm.entityPropertyNOO.$invalid">请输入正确的购车金额</p>
+	</div>
+</div>  
+
+<div class="form-group">
+	<label class="col-sm-2 control-label">购车时间</label>
+	<div class="col-sm-6">
+		<div class="input-group">
+							<input type="date" class="form-control input-sm" ng-model="current.entity.propertyD00" name="entityPropertyDOO" required
+								uib-datepicker-popup is-open="openDatepicker1">
+							<div class="input-group-btn">
+								<button class="btn btn-default btn-sm" type="button" ng-click="openDatepicker1=true">
+									<span class="icon icon-calendar"></span><span class="sr-only">Split button!</span>
+								</button>
+							</div>
+						</div>
+	</div>
+	<div class="col-sm-4">
+		<p class="form-control-static text-danger" ng-if="editForm.entityPropertyDOO.$error.required">请输入购车时间</p>
+		<p class="form-control-static text-danger" ng-if="editForm.entityPropertyDOO.$error.maxlength">不能超出100字</p>
+		<p class="form-control-static text-danger" ng-if="editForm.entityPropertyDOO.$invalid">请输入正确的购车时间</p>
+	</div>
+</div> 
+<div class="form-group">
+	<label class="col-sm-2 control-label">年审时间</label>
+	<div class="col-sm-6">
+		<div class="input-group">
+							<input type="date" class="form-control input-sm" ng-model="current.entity.propertyD01" name="entityPropertyDO1" required
+								uib-datepicker-popup is-open="openDatepicker2">
+							<div class="input-group-btn">
+								<button class="btn btn-default btn-sm" type="button" ng-click="openDatepicker2=true">
+									<span class="icon icon-calendar"></span><span class="sr-only">Split button!</span>
+								</button>
+							</div>
+						</div>
+	</div>
+	<div class="col-sm-4">
+		<p class="form-control-static text-danger" ng-if="editForm.entityPropertyDO1.$error.required">请输入年审时间</p>
+		<p class="form-control-static text-danger" ng-if="editForm.entityPropertyDO1.$error.maxlength">不能超出100字</p>
+		<p class="form-control-static text-danger" ng-if="editForm.entityPropertyDO1.$invalid">请输入正确的年审时间</p>
+	</div>
+</div> 
+
+<div class="form-group">
+	<label class="col-sm-2 control-label">年审到期日</label>
+	<div class="col-sm-6">
+		<div class="input-group">
+							<input type="date" class="form-control input-sm" ng-model="current.entity.propertyD02" name="entityPropertyDO1" required
+								uib-datepicker-popup is-open="openDatepicker3">
+							<div class="input-group-btn">
+								<button class="btn btn-default btn-sm" type="button" ng-click="openDatepicker3=true">
+									<span class="icon icon-calendar"></span><span class="sr-only">Split button!</span>
+								</button>
+							</div>
+						</div>
+	</div>
+	<div class="col-sm-4">
+		<p class="form-control-static text-danger" ng-if="editForm.entityPropertyDO2.$error.required">请输入年审到期日</p>
+		<p class="form-control-static text-danger" ng-if="editForm.entityPropertyDO2.$error.maxlength">不能超出100字</p>
+		<p class="form-control-static text-danger" ng-if="editForm.entityPropertyDO2.$invalid">请输入正确的年审到期日</p>
+	</div>
+</div> 
+
+<div class="form-group">
+	<label class="col-sm-2 control-label">路桥费到期日</label>
+	<div class="col-sm-6">
+		<div class="input-group">
+							<input type="date" class="form-control input-sm" ng-model="current.entity.propertyC04" name="entityPropertyC04" required
+								uib-datepicker-popup is-open="openDatepicker4">
+							<div class="input-group-btn">
+								<button class="btn btn-default btn-sm" type="button" ng-click="openDatepicker4=true">
+									<span class="icon icon-calendar"></span><span class="sr-only">Split button!</span>
+								</button>
+							</div>
+						</div>
+	</div>
+	<div class="col-sm-4">
+		<p class="form-control-static text-danger" ng-if="editForm.entityPropertyC04.$error.required">请输入路桥费到期日</p>
+		<p class="form-control-static text-danger" ng-if="editForm.entityPropertyC04.$error.maxlength">不能超出100字</p>
+		<p class="form-control-static text-danger" ng-if="editForm.entityPropertyC04.$invalid">请输入正确的路桥费到期日</p>
+	</div>
+</div> 
+
+<div class="form-group">
+	<label class="col-sm-2 control-label">保险到期日</label>
+	<div class="col-sm-6">
+			<div class="input-group">
+							<input type="date" class="form-control input-sm" ng-model="current.entity.propertyC05" name="entityPropertyC05" required
+								uib-datepicker-popup is-open="openDatepicker5">
+							<div class="input-group-btn">
+								<button class="btn btn-default btn-sm" type="button" ng-click="openDatepicker5=true">
+									<span class="icon icon-calendar"></span><span class="sr-only">Split button!</span>
+								</button>
+							</div>
+						</div>
+	</div>
+	<div class="col-sm-4">
+		<p class="form-control-static text-danger" ng-if="editForm.entityPropertyC05.$error.required">请输入保险到期日</p>
+		<p class="form-control-static text-danger" ng-if="editForm.entityPropertyC05.$error.maxlength">不能超出100字</p>
+		<p class="form-control-static text-danger" ng-if="editForm.entityPropertyC05.$invalid">请输入正确的保险到期日</p>
+	</div>
+</div> 
+
+<div class="form-group">
+	<label class="col-sm-2 control-label">商业险保单号</label>
+	<div class="col-sm-6">
+		<input class="form-control"  ng-model="current.entity.propertyC08" name="entityPropertyC08" ng-trim="true" required maxlength="100">
+	</div>
+	<div class="col-sm-4">
+		<p class="form-control-static text-danger" ng-if="editForm.entityPropertyC08.$error.required">请输入商业险保单号</p>
+		<p class="form-control-static text-danger" ng-if="editForm.entityPropertyC08.$error.maxlength">不能超出100字</p>
+		<p class="form-control-static text-danger" ng-if="editForm.entityPropertyC08.$invalid">请输入正确的商业险保单号</p>
+	</div>
+</div> 
+
+<div class="form-group">
+	<label class="col-sm-2 control-label">交强险保单号</label>
+	<div class="col-sm-6">
+		<input class="form-control"  ng-model="current.entity.propertyC09" name="entityPropertyC09" ng-trim="true" required maxlength="100">
+	</div>
+	<div class="col-sm-4">
+		<p class="form-control-static text-danger" ng-if="editForm.entityPropertyC09.$error.required">请输入交强险保单号</p>
+		<p class="form-control-static text-danger" ng-if="editForm.entityPropertyC09.$error.maxlength">不能超出100字</p>
+		<p class="form-control-static text-danger" ng-if="editForm.entityPropertyC09.$invalid">请输入正确的交强险保单号</p>
+	</div>
+</div> 
+</div>
+
+
+<!--以下为租用车辆车辆显示内容  -->
+<div ng-if="propertyC00_1" id ="visibleLeased">
+<div class="form-group">
+	<label class="col-sm-2 control-label">租车公司</label>
+	<div class="col-sm-6">
+		<input  class="form-control" ng-model="current.entity.propertyC01" name="entityLPropertyC01"  ng-trim="true" required ng-maxlength="100">
+	</div>
+	<div class="col-sm-4">
+		 <p class="form-control-static text-danger" ng-if="editForm.entityLPropertyC01.$error.required">请输入租车公司</p>
+		<p class="form-control-static text-danger" ng-if="editForm.entityLPropertyC01.$error.maxlength">不能超出100字</p> 
+		<p class="form-control-static text-danger" ng-if="editForm.entityLPropertyC01.$invalid">请输入正确的租车公司</p>
+	</div>
+</div>
+
+<div class="form-group">
+	<label class="col-sm-2 control-label">地址</label>
+	<div class="col-sm-6">
+		<input  class="form-control" ng-model="current.entity.propertyC03" name="entityLPropertyC03"  ng-trim="true" required ng-maxlength="100">
+	</div>
+	<div class="col-sm-4">
+		 <p class="form-control-static text-danger" ng-if="editForm.entityLPropertyC03.$error.required">请输入地址</p>
+		<p class="form-control-static text-danger" ng-if="editForm.entityLPropertyC03.$error.maxlength">不能超出100字</p> 
+		<p class="form-control-static text-danger" ng-if="editForm.entityLPropertyC03.$invalid">请输入正确的地址</p>
+	</div>
+</div>
+<div class="form-group">
+	<label class="col-sm-2 control-label">联系电话</label>
+	<div class="col-sm-6">
+		<input  class="form-control" ng-model="current.entity.propertyC04" name="entityLProperty04"  ng-trim="true" required ng-maxlength="20">
+	</div>
+	<div class="col-sm-4">
+		 <p class="form-control-static text-danger" ng-if="editForm.entityLProperty04.$error.required">请输入联系电话</p>
+		<p class="form-control-static text-danger" ng-if="editForm.entityLProperty04.$error.maxlength">不能超出20字</p> 
+		<p class="form-control-static text-danger" ng-if="editForm.entityLProperty04.$invalid">请输入正确的联系电话</p>
+	</div>
+</div>
+
+<div class="form-group">
+	<label class="col-sm-2 control-label">联系人</label>
+	<div class="col-sm-6">
+		<input  class="form-control" ng-model="current.entity.propertyC05" name="entityLPropertyC05"  ng-trim="true" required ng-maxlength="100">
+	</div>
+	<div class="col-sm-4">
+		 <p class="form-control-static text-danger" ng-if="editForm.entityLPropertyC05.$error.required">请输入联系人</p>
+		<p class="form-control-static text-danger" ng-if="editForm.entityLPropertyC05.$error.maxlength">不能超出100字</p> 
+		<p class="form-control-static text-danger" ng-if="editForm.entityLPropertyC05.$invalid">请输入正确的联系人</p>
+	</div>
+</div>
+
+<div class="form-group">
+	<label class="col-sm-2 control-label">租用开始日期</label>
+	<div class="col-sm-6">
+			<div class="input-group">
+							<input type="date" class="form-control input-sm" ng-model="current.entity.propertyD00" name="entityLPropertyDO1" required
+								uib-datepicker-popup is-open="openDatepicker1">
+							<div class="input-group-btn">
+								<button class="btn btn-default btn-sm" type="button" ng-click="openDatepicker1=true">
+									<span class="icon icon-calendar"></span><span class="sr-only">Split button!</span>
+								</button>
+							</div>
+						</div>
+	</div>
+	<div class="col-sm-4">
+		 <p class="form-control-static text-danger" ng-if="editForm.entityLPropertyD00.$error.required">请输入租用开始日期</p>
+		<p class="form-control-static text-danger" ng-if="editForm.entityLPropertyD00.$error.maxlength">不能超出100字</p> 
+		<p class="form-control-static text-danger" ng-if="editForm.entityLPropertyD00.$invalid">请输入正确的租用开始日期</p>
+	</div>
+</div>
+
+<div class="form-group">
+	<label class="col-sm-2 control-label">租用结束日期</label>
+	<div class="col-sm-6">
+			<div class="input-group">
+							<input type="date" class="form-control input-sm" ng-model="current.entity.propertyD02" name="entityLPropertyDO1" required
+								uib-datepicker-popup is-open="openDatepicker">
+							<div class="input-group-btn">
+								<button class="btn btn-default btn-sm" type="button" ng-click="openDatepicker=true">
+									<span class="icon icon-calendar"></span><span class="sr-only">Split button!</span>
+								</button>
+							</div>
+						</div>
+	</div>
+	<div class="col-sm-4">
+		 <p class="form-control-static text-danger" ng-if="editForm.entityLPropertyD01.$error.required">请输入租用结束日期</p>
+		<p class="form-control-static text-danger" ng-if="editForm.entityLPropertyD01.$error.maxlength">不能超出100字</p> 
+		<p class="form-control-static text-danger" ng-if="editForm.entityLPropertyD01.$invalid">请输入正确的租用结束日期</p>
+	</div>
+</div>
+</div>
+
+
+
+<div class="form-group">
+	<div class="col-sm-6 col-sm-offset-2">
+		<button type="submit" class="btn btn-primary" app-locale="app.save" ng-disabled="editForm.$invalid">保存</button>
+		<button type="button" class="btn btn-primary" app-locale="app.cancel" ng-click="cancel()">取消</button>
+	</div>
+</div>

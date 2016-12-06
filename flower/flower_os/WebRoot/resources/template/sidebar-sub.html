@@ -1,0 +1,16 @@
+<!-- 2级及以下的子菜单 -->
+<li class="nav-item" ng-repeat="menu in menu.children" 
+	ng-if="!menu.hidden" 
+	ng-class="{ active: session.navs.include(menu), open: menu.open && menu.children && menu.children.length > 0}">
+	<a class="nav-link nav-toggle" 
+		href="{{ ::(menu.url && !menu.router['abstract'] ? '#' + menu.url : 'javascript:;') }}" ng-click="toggle(menu)">
+		<i class="{{ ::menu.icon }}" ng-if="menu.icon"></i>
+		<!-- <span class="title" app-locale-bind="menu.i18nKey"></span> -->
+		<span class="title" ng-bind="getText(menu.i18nKey) || menu.name"></span>
+		<span class="arrow" ng-class="{ open: menu.open }" ng-if="menu.children && menu.children.length > 0"></span>
+	</a>
+	<ul class="sub-menu" 
+		ng-if="menu.children && menu.children.length > 0"
+		ng-include=" 'resources/template/sidebar-sub.html' ">
+	</ul>
+</li>

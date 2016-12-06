@@ -1,0 +1,8 @@
+<div class="row">
+	<!-- 查询列表 -->
+	<div class="col-sm-12" ng-include=" 'resources/template/application/my-task-query.html' "></div>
+
+	<!-- 详细信息 -->
+	<div class="col-sm-12" ng-if="!!current.operator"
+		ng-include=" 'resources/template/application/my-task-detail.html' "></div>
+</div>

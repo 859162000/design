@@ -1,0 +1,50 @@
+<!-- 单个菜单的个人申请单详细页面,可用于每个独立的申请页面,此页面没有进行权限控制,均只能操作自己的数据 -->
+<form name="editForm" method="post" ng-submit="save()" class="form-horizontal" novalidate="novalidate">
+<div class="portlet light bordered">
+	<div class="portlet-title" app-print-hide>
+		<div class="caption">
+			<i class="fa fa-edit" ng-if="current.operator != 'view'"></i>
+			<span class="caption-subject sbold uppercase bold">
+				{{ app.setting[ app.DICT_APPLICATION_TYPE ][ current.entity.type ].i18nKey | appLocale }}
+				<small ng-bind="current.entity.id"></small>
+			</span>
+			<span class="caption-helper"></span>
+		</div>
+		<div class="actions" ng-if="current.entity">
+			<button type="button" title="{{ 'app.edit' | appLocale }}" class="btn btn-circle btn-icon-only btn-default"
+				ng-if="current.operator == 'view' && canEdit(current.entity)" ng-click="edit()">
+				<i class="fa fa-edit"></i>
+			</button>
+			<button type="submit" title="{{ 'app.save' | appLocale }}" class="btn btn-circle btn-icon-only btn-default"
+				ng-if="current.operator != 'view'"
+				ng-disabled="editForm.$invalid || session.requesting">
+				<i class="fa fa-save"></i>
+			</button>
+			<button type="button" title="{{ 'app.submit' | appLocale }}" class="btn btn-circle btn-icon-only btn-default"
+				ng-if="current.operator != 'view'" ng-click="submit()"
+				ng-disabled="editForm.$invalid || session.requesting">
+				<i class="fa fa-check"></i>
+			</button>
+			<button type="button" title="{{ 'app.cancel' | appLocale }}" class="btn btn-circle btn-icon-only btn-default"
+				ng-if="!!current.operator" ng-click="cancel()">
+				<i class="fa fa-undo"></i>
+			</button>
+			<button type="button" title="{{ 'app.delete' | appLocale }}" class="btn btn-circle btn-icon-only btn-default"
+				ng-disabled="current.entity.isNew" ng-if="canRemove(current.entity)" ng-click="remove()">
+				<i class="fa fa-trash-o"></i>
+			</button>
+		</div>
+	</div>
+	<div class="portlet-body form">
+		<div class="form-body app-body">
+			<div class="row">
+				<div class="col-sm-12" ng-include=" app.url(namespace(current.entity) + (current.operator == 'view' ? '/view.html' : '/edit.html')) "></div>
+			</div>
+			<div class="row">
+				<!-- 操作按钮的页面，默认为 'resources/template/application/' + (current.operator == 'view' ? 'view' : 'edit') + '/buttons.html'  -->
+				<div class="col-md-12 text-center" ng-include="getActionsUrl(current.entity)"></div>
+			</div>
+		</div>
+	</div>
+</div>
+</form>

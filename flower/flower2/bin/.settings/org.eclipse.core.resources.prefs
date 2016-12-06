@@ -1,0 +1,16 @@
+eclipse.preferences.version=1
+encoding//src/main/java=UTF-8
+encoding//src/main/java/org/wanwanframework/flower/exception/MeException.java=UTF-8
+encoding//src/main/java/org/wanwanframework/flower/jdbc/controller/SystemSynchronizeService.java=UTF-8
+encoding//src/main/java/org/wanwanframework/flower/jdbc/mapper/BranchMapper.java=UTF-8
+encoding//src/main/java/org/wanwanframework/flower/jdbc/model/SqlEntity.java=UTF-8
+encoding//src/main/java/org/wanwanframework/flower/jdbc/model/SqlEntityVo.java=UTF-8
+encoding//src/main/java/org/wanwanframework/flower/jdbc/model/UserVo.java=UTF-8
+encoding//src/main/java/org/wanwanframework/flower/jdbc/util/ListUtil.java=UTF-8
+encoding//src/main/java/org/wanwanframework/flower/jms/FortAutomationMonitor.java=UTF-8
+encoding//src/main/java/org/wanwanframework/flower/login/controller/MainAction.java=UTF-8
+encoding//src/main/java/org/wanwanframework/flower/mail/service/MailSendService.java=UTF-8
+encoding//src/main/resources=UTF-8
+encoding//src/test/java=UTF-8
+encoding/<project>=UTF-8
+encoding/src=UTF-8

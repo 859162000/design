@@ -1,0 +1,69 @@
+<!-- <h3 class="page-title">
+	<span app-locale="system.dept.title">机构设置</span>
+	<small app-locale="system.dept.title.small">系统每天00:00会自动从IT系统同步公司和部门信息</small>
+</h3> -->
+
+<div class="row">
+
+<!-- 部门tree -->
+<div class="col-sm-3">
+	<div class="portlet light bordered">
+		<div class="portlet-title">
+			<div class="caption">
+				<i class="fa fa-list"></i>
+				<span class="caption-subject font-dark sbold uppercase bold" app-locale="system.dept.list">机构列表</span>
+				<span class="caption-helper"></span>
+			</div>
+			<div class="actions">
+				<button title="{{ 'app.add' | appLocale }}" class="btn btn-circle btn-icon-only btn-default"
+					app-permission="edit"					
+					ng-click="add()"><i class="fa fa-plus"></i></button>
+				<button title="{{ 'app.refresh' | appLocale }}" class="btn btn-circle btn-icon-only btn-default" 
+					ng-click="deptsTree.tree.reAsyncChildNodes(null, 'refresh')"><i class="fa fa-refresh"></i></button>
+				<button title="{{ 'app.delete' | appLocale }}" class="btn btn-circle btn-icon-only btn-default"	
+					app-permission="edit"								
+					ng-disabled="!deptsTree.checked || deptsTree.checked.length <= 0"
+					ng-click="remove(deptsTree.checked)"><i class="fa fa-trash-o"></i></button>
+			</div>
+		</div>
+		<div class="portlet-body">
+			<ul ztree="deptsTree" ng-model="current.entity" data-setting="{ check: { enable: true } }" data-clone="true"></ul>
+		</div>
+	</div>
+</div>
+<!-- End 部门tree -->
+
+<!-- 部门详细信息 -->
+<div class="col-sm-9">
+	<div class="portlet light bordered">
+		<div class="portlet-title">
+			<div class="caption">
+				<i class="fa fa-cog"></i>
+				<span class="caption-subject sbold uppercase bold" 
+					ng-bind="current.entity.isNew ? getLocaleText('app.add') : current.entity.name"></span>
+				<small ng-bind="current.entity.code"></small>
+				<span class="caption-helper"></span>
+			</div>
+			<div class="actions" ng-if="current.entity">
+				<button title="{{ 'app.edit' | appLocale }}" class="btn btn-circle btn-icon-only btn-default"
+					ng-if="!current.operator" app-permission="edit"
+					ng-click="edit()"><i class="fa fa-edit"></i></button>
+				<button title="{{ 'app.save' | appLocale }}" class="btn btn-circle btn-icon-only btn-default"	
+					ng-if="current.operator == 'add' || current.operator == 'edit'"	app-permission="edit"
+					ng-click="save()"><i class="fa fa-save"></i></button>
+				<button title="{{ 'app.cancel' | appLocale }}" class="btn btn-circle btn-icon-only btn-default"	
+					ng-if="!!current.operator"
+					ng-click="cancel()"><i class="fa fa-undo"></i></button>
+				<button title="{{ 'app.delete' | appLocale }}" class="btn btn-circle btn-icon-only btn-default"
+					app-permission="edit" ng-disabled="current.entity.isNew"
+					ng-click="remove(current.entity)"><i class="fa fa-trash-o"></i></button>
+			</div>
+		</div>
+		<div class="portlet-body form" 
+			ng-include=" !current.operator ? 'system/dept/view.html' : 'system/dept/edit.html' ">
+		</div>
+	</div>
+</div>
+<!-- End 部门详细信息 -->
+
+</div>

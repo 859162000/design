@@ -1,0 +1,114 @@
+<h3 class="page-title"> 综合查询</h3>
+<div class="portlet-body form">
+                <!-- BEGIN FORM-->
+                <form action="#" class="form-horizontal">
+                    <div class="form-body">
+                    
+                        <div class="form-group">
+                           <label class="control-label col-md-1">申请单号</label>
+                           <div class="col-md-3">
+                                <input class="form-control" id="mask_number" type="text"  />
+                            </div>
+                            <label class="control-label col-md-1">申请类型</label>
+                           <div class="col-md-3">
+                                	<select class="form-control"  ng-model="mstep" ng-options="ab.state for ab in session.approvals">
+                               	 	</select>
+                            </div>
+                            <label class="control-label col-md-1">申请人</label>
+                           <div class="col-md-3">
+                                <input class="form-control" id="mask_number" type="text"  />
+                            </div>
+                        </div>
+                        
+                        <div class="form-group">
+                           <label class="control-label col-md-1">申请金额</label>
+                           <div class="col-md-3">
+                              <div class="input-group  date-picker input-daterange" data-date="10/11/2012" data-date-format="mm/dd/yyyy">
+                                  <input type="text" class="form-control" name="from">
+                                    <span class="input-group-addon"> 至 </span>
+                                  <input type="text" class="form-control" name="to"> </div>
+                               </div>
+                            <label class="control-label col-md-1">申请部门</label>
+                           <div class="col-md-1">
+                                <input class="form-control" id="mask_number" type="text"  />
+                            </div>
+                            <div class="col-md-2">
+                                <input class="form-control" id="mask_number" type="text"  />
+                            </div>
+                            <label class="control-label col-md-1">申请时间</label>
+                            <div class="col-md-3">
+                              <div class="input-group  date-picker input-daterange" data-date="10/11/2012" data-date-format="mm/dd/yyyy">
+                                  <input type="text" class="form-control" name="from">
+                                    <span class="input-group-addon"> 至 </span>
+                                  <input type="text" class="form-control" name="to"> </div>
+                               </div>
+                        </div>
+                        
+                        <div class="form-group">
+                           <label class="control-label col-md-1">币种</label>
+                           <div class="col-md-3">
+                                	<select class="form-control"  ng-model="mstep" ng-options="ab.state for ab in session.approvals">
+                               	 	</select>
+                            </div>
+                            <label class="control-label col-md-1">是否应税项目	</label>
+                           <div class="col-md-3">
+                                	<select class="form-control"  ng-model="mstep" ng-options="ab.state for ab in session.approvals">
+                               	 	</select>
+                            </div>
+                            <label class="control-label col-md-1">审批状态</label>
+                            <div class="col-md-3">
+                                	<select class="form-control"  ng-model="mstep" ng-options="ab.state for ab in session.approvals">
+                               	 	</select>
+                            </div>
+                        </div>
+                        
+                        
+                        <div class="form-group">
+                           <label class="control-label col-md-1">支付状态</label>
+                           <div class="col-md-3">
+                                	<select class="form-control"  ng-model="mstep" ng-options="ab.state for ab in session.approvals">
+                               	 	</select>
+                            </div>
+                            <label class="control-label col-md-1">单据状态</label>
+                           <div class="col-md-3">
+                                	<select class="form-control"  ng-model="mstep" ng-options="ab.state for ab in session.approvals">
+                               	 	</select>
+                            </div>
+                            <label class="control-label col-md-1">支付方式</label>
+                            <div class="col-md-3">
+                                	<select class="form-control"  ng-model="mstep" ng-options="ab.state for ab in session.approvals">
+                               	 	</select>
+                            </div>
+                        </div>
+                        
+                        <div class="form-group">
+                           <label class="control-label col-md-1">预算中心</label>
+                           <div class="col-md-3">
+                                	<select class="form-control"  ng-model="mstep" ng-options="ab.state for ab in session.approvals">
+                               	 	</select>
+                            </div>
+                            <label class="control-label col-md-1">成本中心</label>
+                           <div class="col-md-3">
+                                	<select class="form-control"  ng-model="mstep" ng-options="ab.state for ab in session.approvals">
+                               	 	</select>
+                            </div>
+                            <label class="control-label col-md-1">支选择可以显示的字段</label>
+                            <div class="col-md-3">
+                                	 <input class="form-control" id="mask_number" type="text"   placeholder="格式之后再弄"/>
+                            </div>
+                        </div>
+                        
+                   </div>
+                    <div class="form-group">
+                        <div class="row">
+                            <div class="col-md-offset-5 col-sm-offset-5  col-xs-offset-5">
+                                <button type="submit" class="btn blue">
+                                    <i class="fa fa-check"></i> 查询</button>
+                                <button type="reset" class="btn default">重置</button>
+                            </div>
+                        </div>
+                    </div>
+                   
+                </form>
+                <!-- END FORM-->
+            </div>

@@ -1,0 +1,60 @@
+<div class="form-group">
+	<label class="col-sm-2 control-label">科目代码</label>
+	<div class="col-sm-6">
+		<input class="form-control" ng-model="current.entity.code"  ng-blur="testCode(current.entity.code)" name="entityPropertyC00" ng-trim="true" required maxlength="20">
+	</div>
+	<div class="col-sm-4">
+		<p class="form-control-static text-danger" ng-if="editForm.entityPropertyC00.$error.required">请输入科目代码</p>
+		<p class="form-control-static text-danger" ng-if="editForm.entityPropertyC00.$error.maxlength">不能超出2字</p>
+		<p class="form-control-static text-danger" ng-if="editForm.entityPropertyC00.$invalid">请输入正确的科目代码</p>
+	</div>
+</div>
+<div class="form-group">
+	<label class="col-sm-2 control-label">科目名称</label>
+	<div class="col-sm-6">
+		<input class="form-control" ng-model="current.entity.name" name="entityProperty01" ng-trim="true" required maxlength="50">
+	</div>
+	<div class="col-sm-4">
+		<p class="form-control-static text-danger" ng-if="editForm.entityProperty01.$error.required">请输入车辆科目名称</p>
+		<p class="form-control-static text-danger" ng-if="editForm.entityProperty01.$error.maxlength">不能超出50字</p>
+		<p class="form-control-static text-danger" ng-if="editForm.entityProperty01.$invalid">请输入正确的科目名称</p>
+	</div>
+</div>
+
+<div class="form-group">
+	<label class="col-sm-2 control-label">资金计划科目</label>
+	<div class="col-sm-6" app-dict-select="current.entity.capitalSubjects"  dict-type="capitalPlan"  show-property='name' inline="true"></div>
+</div>
+
+<div class="form-group">
+	<label class="col-sm-2 control-label">会计科目</label>
+	<div class="col-sm-6" app-ui-select="current.entity.accountingSubjects" url="/accountingSubject.do" multiple property="code"  show-property='name' required></div>
+</div>
+
+
+<div class="form-group">
+	<label class="col-sm-2 control-label">科目费用类型</label>
+	<div class="col-sm-6" app-dict-select="current.entity.expenseType"  dict-type="expenseType"  show-property='name' inline="true"></div>
+</div>
+
+<div class="form-group">
+	<label class="col-sm-2 control-label">制单会计角色</label>
+	<div class="col-sm-6"  app-ui-select="current.entity.accountingRoles" url="/role.do?code=accountant" multiple show-property="name" inline="true"></div>
+</div>
+
+<div class="form-group">
+	<label class="col-sm-2 control-label">适用模块</label>
+	<div class="col-sm-6"  app-ui-select="current.entity.modules" url="/setting.do?type=application_type" show-property='name' multiple inline="true">></div>
+</div>
+<div class="form-group">
+	<label class="col-sm-2 control-label" app-locale="app.status">状态</label>
+	<div class="col-sm-6" app-dict-radio="current.entity.status"  dict-type="status" inline="true" show-property='name'></div>
+	<!-- <div app-dict="'1'" dict-type="status">显示status</div> -->
+</div>
+
+<div class="form-group">
+	<div class="col-sm-6 col-sm-offset-2">
+		<button type="submit" class="btn btn-primary" app-locale="app.save" ng-disabled="editForm.$invalid">保存</button>
+		<button type="button" class="btn btn-primary" app-locale="app.cancel" ng-click="cancel()">取消</button>
+	</div>
+</div>

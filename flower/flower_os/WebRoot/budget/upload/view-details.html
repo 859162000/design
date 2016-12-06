@@ -1,0 +1,52 @@
+<div class="row">
+	<div class="col-md-12" ng-include=" 'resources/template/application/view/header.html' "></div>
+</div>
+<div class="row">
+	<div class="col-md-4">
+		<div class="row static-info">
+			<div class="col-md-3 name"app-locale="budget.year">预算年份</div>
+			<div class="col-md-9 value" ng-bind="current.entity.propertyN00"></div>
+		</div>
+	</div>
+	<div class="col-md-4">
+		<div class="row static-info">
+			<div class="col-md-3 name"app-locale="application.amount">合计金额</div>
+			<div class="col-md-9 value" ng-bind="current.entity.amount | currency"></div>
+		</div>
+	</div>
+</div>
+<div class="row">
+	<div class="col-md-12">
+		<div class="row static-info">
+			<div class="col-md-1 name" app-locale="budget.upload.file">预算文件</div>
+			<div class="col-md-7 value">
+				<ol>
+					<li ng-repeat="file in current.entity.files">
+						<a href="javascript:;" ng-click="app.uploader.view(file.fileId)">
+							{{ ::file.name }}<i class="fa fa-download"></i></a>
+					</li>
+				</ol>
+			</div>
+		</div>
+	</div>
+</div>
+
+<div class="row"><!-- 附件，流程等信息 -->
+<div class="col-md-12">
+	<div class="tabbable-custom" uib-tabset>
+		<!-- <div uib-tab heading="{{ 'application.files' | appLocale }}">
+			<div ng-include=" 'resources/template/application/view/files.html' "></div>
+		</div> -->
+		<div uib-tab heading="{{ 'application.logs' | appLocale }}">
+			<div ng-include=" 'resources/template/application/logs.html' "></div>
+		</div>
+		<div uib-tab heading="{{ 'application.approvers' | appLocale }}">
+			<div ng-include=" 'resources/template/application/approvers.html' "></div>
+		</div>
+	</div>
+</div>
+</div>
+
+<!-- <div class="row" ng-if="current.entity.logs && current.entity.logs.length">
+	<div class="col-md-12" ng-include=" 'resources/template/application/logs.html' "></div>
+</div> -->

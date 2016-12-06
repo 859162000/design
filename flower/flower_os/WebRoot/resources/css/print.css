@@ -1,0 +1,17 @@
+/** 定义打印页面的特有样式 */
+body {
+	background-color: #fff;
+}
+/* 打印时需要隐藏的样式 */
+.page-print .app-print-hidden, .page-print .app-print-action {
+	display: none;
+}
+/* 隐藏打印表头 */
+form > div.portlet > div.portlet-title {
+	display:none !important;
+}
+
+/* angular的ng-show指令通过在页面创建下面的样式来控制,打印页面没有angularjs,所以手工引入CSS */
+[ng\:cloak],[ng-cloak],[data-ng-cloak],[x-ng-cloak],.ng-cloak,.x-ng-cloak,.ng-hide:not(.ng-hide-animate){display:none !important;}
+ng\:form{display:block;}
+.ng-animate-shim{visibility:hidden;}.ng-anchor{position:absolute;}

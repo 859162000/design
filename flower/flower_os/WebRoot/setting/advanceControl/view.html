@@ -1,0 +1,30 @@
+
+<div class="form-group">
+	<label class="col-sm-2 control-label" appLocale="setting.dictionary.status">状态</label>
+	<div class="col-sm-4" app-dict="current.entity.status" dict-type="status"></div>
+</div>
+<div class="form-group">
+	<label class="col-sm-2 control-label" appLocale="setting.advanceControl.type">预支类型</label>
+	<div app-dict="current.entity.name" dict-type="advanceType">预支类型</div>
+</div>
+<div class="form-group">
+	<label class="col-sm-2 control-label" appLocale="setting.advanceControl.age">账龄</label>
+	<div class="col-sm-4">
+		<p class="form-control-static" ng-bind="current.entity.propertyN00"></p>
+	</div>
+	<label class="col-sm-2 control-label" appLocale="setting.advanceControl.control">控制逻辑</label>
+	<div app-dict="current.entity.propertyC01" dict-type="controlLogic">预支类型</div>
+</div>
+<div class="form-group">
+	<label class="col-sm-2 control-label" appLocale="setting.advanceControl.notDept">不适用的部门</label>
+	<div app-show="current.entity.depts" url="/dept.do">不适用的部门</div>
+</div>
+
+<div class="form-group">
+	<div class="col-sm-6 col-sm-offset-2">
+		<button type="button" class="btn btn-primary" app-locale="app.edit"
+			ng-click="edit()">编辑</button>
+		<button type="button" class="btn btn-primary" app-locale="app.cancel"
+			ng-click="cancel()">取消</button>
+	</div>
+</div>

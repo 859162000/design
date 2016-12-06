@@ -1,0 +1,5 @@
+注意，修改了23215行的inputDirective，使之有优先读取modelType属性来决定input的type。
+因为如果在谷歌，FF等浏览器中，如果type=number，无法设置input的value为带千分符的数字。
+如果使用type=text，又无法使用number的min，max等校验
+
+22808行，增加了将字符串转换为日期的处理

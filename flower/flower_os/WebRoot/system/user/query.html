@@ -1,0 +1,112 @@
+<form name="queryForm" method="post" ng-submit="query()" class="form-horizontal"  >
+<div class="portlet light bordered query-container">
+	<div class="portlet-title">
+		<div class="caption">
+			<i class="fa fa-list"></i> 
+			<span class="caption-subject font-dark sbold uppercase bold" app-locale="system.user.list">人员列表</span>
+			<span class="caption-helper"></span>
+		</div>
+		<div class="actions">
+			<button type="button" class="btn btn-circle btn-icon-only btn-default"
+				title="{{ (!hideQueryParams ? 'app.query.hide' : 'app.query.show')  | appLocale }}" 
+				ng-click="hideQueryParams = !hideQueryParams">
+				<i class="fa" 
+					ng-class="{ 'fa-angle-down' : !hideQueryParams, 'fa-angle-up': hideQueryParams }"></i>
+			</button>
+			<!-- <button type="submit" class="btn btn-circle btn-icon-only btn-default"
+				title="{{ 'app.query' | appLocale }}"  
+				ng-disabled="queryForm.$invalid"
+				app-permission="query" ng-click="query()" >
+				<i class="fa fa-search"></i>
+			</button> -->
+			<button type="button" title="{{ 'app.add' | appLocale }}" class="btn btn-circle btn-icon-only btn-default"
+				app-permission="edit" ng-click="add()">
+				<i class="fa fa-plus"></i>
+			</button>
+			<button type="button" title="{{ 'app.delete' | appLocale }}" class="btn btn-circle btn-icon-only btn-default"
+				app-permission="edit" ng-disabled="!checkedUsers || !checkedUsers.length <= 0" ng-click="remove(checkedUsers)">
+				<i class="fa fa-trash-o"></i>
+			</button>
+		</div>
+	</div>
+	
+	<div class="portlet-body form">
+		<div class="form-body" ng-show="!hideQueryParams">
+			<div class="form-group">				
+				<label class="col-sm-1 control-label" appLocale="system.user.dept">部门</label>
+				<div class="col-sm-6">
+					<div class="input-group input-group-sm dropdown" uib-dropdown is-open="queryDeptsSelector.isOpen" auto-close="outsideClick">					
+						<ul class="ztree dropdown-menu dropdown-menu-default" role="menu" uib-dropdown-menu
+							ztree="queryDeptsSelector" data-checked-model="current.params.depts"></ul>
+						<input ng-model="current.params.checkedNames" class="form-control input-sm" readonly uib-dropdown-open>
+						<sapn class="input-group-btn btn-group-sm">
+							<button type="button" class="btn btn-default" 
+								ng-click="queryDeptsSelector.tree.clearChecked(); current.params.checkedNames = '';"><i class="fa fa-remove"></i></button>
+							<button type="button" class="btn btn-default dropdown-toggle" uib-dropdown-toggle aria-expanded="false">
+								<span class="caret"></span><span class="sr-only"></span>
+							</button>
+						</sapn>
+					</div>
+				</div>
+				
+				
+				<label class="col-sm-1 control-label" appLocale="system.user.code">用户名/名称</label>
+				<div class="col-sm-3">
+					<input ng-model="current.params.name" class="form-control input-sm" ng-trim="true">
+				</div>
+				<div class="col-sm-1 btn-group-sm">
+					<!-- <button type="submit" class="btn btn-primary" app-locale="app.query">查询</button>
+					<button type="button" class="btn btn-primary" app-locale="app.add" ng-click="add()">新增</button>
+					<button type="button" class="btn btn-primary" app-locale="app.delete" 
+						ng-disabled="current.selected.length < 1"
+						ng-click="remove(current.selected)">删除</button> -->
+					<button class="btn btn-primary" title="{{ 'app.query' | appLocale }}"
+						ng-disabled="queryForm.$invalid"><i class="fa fa-search"></i></button>
+				</div>
+			</div>
+		
+		  	<!-- <div class="form-group">	
+				<label class="col-sm-1 control-label" appLocale="system.user.loginName">登录名</label>
+				<div class="col-sm-5">
+					<input ng-model="current.params.LoginName" class="form-control" ng-trim="true">
+				</div>
+				
+				<label class="col-sm-1 control-label" appLocale="system.user.company">公司</label>
+				<div class="col-sm-3">
+					<input ng-model="current.params.company" class="form-control" ng-trim="true">
+				</div>
+	   		</div> -->
+		</div>
+		
+		<!-- 人员列表表格 -->
+		<div class="table-responsive">
+			<table class="table table-striped table-bordered table-condensed" role="grid" 
+				st-table="users" st-sticky-header st-safe-src="current.page.content">
+				<thead>
+					<tr>
+						<th width="30" ui-table-select-all="users"></th>
+						<th st-sort="code" app-locale="system.user.code">登录名</th>
+						<th st-sort="name" app-locale="system.user.name">名称</th>
+						<th st-sort="dept.name" app-locale="system.user.dept">部门</th>
+						<th st-sort="dept.code" app-locale="system.user.company">公司</th>
+						<th width="30" class="text-center"></th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr ng-repeat="user in users">
+						<td ui-table-select="user" selected-rows="current.selected"></td>
+						<td><a href="javascript:;" ng-bind="::user.code" ng-click="view(user)"></a></td>
+						<td ng-bind="::user.name">名称</td>
+						<td ng-bind="::(user.dept.code + ' - ' + user.dept.name)">部门</td>
+						<td ng-bind="::(user.company.code + ' - ' + user.company.name)">公司</td>
+						<td class="text-center"><a href="javascript:;" title="{{ ::('app.edit' | appLocale) }}" ng-click="edit(user)"><i class="fa fa-edit"></i></a></td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+		
+		<!-- 显示分页 -->
+		<div app-page></div>
+	</div>
+</div>
+</form>

@@ -1,0 +1,165 @@
+<div class="row"><!-- 头部信息,仅显示申请人等信息 -->
+	<div class="col-md-12" ng-include=" 'resources/template/application/edit/header.html' "></div>
+</div>
+
+<div class="row">
+	<div class="col-md-4">
+		<div class="form-group">
+			<label class="control-label col-md-3" app-locale="application.risk">险种</label>
+			<div class="col-md-9" app-dict-select="current.entity.expense.riskCode" dict-type="insurance" required></div>
+		</div>
+	</div>
+	<div class="col-md-4">
+		<div class="form-group">
+			<label class="control-label col-md-3" app-locale="accrual.instalment">是否分期</label>
+			<div class="col-md-9" app-dict-radio="current.entity.propertyC00" dict-type="yes_no" 
+				default-value="app.yes_no.no" show-property="name" required></div>
+		</div>
+	</div>
+</div>
+<div class="row">
+	<div class="col-md-12">
+		<div class="form-group">
+			<label class="control-label col-md-1" app-locale="accrual.remarks">事前审批原因</label>
+			<div class="col-md-11"><textarea rows="3" class="form-control" ng-model="current.entity.remarks"></textarea></div>
+		</div>
+	</div>
+</div>
+
+<div class="row">
+	<div class="col-md-4">
+		<div class="form-group">
+			<label class="control-label col-md-3" app-locale="payment.payee.supplier">供应商</label>
+			<div class="col-md-9" app-ui-select="current.entity.payee.supplier" url="/supplier.do" use-property="false"></div>
+		</div>
+	</div>
+	<div class="col-md-4">
+		<div class="form-group">
+			<label class="control-label col-md-3" app-locale="payment.currency">币种</label>
+			<div class="col-md-9" app-select="current.entity.payee.currency"
+				default-value="app.currency" use-property="false"
+				change="changeCurrency()"
+				url="currency.do" args="{ statsus: '1' }" required="true" show-property="id,name" header="true"></div>
+		</div>
+	</div>
+	<div class="col-md-4">
+		<div class="form-group">
+			<label class="control-label col-md-3" app-locale="payment.exchangeRate">汇率</label>
+			<div class="col-md-9">
+				<input type="number" class="form-control" ng-model="current.entity.payee.exchangeRate" required>
+			</div>
+		</div>
+	</div>
+</div>
+
+<div class="row">
+<div class="col-md-12">
+	<h4 class="form-section">
+		<span app-locale="application.items">申请明细</span>
+		<small><a href="javascript:;" ng-click="addItem()" title="{{ 'app.add' | appLocale }}"><i class="fa fa-plus"></i></a></small>
+	</h4>
+	<div class="table-responsive">
+		<table class="table table-striped table-bordered table-condensed" role="grid">
+			<thead>
+				<tr>
+					<th class="text-center row-number">#</th>
+					<th width="180" app-locale="budget.dept">预算中心</th>
+					<th width="180" app-locale="application.cost.dept">成本中心</th>
+					<th app-locale="budget.subject">预算科目</th>
+					<th width="100" app-locale="installment.period" ng-if="app.yes_no.yes == current.entity.propertyC00">归属期</th>
+					<th app-locale="application.item.remarks">详细事项描述</th>
+					<th width="90" app-locale="application.amount.cost">不含税价</th>
+					<th width="90" app-locale="application.amount.tax">税金</th>
+					<th width="90" app-locale="application.amount.total">合计</th>
+					<th class="text-center row-actions">
+						<a href="javascript:;" ng-click="clearItems()" title="{{ 'app.remove.all' | appLocale }}"><i class="fa fa-remove"></i></a>
+						<a href="javascript:;" ng-click="addItem()" title="{{ 'app.add' | appLocale }}"><i class="fa fa-plus"></i></a>
+					</th>
+				</tr>
+			</thead>
+			<tbody class="table-form">
+				<tr ng-repeat="item in current.entity.items track by item.ordinal">
+					<td class="row-number" ng-bind="$index+1"></td>
+					<td>
+					<div class="input-group dropdown" uib-dropdown auto-close="outsideClick" dropdown-append-to-body="true">
+						<ul class="ztree dropdown-menu dropdown-menu-default" role="menu" uib-dropdown-menu 
+							ztree ng-model="item.budgetDept" data-url="/system/dept/load.do"></ul>
+						<input ng-model="item.budgetDept.name" class="form-control input-sm" readonly uib-dropdown-open>
+						<div class="input-group-btn btn-group-sm">
+							<button type="button" class="btn btn-default btn-sm dropdown-toggle" uib-dropdown-toggle>
+								<span class="caret"></span><span class="sr-only"></span>
+							</button>
+						</div>
+					</div>
+					</td>
+					<td>
+					<div class="input-group dropdown" uib-dropdown auto-close="outsideClick" dropdown-append-to-body="true">
+						<ul class="ztree dropdown-menu dropdown-menu-default" role="menu" uib-dropdown-menu 
+							ztree ng-model="item.costDept" data-url="/system/dept/load.do"></ul>
+						<input ng-model="item.costDept.name" class="form-control input-sm" readonly uib-dropdown-open>
+						<div class="input-group-btn btn-group-sm">
+							<button type="button" class="btn btn-default btn-sm dropdown-toggle" uib-dropdown-toggle>
+								<span class="caret"></span><span class="sr-only"></span>
+							</button>
+						</div>
+					</div>
+					</td>
+					<td app-select="item.budgetSubject.id" url="/budgetSubject.do" args="{ type: 'budget' }" css-class="input-sm" required></td>
+					<td ng-if="app.yes_no.yes == current.entity.propertyC00">
+						<div class="input-group">
+							<input type="month" class="form-control input-sm" ng-model="item.propertyD00" required
+								uib-datepicker-popup is-open="openDatepicker" datepicker-append-to-body="true">
+							<div class="input-group-btn btn-group-sm">
+								<button class="btn btn-default btn-sm" type="button" ng-click="openDatepicker=true">
+									<span class="icon icon-calendar"></span><span class="sr-only">Split button!</span>
+								</button>
+							</div>
+						</div>
+					</td>
+					
+					<td><input ng-model="item.remarks" class="form-control input-sm" ng-maxlength="3000" required></td>
+					
+					<td><input type="number" class="form-control input-sm" min="0.01" required 
+						ng-model="item.amountCost" ng-model-options="{ updateOn: 'blur' }" ng-change="changeAmountCost(item)"></td>
+					<td><input type="number" class="form-control input-sm" min="0"  
+						ng-model="item.amountTax" ng-model-options="{ updateOn: 'blur' }" ng-change="changeAmountTax(item)"></td>
+					<td><input type="number" class="form-control input-sm" min="0.01" required 
+						ng-model="item.amount" ng-model-options="{ updateOn: 'blur' }" ng-change="changeAmount(item)"></td>
+					<td class="text-center row-actions">
+						<a href="javascript:;" ng-click="removeItem(item)" title="{{ 'app.remove' | appLocale }}"><i class="fa fa-remove"></i></a>
+						<a href="javascript:;" ng-click="addItem(item)" title="{{ 'application.item.copy' | appLocale }}"><i class="fa fa-copy"></i></a>
+					</td>
+				</tr>
+			</tbody>
+			<tfoot>
+				<tr class="info">
+					<td colspan="{{ app.yes_no.yes == current.entity.propertyC00 ? 8 : 7 }}" app-locale="app.amount.total" class="text-right nowrap">合计金额</td>
+					<td colspan="2" class="nowrap" ng-bind="current.entity.expense.amount | currency:current.entity.payee.currency.symbol"></td>
+				</tr>
+				<tr class="success" ng-if="app.currency.id != current.entity.payee.currency.id">
+					<td colspan="{{ app.yes_no.yes == current.entity.propertyC00 ? 8 : 7 }}" app-locale="app.amount.total.cny" class="text-right nowrap">人民币合计</td>
+					<td colspan="2" class="nowrap" ng-bind="current.entity.amount | currency"></td>
+				</tr>
+			</tfoot>
+		</table>
+	</div>
+</div>
+</div>
+
+<div class="row"><!-- 附件，流程等信息 -->
+<div class="col-md-12">
+	<div class="tabbable-custom" uib-tabset>
+		<div uib-tab heading="{{ 'application.files' | appLocale }}">
+			<div ng-include=" 'resources/template/application/edit/files.html' "></div>
+		</div>
+		<div uib-tab heading="{{ 'application.logs' | appLocale }}" ng-if="current.entity.status == STATUS.REJECTION || current.entity.status == STATUS.REJECTION_PAY">
+			<div ng-include=" 'resources/template/application/logs.html' "></div>
+		</div>
+	</div>
+</div>
+</div>
+
+<!--  审批日志,退回时的编辑可以查看日志 -->
+<!-- <div class="row" ng-if="current.entity.logs && current.entity.logs.length">
+	<div class="col-md-12" ng-include=" 'resources/template/application/logs.html' "></div>
+</div> -->

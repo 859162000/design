@@ -1,0 +1,91 @@
+<div class="row">
+	<div class="col-md-12" ng-include=" 'resources/template/application/view/header.html' "></div>
+</div>
+<div class="row">
+	<div class="col-md-4">
+		<div class="row static-info">
+			<div class="col-md-3 name" app-locale="budget.adjust.type">调整类型</div>
+			<div class="col-md-9 value" app-dict="current.entity.propertyC00" dict-type="budgetAdjustType"></div>
+		</div>
+	</div>
+	<div class="col-md-4" ng-if="current.entity.propertyC00 == adjustType.callout || current.entity.propertyC00 == adjustType.callin ">
+		<div class="row static-info">
+			<label ng-if="current.entity.propertyC00 == adjustType.callout" class="col-md-3 name" app-locale="budget.adjust.in.conpamy">调入公司</label>
+			<label ng-if="current.entity.propertyC00 == adjustType.callin" class="col-md-3 name" app-locale="budget.adjust.out.conpamy">调出公司</label>
+			<div class="col-md-9 value" app-show="current.entity.propertyN02" url="/dept.do"></div>
+		</div>
+	</div>
+</div>
+
+
+<div class="row">
+	<div class="col-md-12">
+		<h4 class="form-section">
+			<span app-locale="budget.adjust.details">调整明细</span>
+		</h4>
+		<div class="table-responsive">
+			<table class="table table-striped table-bordered table-condensed" role="grid" >
+				<thead>
+					<tr>
+						<th class="row-number text-center">#</th>
+						<th ng-if="current.entity.propertyC00 == adjustType.callin" app-locale="budget.adjust.out.dept">调出部门</th>
+						<th ng-if="current.entity.propertyC00 != adjustType.additional" app-locale="budget.adjust.out.subject">调出科目</th>
+						<th ng-if="current.entity.propertyC00 == adjustType.callout" app-locale="budget.adjust.int.dept">调入部门</th>
+						<th ng-if="current.entity.propertyC00 != adjustType.additional" app-locale="budget.adjust.in.subject">调入科目</th>
+						<th ng-if="current.entity.propertyC00 == adjustType.additional" app-locale="budget.adjust.add.subject">追加科目</th>
+						<th app-locale="budget.adjust.amount">调整金额</th>
+						<th app-locale="budget.adjust.message">调整原因</th>
+					</tr>
+				</thead>
+				<tbody class="table-form">
+					<tr ng-repeat="item in current.entity.items track by item.ordinal">
+						<td class="row-number" ng-bind="$index+1"></td>
+						<td ng-if="current.entity.propertyC00 == adjustType.callin" 
+							app-show="::item.budgetDept.id" url="/dept.do">
+						</td>
+						<td app-show="::item.budgetSubject.id" url="/budgetSubject.do"></td>
+						<td ng-if="current.entity.propertyC00 == adjustType.callout"
+							app-show="::item.costDept.id" url="/dept.do">
+						</td>
+						<td ng-if="current.entity.propertyC00 != adjustType.additional" 
+							app-show="::item.propertyN00" url="/budgetSubject.do">
+						</td>
+						<td ng-bind="::item.amountCost | amount"></td>
+						<td ng-bind="::item.remarks"></td>
+						
+					</tr>
+				</tbody>
+				<tfoot>
+					<tr class="success" ng-if="current.entity.propertyC00 == adjustType.additional ">
+						<td colspan="2" app-locale="app.amount.total" class="text-right">合计金额</td>
+						<td colspan="3" ng-bind="current.entity.amountCost | currency"></td>
+					</tr>
+					<tr class="success" ng-if="current.entity.propertyC00 == adjustType.inside ">
+						<td colspan="3" app-locale="app.amount.total" class="text-right">合计金额</td>
+						<td colspan="3" ng-bind="current.entity.amountCost | currency"></td>
+					</tr>
+					<tr class="success" ng-if="current.entity.propertyC00 == adjustType.callout || current.entity.propertyC00 == adjustType.callin ">
+						<td colspan="4" app-locale="app.amount.total" class="text-right">合计金额</td>
+						<td colspan="3" ng-bind="current.entity.amountCost | currency"></td>
+					</tr>
+				</tfoot>
+			</table>
+		</div>
+	</div>
+</div>
+
+<div class="row"><!-- 附件，流程等信息 -->
+<div class="col-md-12">
+	<div class="tabbable-custom" uib-tabset>
+		<div uib-tab heading="{{ 'application.files' | appLocale }}">
+			<div ng-include=" 'resources/template/application/view/files.html' "></div>
+		</div>
+		<div uib-tab heading="{{ 'application.logs' | appLocale }}">
+			<div ng-include=" 'resources/template/application/logs.html' "></div>
+		</div>
+		<div uib-tab heading="{{ 'application.approvers' | appLocale }}">
+			<div ng-include=" 'resources/template/application/approvers.html' "></div>
+		</div>
+	</div>
+</div>
+</div>

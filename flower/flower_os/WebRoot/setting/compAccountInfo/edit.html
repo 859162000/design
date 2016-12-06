@@ -1,0 +1,68 @@
+
+<div class="form-group">
+	<label class="col-sm-2 control-label">会计科目</label>
+	<div class="col-sm-6" app-ui-select="current.entity.accountingSubject.id"   url="/accountingSubject.do" inline="true" ></div>
+</div>
+<div class="form-group">
+	<label class="col-sm-2 control-label">公司账号</label>
+	<div class="col-sm-6">
+		<input ng-model="current.entity.id" name="entityId" ng-blur="testCode(current.entity.id)" class="form-control" ng-trim="true" required ng-maxlength="50">
+	</div>
+	<div class="col-sm-4">
+		<p class="form-control-static text-danger" ng-if="editForm.entityId.$error.required">请输入公司账号</p>
+		<p class="form-control-static text-danger" ng-if="editForm.entityId.$error.maxlength">不能超出50字节</p>
+		<p class="form-control-static text-danger" ng-if="editForm.entityId.$invalid">请输入正确的公司账号</p>
+	</div>
+</div>
+<div class="form-group">
+	<label class="col-sm-2 control-label">所属机构</label>
+	<div class="col-sm-6">
+		<div class="input-group input-group-sm dropdown" uib-dropdown is-open="queryDeptsSelector.isOpen" auto-close="outsideClick">					
+						<ul class="ztree dropdown-menu dropdown-menu-default" role="menu" uib-dropdown-menu
+							ztree="queryDeptsSelector" data-checked-model="queryDeptsSelector.depts"></ul>
+						<input ng-model="queryDeptsSelector.checkedNames" class="form-control input-sm" readonly uib-dropdown-open>
+						<sapn class="input-group-btn btn-group-sm">
+							<button type="button" class="btn btn-default" 
+								ng-click="queryDeptsSelector.tree.clearChecked(); current.entity.checkedNames = '';"><i class="fa fa-remove"></i></button>
+							<button type="button" class="btn btn-default dropdown-toggle" uib-dropdown-toggle aria-expanded="false">
+								<span class="caret"></span><span class="sr-only"></span>
+							</button>
+						</sapn>
+					</div>
+	</div>
+</div>
+<div class="form-group">
+	<label class="col-sm-2 control-label">开户名</label>
+	<div class="col-sm-6">
+		<input class="form-control" ng-model="current.entity.name" name="entityName" ng-trim="true" required maxlength="50">
+	</div>
+	<div class="col-sm-4">
+		<p class="form-control-static text-danger" ng-if="editForm.entityName.$error.required">请输入开户名</p>
+		<p class="form-control-static text-danger" ng-if="editForm.entityName.$error.maxlength">不能超出50字</p>
+		<p class="form-control-static text-danger" ng-if="editForm.entityName.$invalid">请输入正确的开户名</p>
+	</div>
+</div>
+<div class="form-group">
+	<label class="col-sm-2 control-label">开户行名称</label>
+	<div class="col-sm-6">
+		<input class="form-control" ng-model="current.entity.bank" name="entityBank" ng-trim="true" required maxlength="50">
+	</div>
+	<div class="col-sm-4">
+		<p class="form-control-static text-danger" ng-if="editForm.entityBank.$error.required">请输入开户行名称</p>
+		<p class="form-control-static text-danger" ng-if="editForm.entityBank.$error.maxlength">不能超出50字</p>
+		<p class="form-control-static text-danger" ng-if="editForm.entityBank.$invalid">请输入正确的开户行名称</p>
+	</div>
+</div>
+<div class="form-group">
+	<label class="col-sm-2 control-label">币种</label>
+		<div class="col-sm-6" app-dict-select="current.entity.currency.id"  dict-type="currency"  inline="true" ></div>
+</div>
+
+
+
+<div class="form-group">
+	<div class="col-sm-6 col-sm-offset-2">
+		<button type="submit" class="btn btn-primary" app-locale="app.save" ng-disabled="editForm.$invalid">保存</button>
+		<button type="button" class="btn btn-primary" app-locale="app.cancel" ng-click="cancel()">取消</button>
+	</div>
+</div>

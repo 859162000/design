@@ -1,0 +1,68 @@
+<!-- <h3 class="page-title">
+	<span app-locale="system.user.title">角色权限设置</span>
+</h3> -->
+
+<div class="row">
+
+<!-- 角色tree -->
+<div class="col-sm-3">
+	<div class="portlet light bordered">
+		<div class="portlet-title">
+			<div class="caption">
+				<i class="fa fa-list"></i>
+				<span class="caption-subject font-dark sbold uppercase bold" app-locale="system.user.list">角色列表</span>
+				<span class="caption-helper"></span>
+			</div>
+			<div class="actions">
+				<button title="{{ 'app.add' | appLocale }}" class="btn btn-circle btn-icon-only btn-default"
+					app-permission="edit"					
+					ng-click="add()"><i class="fa fa-plus"></i></button>
+				<button title="{{ 'app.refresh' | appLocale }}" class="btn btn-circle btn-icon-only btn-default"
+					ng-click="rolesTree.refresh()"><i class="fa fa-refresh"></i></button>
+				<button title="{{ 'app.delete' | appLocale }}" class="btn btn-circle btn-icon-only btn-default"
+					app-permission="edit"								
+					ng-disabled="!rolesTree.checked || rolesTree.checked.length <= 0"
+					ng-click="remove(rolesTree.checked)"><i class="fa fa-trash-o"></i></button>
+				<!-- <button title="{{ 'app.delete' | appLocale }}" class="btn btn-circle btn-icon-only btn-default"
+					ng-click="menusTree.getPermissions()"><i class="fa fa-trash-o"></i></button> -->
+			</div>
+		</div>
+		<div class="portlet-body">
+			<ul ztree="rolesTree" data-nodes="roles" data-setting="{ check: { enable: true } }" data-clone="true"></ul>
+		</div>
+	</div>
+</div>
+<!-- End 角色tree -->
+
+<!-- 角色详细信息 -->
+<div class="col-sm-9" ng-show="current.entity">
+<form name="editForm" method="post" ng-submit="save()" class="form-horizontal" novalidate="novalidate">
+	<div class="portlet light bordered">
+		<div class="portlet-title">
+			<div class="caption">
+				<!-- <i class="fa fa-group"></i> -->
+				<i class="fa" ng-class="{ 'fa-user-plus' : current.entity.isNew, 'fa-user': !current.entity.isNew }"></i>
+				<span class="caption-subject sbold uppercase bold" 
+					ng-bind="current.entity.isNew ? getLocaleText('app.add') : current.entity.name"></span>
+				<small ng-bind="current.entity.id"></small>
+				<span class="caption-helper"></span>
+			</div>
+			<div class="actions" ng-if="current.entity">
+				<button type="submit" title="{{ 'app.save' | appLocale }}" class="btn btn-circle btn-icon-only btn-default"
+					app-permission="edit"
+					ng-disabled="editForm.$invalid || !validateSave(current.entity)"><i class="fa fa-save"></i></button>
+				<!-- <button type="button" title="{{ 'app.cancel' | appLocale }}" class="btn btn-circle btn-icon-only btn-default"
+					ng-if="!!current.operator"
+					ng-click="cancel()"><i class="fa fa-undo"></i></button> -->
+				<button type="button" title="{{ 'app.delete' | appLocale }}" class="btn btn-circle btn-icon-only btn-default"
+					app-permission="edit" ng-disabled="!current.entity.id"
+					ng-click="remove(current.entity)"><i class="fa fa-trash-o"></i></button>
+			</div>
+		</div>
+		<div class="portlet-body form" ng-include=" 'system/role/edit.html' "></div>
+	</div>
+</form>
+</div>
+<!-- End 角色详细信息 -->
+
+</div>

@@ -1,0 +1,44 @@
+<!-- <h3 class="page-title">
+	<span app-locale="system.user.title">人员设置</span>
+	<small app-locale="system.user.title.small">系统每天00:00会自动从IT系统同步人员信息</small>
+</h3> -->
+
+<!-- 同步操作列表 -->
+<div class="row">
+<div class="col-sm-12" 
+	ng-show="!current.operator" 
+	ng-include=" 'my/me.query.html' "></div>
+
+<!-- 同步管理编辑表单 -->
+<div class="col-sm-12" ng-if="!!current.operator" >
+<form name="editForm" method="post" ng-submit="save()" class="form-horizontal" novalidate="novalidate">
+<div class="portlet light bordered query-container">
+	<div class="portlet-title">
+		<div class="caption">
+			<i class="fa" ng-class="{ 'fa-user-plus' : current.entity.isNew, 'fa-user': !current.entity.isNew }"></i> 
+			<span class="caption-subject sbold uppercase bold" ng-bind="current.entity.isNew ? getLocaleText('app.add') : current.entity.name"></span>
+			<span class="caption-helper"></span>
+		</div>
+		<div class="actions" ng-if="current.entity">
+			<button type="button" title="{{ 'app.edit' | appLocale }}" class="btn btn-circle btn-icon-only btn-default"
+				ng-if="current.operator == 'view'" app-permission="edit"
+				ng-click="edit()"><i class="fa fa-edit"></i></button>
+			<button type="submit" title="{{ 'app.save' | appLocale }}" class="btn btn-circle btn-icon-only btn-default"
+				ng-if="current.operator != 'view'" app-permission="edit"
+				ng-disabled="editForm.$invalid"
+				ng-click="save()"><i class="fa fa-save"></i></button>
+			<button type="button" title="{{ 'app.cancel' | appLocale }}" class="btn btn-circle btn-icon-only btn-default"
+				ng-if="!!current.operator"
+				ng-click="cancel()"><i class="fa fa-undo"></i></button>
+
+			<button type="button" title="{{ 'app.delete' | appLocale }}" class="btn btn-circle btn-icon-only btn-default"
+				ng-disabled="current.entity.isNew" app-permission="edit"
+				ng-click="remove(current.entity)"><i class="fa fa-trash-o"></i></button>
+		</div>
+	</div>
+	
+</div>
+</form>
+
+</div>
+</div>

@@ -1,0 +1,135 @@
+
+<div class="form-group">
+	<!-- <label class="col-sm-2 control-label">名字</label> -->
+	<div class="col-sm-6">
+		<input type="text"  style="display:none;" class="form-control" ng-model="current.entity.name" name="entityName" ng-trim="true" required maxlength="20">
+	</div>
+</div>
+<div class="form-group">
+	<!-- <label class="col-sm-2 control-label">类别</label> -->
+	<div class="col-sm-6">
+		<input type="text"  style="display:none;"  class="form-control" ng-model="current.entity.type" name="entityType" ng-trim="true" required maxlength="20">
+	</div>
+</div>
+
+<!-- 上面是车辆信息默认加载的隐藏部分  -->
+
+
+<div class="form-group">
+	<label class="col-sm-2 control-label">加载方式</label>
+	<div class="col-sm-6">
+		<input class="form-control" ng-model="current.entity.loadType" name="entityLoadType" ng-trim="true" required maxlength="2">
+	</div>
+	<div class="col-sm-4">
+		<p class="form-control-static text-danger" ng-if="editForm.entityLoadType.$error.required">请输入加载方式</p>
+		<p class="form-control-static text-danger" ng-if="editForm.entityLoadType.$error.maxlength">不能超出2字</p>
+		<p class="form-control-static text-danger" ng-if="editForm.entityLoadType.$invalid">请输入正确的加载方式</p>
+	</div>
+</div>
+<div class="form-group">
+	<label class="col-sm-2 control-label">参数状态</label>
+	<div class="col-sm-6">
+		<input class="form-control" ng-model="current.entity.status" name="entityStatus" ng-trim="true" required maxlength="2">
+	</div>
+	<div class="col-sm-4">
+		<p class="form-control-static text-danger" ng-if="editForm.entityStatus.$error.required">请输入加载方式</p>
+		<p class="form-control-static text-danger" ng-if="editForm.entityStatus.$error.maxlength">不能超出2字</p>
+		<p class="form-control-static text-danger" ng-if="editForm.entityStatus.$invalid">请输入正确的状态</p>
+	</div>
+</div>
+<div class="form-group">
+	<label class="col-sm-2 control-label">用于排序的序号</label>
+	<div class="col-sm-6">
+		<input class="form-control" ng-model="current.entity.ordinal" name="entityOrdinal" ng-trim="true" required maxlength="2">
+	</div>
+	<div class="col-sm-4">
+		<p class="form-control-static text-danger" ng-if="editForm.entityOrdinal.$error.required">请输入用于排序的序号</p>
+		<p class="form-control-static text-danger" ng-if="editForm.entityOrdinal.$error.maxlength">不能超出2字</p>
+		<p class="form-control-static text-danger" ng-if="editForm.entityOrdinal.$invalid">请输入用于排序的序号</p>
+	</div>
+</div>
+<div class="form-group">
+	<label class="col-sm-2 control-label">车牌号</label>
+	<div class="col-sm-6">
+		<input ng-model="current.entity.code" name="entityCode" class="form-control" ng-trim="true" required ng-maxlength="20">
+	</div>
+	<div class="col-sm-4">
+		<p class="form-control-static text-danger" ng-if="editForm.entityCode.$error.required">请输入用户名</p>
+		<p class="form-control-static text-danger" ng-if="editForm.entityCode.$error.maxlength">不能超出20字节</p>
+		<p class="form-control-static text-danger" ng-if="editForm.entityCode.$invalid">请输入正确的车牌号</p>
+	</div>
+</div>
+<div class="form-group">
+	<label class="col-sm-2 control-label">车辆类型</label>
+	<div class="col-sm-6">
+		<input class="form-control" ng-model="current.entity.propertyC00" name="entityLoadType" ng-trim="true" required maxlength="2">
+	</div>
+	<div class="col-sm-4">
+		<p class="form-control-static text-danger" ng-if="editForm.entityLoadType.$error.required">请输入加载方式</p>
+		<p class="form-control-static text-danger" ng-if="editForm.entityLoadType.$error.maxlength">不能超出2字</p>
+		<p class="form-control-static text-danger" ng-if="editForm.entityLoadType.$invalid">请输入正确的车辆类型</p>
+	</div>
+</div>
+<div class="form-group">
+	<label class="col-sm-2 control-label">资产号</label>
+	<div class="col-sm-6">
+		<input class="form-control" ng-model="current.entity.propertyC01" name="entityProperty01" ng-trim="true" required maxlength="20">
+	</div>
+	<div class="col-sm-4">
+		<p class="form-control-static text-danger" ng-if="editForm.entityProperty01.$error.required">请输入用于排序的序号</p>
+		<p class="form-control-static text-danger" ng-if="editForm.entityProperty01.$error.maxlength">不能超出20字</p>
+		<p class="form-control-static text-danger" ng-if="editForm.entityProperty01.$invalid">请输入正确的资产号</p>
+	</div>
+</div>
+<div class="form-group">
+	<label class="col-sm-2 control-label">车辆型号</label>
+	<div class="col-sm-6">
+		<input class="form-control" ng-model="current.entity.propertyC02" name="entityProperty02" ng-trim="true" required maxlength="100">
+	</div>
+	<div class="col-sm-4">
+		<p class="form-control-static text-danger" ng-if="editForm.entityProperty02.$error.required">请输入名称</p>
+		<p class="form-control-static text-danger" ng-if="editForm.entityProperty02.$error.maxlength">不能超出100字</p>
+		<p class="form-control-static text-danger" ng-if="editForm.entityProperty02.$invalid">请输入正确的车辆型号</p>
+	</div>
+</div>
+<div class="form-group">
+	<label class="col-sm-2 control-label">资产名称</label>
+	<div class="col-sm-6">
+		<input class="form-control" ng-model="current.entity.propertyC03" name="entityProperty03" ng-trim="true" required maxlength="100">
+	</div>
+	<div class="col-sm-4">
+		<p class="form-control-static text-danger" ng-if="editForm.entityProperty03.$error.required">请输入参数类型</p>
+		<p class="form-control-static text-danger" ng-if="editForm.entityProperty03.$error.maxlength">不能超出10字</p>
+		<p class="form-control-static text-danger" ng-if="editForm.entityProperty03.$invalid">请输入正确的资产名称</p>
+	</div>
+</div>
+<div class="form-group">
+	<label class="col-sm-2 control-label">联系电话</label>
+	<div class="col-sm-6">
+		<input  class="form-control" ng-model="current.entity.propertyC04" name="entityProperty04"  ng-trim="true" required ng-maxlength="20">
+	</div>
+	<div class="col-sm-4">
+		 <p class="form-control-static text-danger" ng-if="editForm.entityProperty04.$error.required">请输入状态</p>
+		<p class="form-control-static text-danger" ng-if="editForm.entityProperty04.$error.maxlength">不能超出20字</p> 
+		<p class="form-control-static text-danger" ng-if="editForm.entityProperty04.$invalid">请输入正确的联系电话</p>
+	</div>
+</div>
+<div class="form-group">
+	<label class="col-sm-2 control-label">车辆状态</label>
+	<div class="col-sm-6">
+		<input  class="form-control" ng-model="current.entity.propertyC05" name="entityProperty05" ng-trim="true" required ng-maxlength="10">
+	</div>
+	<div class="col-sm-4">
+		 <p class="form-control-static text-danger" ng-if="editForm.entityProperty05.$error.required">请输入参数</p>
+		<p class="form-control-static text-danger" ng-if="editForm.entityProperty005.$error.maxlength">不能超出10字</p> 
+		<p class="form-control-static text-danger" ng-if="editForm.entityProperty05.$invalid">请输入正确的状态</p>
+	</div>
+</div>
+
+
+<div class="form-group">
+	<div class="col-sm-6 col-sm-offset-2">
+		<button type="submit" class="btn btn-primary" app-locale="app.save" ng-disabled="editForm.$invalid">保存</button>
+		<button type="button" class="btn btn-primary" app-locale="app.cancel" ng-click="cancel()">取消</button>
+	</div>
+</div>

@@ -1,0 +1,15 @@
+<!-- View页面底部操作按钮 -->
+<a app-locale="app.edit" class="btn btn-primary" ng-if="canEdit(current.entity)"
+	ng-href="{{ $state.href('.edit', { id: current.entity.id }, { relative: $state.$current.parent.self } ) }}" >编辑</a>
+<!-- <a app-locale="application.before.expense" class="btn btn-primary"
+	ui-sref="expense.accrual.expense.add({ id: current.entity.id })" ng-if="canExpense(current.entity)">报销</a>
+<button type="button" class="btn btn-primary" app-locale="application.before.contract"
+	ng-click="addContract()" ng-if="canContract(current.entity)">签订合同</button> -->
+<button type="button" class="btn btn-primary" app-locale="application.payee.edit"
+	ng-click="editPayee()" ng-if="canEditPayee(current.entity)">修改支付信息</button>
+<button type="button" class="btn btn-primary" app-locale="app.revoke"
+	ng-click="revoke()" ng-if="canRevoke(current.entity)">撤回</button>
+<button type="button" class="btn btn-primary" app-locale="app.remove"
+	ng-click="remove()" ng-if="canRemove(current.entity)">删除</button>
+<button type="button" class="btn btn-primary" app-locale="app.print" app-print>打印</button>
+<button type="button" class="btn btn-primary" app-locale="app.cancel" ng-click="cancel()">取消/返回</button>

@@ -1,0 +1,69 @@
+get:http://localhost:8080/ems/acti/repository/deployments
+需要传递两个参数  start  size  
+{
+  "data": [
+    {
+      "id" : "oneTaskProcess:1:4",
+      "url" : "http://localhost:8080/ems/activiti/service/repository/process-definitions/oneTaskProcess%3A1%3A4",
+      "version" : 1,
+      "key" : "oneTaskProcess",
+      "category" : "Examples",
+      "suspended" : false,
+      "name" : "The One Task Process",
+      "description" : "This is a process for testing purposes",
+      "deploymentId" : "2",
+      "deploymentUrl" : "http://localhost:8081/repository/deployments/2",
+      "graphicalNotationDefined" : true,
+      "resource" : "http://localhost:8182/repository/deployments/2/resources/testProcess.xml",
+      "diagramResource" : "http://localhost:8182/repository/deployments/2/resources/testProcess.png",
+      "startFormDefined" : false
+    }
+  ],
+  "total": 1,
+  "start": 0,
+  "sort": "name",
+  "order": "asc",
+  "size": 1
+}
+
+get http://localhost:8080/ems/acti/workflow/process-list?pageSize=5&pageNumber=3
+
+{
+    "content": [
+        {
+            "id": "myProcess:9:10032",
+            "url": "http://localhost:8080/ems/acti/repository/process-definitions/myProcess:9:10032",
+            "key": "myProcess",
+            "version": 9,
+            "name": "My process",
+            "description": null,
+            "tenantId": "",
+            "deploymentId": "10029",
+            "deploymentUrl": "http://localhost:8080/ems/acti/repository/deployments/10029",
+            "resource": "http://localhost:8080/ems/acti/repository/deployments/10029/resources/MyProcess.bpmn",
+            "diagramResource": "http://localhost:8080/ems/acti/repository/deployments/10029/resources/MyProcess.png",
+            "category": "http://www.activiti.org/test",
+            "graphicalNotationDefined": true,
+            "suspended": false,
+            "startFormDefined": false
+        }
+    ],
+    "last": true,
+    "totalPages": 3,
+    "totalElements": 11,
+    "number": 2,
+    "size": 5,
+    "first": false,
+    "sort": null,
+    "numberOfElements": 1
+}
+// xml
+http://localhost:8080/ems/acti/workflow/resource/read?processDefinitionId=myProcess:9:10032&resourceType=xml
+// 图片
+http://localhost:8080/ems/acti/workflow/resource/read?processDefinitionId=myProcess:9:10032&resourceType=image
+
+转危化model
+convert-to-model/{processDefinitionId}
+
+// 编辑
+/acti/workflow/model/create

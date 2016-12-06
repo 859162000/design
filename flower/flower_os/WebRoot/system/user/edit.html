@@ -1,0 +1,209 @@
+<div class="form-group">
+	<label class="col-sm-2 control-label" app-locale="system.user.code">用户名</label>
+	<div class="col-sm-6">
+		<input ng-model="current.entity.code" name="entityCode" class="form-control" ng-trim="true" required ng-maxlength="50">
+	</div>
+	<div class="col-sm-4">
+		<p class="form-control-static text-danger" ng-if="editForm.entityCode.$error.required" 
+			app-locale-bind="'app.validator.required'" app-locale-args="[ getText('system.user.code') ]">请输入用户名</p>
+		<p class="form-control-static text-danger" ng-if="editForm.entityCode.$error.maxlength"
+			app-locale-bind="'app.validator.maxlength'" app-locale-args="[ getText('system.user.code'), 50 ]">不能超出50字节</p>
+		<p class="form-control-static text-danger" app-locale-bind="'app.validator.invalid'" app-locale-args="[ getText('system.user.code') ]"
+			ng-if="editForm.entityCode.$invalid && !editForm.entityCode.$error.required && !editForm.entityCode.$error.maxlength">请输入正确的用户名</p>
+	</div>
+</div>
+<div class="form-group">
+	<label class="col-sm-2 control-label" app-locale="system.user.namee">名称</label>
+	<div class="col-sm-6">
+		<input class="form-control" ng-model="current.entity.name" name="entityName" ng-trim="true" required ng-maxlength="100">
+	</div>
+	<div class="col-sm-4">
+		<p class="form-control-static text-danger" ng-if="editForm.entityName.$error.required" 
+			app-locale-bind="'app.validator.required'" app-locale-args="[ getText('system.user.name') ]">请输入名称</p>
+		<p class="form-control-static text-danger" ng-if="editForm.entityName.$error.maxlength"
+			app-locale-bind="'app.validator.maxlength'" app-locale-args="[ getText('system.user.name'), 100 ]">不能超出100字节</p>
+		<p class="form-control-static text-danger" app-locale-bind="'app.validator.invalid'" app-locale-args="[ getText('system.user.name') ]"
+			ng-if="editForm.entityName.$invalid && !editForm.entityName.$error.required && !editForm.entityName.$error.maxlength">请输入正确的名称</p>
+	</div>
+</div>
+<div class="form-group">
+	<label class="col-sm-2 control-label" app-locale="system.user.dept">部门</label>
+	<div class="col-sm-6">
+		<div class="input-group dropdown" uib-dropdown is-open="deptSelector.isOpen" auto-close="outsideClick">					
+			<ul class="ztree dropdown-menu dropdown-menu-default" role="menu" uib-dropdown-menu
+				ztree="deptSelector" ng-model="current.entity.dept"></ul>
+			<input ng-model="current.entity.dept.name" name="deptName" class="form-control" readonly uib-dropdown-open>
+			<div class="input-group-btn">
+				<button type="button" class="btn btn-default" ng-click="current.entity.dept = null"><i class="fa fa-remove"></i></button>
+				<button type="button" class="btn btn-default dropdown-toggle" uib-dropdown-toggle aria-expanded="false">
+					<span class="caret"></span><span class="sr-only"></span>
+				</button>
+			</div>
+		</div>
+	</div>
+</div>
+<!-- <div class="form-group">
+	<label class="col-sm-2 control-label">公司</label>
+	<div class="col-sm-6">
+		<input class="form-control" ng-model="current.entity.conpamy.name" name="entityConpamyName" ng-trim="true" required maxlength="20">
+	</div>
+	<div class="col-sm-4">
+		<p class="form-control-static text-danger" ng-if="editForm.entityConpamyName.$error.required">请输入公司名称</p>
+		<p class="form-control-static text-danger" ng-if="editForm.entityConpamyName.$error.maxlength">不能超出20字</p>
+	</div>
+</div> -->
+
+<div class="form-group">
+	<label class="col-sm-2 control-label" app-locale="app.status">状态</label>
+	<div class="col-sm-6" app-dict-radio="current.entity.status" dict-type="status" inline="true"></div>
+	<div class="col-sm-4">
+		<p class="form-control-static text-danger" ng-if="editForm.entityStatus.$error.required"
+			app-locale-bind="'app.validator.required'" app-locale-args="[ getText('app.status') ]">请选择状态</p>
+	</div>
+</div>
+<div class="form-group">
+	<label class="col-sm-2 control-label" app-locale="system.user.logon.mode">登录方式</label>
+	<div class="col-sm-6" app-dict-radio="current.entity.logonMode" dict-type="logon_mode"></div>
+	<div class="col-sm-4">
+		<p class="form-control-static text-danger" ng-if="!current.entity.logonMode" 
+			app-locale-bind="'app.validator.required'" app-locale-args="[ getText('system.user.logon.mode') ]">请选择登录方式</p>
+	</div>
+</div>
+<div class="form-group" ng-if="'1' == current.entity.logonMode">
+	<label class="col-sm-2 control-label" app-locale="system.user.password">密码</label>
+	<div class="col-sm-6">
+		<input class="form-control" ng-model="current.entity.logonPassword" name="entityPassword" 
+			ng-required="current.entity.logonMode == '1' && entity.isNew" ng-trim="true">
+	</div>
+	<div class="col-sm-4">
+		<p class="form-control-static text-danger" ng-if="editForm.entityPassword.$error.required" 
+			app-locale-bind="'app.validator.required'" app-locale-args="[ getText('system.user.password') ]">请输入密码</p>
+		<p class="form-control-static help-block" ng-if="editForm.entityPassword.$valid && !current.entity.isNew" 
+			app-locale="system.user.password.tip">不修改密码请留空</p>
+	</div>
+</div>
+<div class="form-group">
+	<label class="col-sm-2 control-label" app-locale="system.user.email">Email</label>
+	<div class="col-sm-6">
+		<input type="email" class="form-control" ng-model="current.entity.email" name="entityEmail" 
+			ng-trim="true" required ng-maxlength="200">
+	</div>
+	<div class="col-sm-4">
+		<p class="form-control-static text-danger" ng-if="editForm.entityEmail.$error.required"
+			app-locale-bind="app.validator.required" app-locale-args="[ getText('system.user.email') ]">请输入Email</p>
+		<p class="form-control-static text-danger" ng-if="editForm.entityEmail.$error.maxlength"
+			app-locale-bind="'app.validator.maxlength'" app-locale-args="[ getText('system.user.email'), 200 ]">不能超出200字节</p>
+		<p class="form-control-static text-danger" ng-if="editForm.entityEmail.$invalid && !editForm.entityEmail.$error.required && !editForm.entityEmail.$error.maxlength"
+			app-locale-bind="'app.validator.invalid'" app-locale-args="[ getText('system.user.email') ]">请输入正确的邮箱地址</p>
+	</div>
+</div>
+<div class="form-group">
+	<label class="col-sm-2 control-label" app-locale="system.user.sync.status">是否同步</label>
+	<div class="col-sm-6" app-dict-radio="current.entity.syncStatus" dict-type="yes_no"></div>
+	<div class="col-sm-4">
+		<p class="form-control-static text-danger" ng-if="editForm.entityStatus.$error.required"
+			app-locale-bind="'app.validator.required'" app-locale-args="[ getText('system.user.sync.status') ]">请选择是否需要同步</p>
+	</div>
+</div>
+
+<div class="form-group">
+	<label class="col-sm-2 control-label" app-locale="system.user.payee.bank">开户行</label>
+	<div class="col-sm-6">
+		<input class="form-control" ng-model="current.entity.payeeBank" name="payeeBank" ng-trim="true" ng-maxlength="200">
+	</div>
+	<div class="col-sm-4">
+		<p class="form-control-static text-danger" ng-if="editForm.payeeBank.$error.maxlength"
+			app-locale-bind="app.validator.maxlength" app-locale-args="[ getText('system.user.payee.bank'), 200 ]">不能超出200字</p>
+	</div>
+</div>
+<div class="form-group">
+	<label class="col-sm-2 control-label" app-locale="system.user.payee.account">银行账号</label>
+	<div class="col-sm-6">
+		<input class="form-control" ng-model="current.entity.payeeAccount" name="payeeAccount" ng-trim="true" ng-maxlength="20">
+	</div>
+	<div class="col-sm-4">
+		<p class="form-control-static text-danger" ng-if="editForm.payeeAccount.$error.maxlength"
+			app-locale-bind="app.validator.maxlength" app-locale-args="[ getText('system.user.payee.account'), 20 ]">不能超出20字</p>
+	</div>
+</div>
+<div class="form-group">
+	<label class="col-sm-2 control-label" app-locale="system.user.payee.namek">账户名称</label>
+	<div class="col-sm-6">
+		<input class="form-control" ng-model="current.entity.payeeName" name="payeeName" ng-trim="true" ng-maxlength="200">
+	</div>
+	<div class="col-sm-4">
+		<p class="form-control-static text-danger" ng-if="editForm.payeeName.$error.maxlength"
+			app-locale-bind="app.validator.maxlength" app-locale-args="[ getText('system.user.payee.bank'), 200 ]">不能超出200字</p>
+	</div>
+</div>
+<div class="form-group">
+	<label class="col-sm-2 control-label">手机号</label>
+	<div class="col-sm-6">
+		<input class="form-control" ng-model="current.entity.mobile" name="entityMobile" ng-trim="true" ng-maxlength="30">
+	</div>
+	<div class="col-sm-4">
+		<p class="form-control-static text-danger" ng-if="editForm.entityMobile.$error.maxlength">不能超出30字</p>
+		<p class="form-control-static text-danger" ng-if="!editForm.entityMobile.$error.maxlength && editForm.entityMobile.$invalid">请输入正确的手机号</p>
+	</div>
+</div>
+<div class="form-group">
+	<label class="col-sm-2 control-label">座机</label>
+	<div class="col-sm-6">
+		<input class="form-control" ng-model="current.entity.telephone" name="entityTelephone" ng-trim="true" ng-maxlength="30">
+	</div>
+	<div class="col-sm-4">
+		<p class="form-control-static text-danger" ng-if="editForm.entityTelephone.$error.maxlength">不能超出30字</p>
+		<p class="form-control-static text-danger" ng-if="!editForm.entityTelephone.$error.maxlength && editForm.entityTelephone.$invalid">请输入正确的座机号</p>
+	</div>
+</div>
+
+<div class="form-group">
+	<label class="col-sm-2 control-label" app-locale="system.user.role">角色</label>
+	<div class="col-sm-10">
+		<a href="javascript:;" title="{{ 'app.add' | appLocale }}" ng-click="addRole(current.entity)"><i class="fa fa-plus"></i></a>
+		&nbsp;
+		<span class="form-control-static help-block" app-locale="system.user.role.tip">一个人员可以在多个机构担任多个角色</span>
+	</div>
+	<div class="col-sm-10 col-sm-offset-2">
+		<div class="table-responsive">
+			<table class="table table-striped table-bordered table-condensed" role="grid">
+				<thead>
+					<tr>
+						<th app-locale="system.user.dept" width="50%">部门</th>
+						<th app-locale="system.user.role">角色</th>
+						<th width="30" class="text-center"></th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr ng-repeat="userRole in current.entity.userRoles">
+						<td>
+		<div class="input-group dropdown" 
+			uib-dropdown is-open="isOpen" dropdown-append-to-body="true" auto-close="outsideClick">			
+			<ul class="ztree dropdown-menu dropdown-menu-default" role="menu" uib-dropdown-menu 
+				ztree="deptSelector" ng-model="userRole.dept"></ul>
+			<input ng-model="userRole.dept.name" class="form-control input-sm" required readonly uib-dropdown-open>
+			<div class="input-group-btn">
+				<button type="button" class="btn btn-default btn-sm dropdown-toggle" uib-dropdown-toggle 
+					ria-haspopup="true" aria-expanded="false"><span class="caret"></span></button>
+        	</div>
+		</div>
+						</td>
+						<td>
+							<select class="form-control input-sm" ng-model="userRole.role.id" ng-options="r.id as r.name for r in ::roles" required>
+							    <option value=""></option>
+							</select>
+						</td>
+						<td class="text-center"><a href="javascript:;" title="{{ 'app.remove' | appLocale }}" ng-click="removeRole(current.entity, userRole)"><i class="fa fa-remove"></i></a></td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+	</div>
+</div>
+
+<div class="form-group">
+	<div class="col-sm-6 col-sm-offset-2">
+		<button type="submit" class="btn btn-primary" app-locale="app.save" ng-disabled="editForm.$invalid">保存</button>
+		<button type="button" class="btn btn-primary" app-locale="app.cancel" ng-click="cancel()">取消</button>
+	</div>
+</div>

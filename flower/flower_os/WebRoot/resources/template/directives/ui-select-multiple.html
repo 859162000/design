@@ -1,0 +1,10 @@
+<ui-select ng-model="$parent.selected" multiple theme="bootstrap" ng-disabled="disabled" title="{{ title }}" 
+	ng-required="required" append-to-body="true"
+	reset-search-input="{{ resetSearchInput }}" close-on-select="{{ closeOnSelect }}">
+	<ui-select-match placeholder="{{ placeholder || title }}">{{ $item.fieldText }}</ui-select-match>
+    <ui-select-choices repeat="obj in data track by $index"
+             refresh="search($select.search)"
+             refresh-delay="200">
+		<div ng-bind-html="obj.fieldText | highlight: $select.search"></div>
+	</ui-select-choices> 
+</ui-select>

@@ -1,0 +1,73 @@
+<!-- 详细查看页面，在view-details页面加上了表头和操作按钮 -->
+<div class="portlet light bordered" ng-if="!!current.entity">
+
+<div class="portlet-title" app-print-hide>
+	<div class="caption">
+		<i class="fa fa-edit" ng-if="current.operator != 'view'"></i>
+		<span class="caption-subject sbold uppercase bold">
+			<span app-locale="accrual.before">事前申请</span>
+			<small ng-bind="current.entity.id"></small>
+		</span>
+		<span class="caption-helper"></span>
+	</div>
+	<div class="actions">
+		<a title="{{ 'app.edit' | appLocale }}" class="btn btn-circle btn-icon-only btn-default"
+			ng-href="{{ $state.href('expense.accrual.edit', { id: current.entity.id }) }}" ng-if="canEdit(current.entity)">
+			<i class="fa fa-edit"></i>
+		</a>
+		
+		<a title="{{ 'application.before.expense' | appLocale }}" class="btn btn-circle btn-icon-only btn-default"
+			ui-sref="expense.accrual.expense.add({ id: current.entity.id })" ng-if="canExpense(current.entity)"><i class="fa fa-credit-card"></i></a>
+		
+		<a title="{{ 'application.before.contract' | appLocale }}" class="btn btn-circle btn-icon-only btn-default"
+			ng-click="addContract()" ng-if="canContract(current.entity)"><i class="fa fa-file-word-o"></i></a>
+	
+		<button type="button" title="{{ 'application.payee.edit' | appLocale }}" class="btn btn-circle btn-icon-only btn-default"
+			ng-click="editPayee()" ng-if="canEditPayee(current.entity)"><i class="fa fa-edit"></i></button>
+	
+		<button type="button" title="{{ 'app.revoke' | appLocale }}" class="btn btn-circle btn-icon-only btn-default" 
+			ng-click="revoke()" ng-if="canRevoke(current.entity)">
+			<i class="fa fa-level-down"></i>
+		</button>
+		<button type="button" title="{{ 'app.delete' | appLocale }}" class="btn btn-circle btn-icon-only btn-default"
+			ng-if="canRemove(current.entity)" ng-click="remove()">
+			<i class="fa fa-trash-o"></i>
+		</button>
+		<button type="button" title="{{ 'app.print' | appLocale }}" class="btn btn-circle btn-icon-only btn-default" app-print>
+			<i class="fa fa-print"></i>
+		</button>
+		<button type="button" title="{{ 'app.cancel' | appLocale }}" class="btn btn-circle btn-icon-only btn-default"
+			ng-click="cancel()">
+			<i class="fa fa-undo"></i>
+		</button>
+	</div>
+</div>
+<div class="portlet-body form">
+	<div class="form-body app-body">
+
+		<div class="row">
+			<div class="col-sm-12" ng-include=" 'expense/accrual/view-details.html' "></div>
+		</div>
+		
+		<div class="row">
+			<div class="col-sm-12 text-center" app-print-action>
+				<a app-locale="app.edit" class="btn btn-primary" ng-if="canEdit(current.entity)"
+					ng-href="{{ $state.href('expense.accrual.edit', { id: current.entity.id }) }}">编辑</a>
+				<a app-locale="application.before.expense" class="btn btn-primary"
+					ui-sref="expense.accrual.expense.add({ id: current.entity.id })" ng-if="canExpense(current.entity)">报销</a>
+				<button type="button" class="btn btn-primary" app-locale="application.before.contract"
+					ng-click="addContract()" ng-if="canContract(current.entity)">签订合同</button>
+				<button type="button" class="btn btn-primary" app-locale="application.payee.edit"
+					ng-click="editPayee()" ng-if="canEditPayee(current.entity)">修改支付信息</button>
+				<button type="button" class="btn btn-primary" app-locale="app.revoke"
+					ng-click="revoke()" ng-if="canRevoke(current.entity)">撤回</button>
+				<button type="button" class="btn btn-primary" app-locale="app.remove"
+					ng-click="remove()" ng-if="canRemove(current.entity)">删除</button>
+				<button type="button" class="btn btn-primary" app-locale="app.print" app-print>打印</button>
+				<button type="button" class="btn btn-primary" app-locale="app.cancel" ng-click="cancel()">取消/返回</button>
+			</div>
+		</div>
+	</div>
+</div>
+
+</div>

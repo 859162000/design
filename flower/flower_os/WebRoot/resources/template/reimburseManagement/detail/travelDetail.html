@@ -1,0 +1,64 @@
+<h3 class="page-title">报销 招待费:vv</h3>
+<div class="portlet-body form">
+                <!-- BEGIN FORM-->
+               
+                <!-- END FORM-->
+            </div>
+         <div class="col-sm-12 col-md-12 div-grid">
+		  <div class="row">
+            <table class="table table-striped table-bordered table-hover table-checkable order-column" id="sample_1">
+                    <thead>
+                        <tr>
+                            <th><input type="checkbox" class="group-checkable" data-set="#sample_1 .checkboxes" /> </th>
+                             <th>序号</th>
+ 							 <th>申请单号</th>
+  							 <th>报销部门代码</th>
+  							 <th>报销部门名称</th>
+  							 <th>申请部门</th>
+  							 <th>审批人</th>
+  							 <th>凭证号</th>
+  							 <th>申请日期</th>
+  							 <th>报销币别</th>
+  							 <th>报销金额</th>
+  							 <th>报销单状态</th>
+  							 <th>支付状态</th>
+  							 <th>收款人</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr class="odd gradeX" ng-repeat="approval in session.approvals">
+								<td> <input type="checkbox" class="checkboxes" value="1" /> </td>
+								<td ng-bind="approval.serial"></td> 
+								<td ng-bind="approval.number"></td> 
+								<td ng-bind="approval.type"></td> 
+								<td ng-bind="approval.deptNo"></td> 
+								<td ng-bind="approval.dept"></td> 
+								<td ng-bind="approval.name"></td> 
+								<td ng-bind="approval.approver"></td>
+								<td ng-bind="approval.date"></td> 
+								<td ng-bind="approval.curreny"></td> 
+								<td ng-bind="approval.money"></td> 
+								<td ng-bind="approval.state"></td> 
+								<td  ng-bind=""></td>
+								<td  ng-bind=""></td>
+                        </tr>
+                    </tbody>
+                    <tfoot>
+                    	 <th></th>
+ 							 <th></th>
+  							 <th></th>
+  							 <th></th>
+  							 <th></th>
+  							 <th></th>
+  							 <th></th>
+  							 <th></th>
+  							 <th>小计 </th>
+  							  <th>人民币</th>
+  							 <th>0</th>
+  							 <th></th>
+  							  <th></th>
+  							 <th></th>
+                    </tfoot>
+                </table>
+               </div>
+            </div>

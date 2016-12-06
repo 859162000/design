@@ -1,0 +1,29 @@
+<!--
+	 用于查看/编辑数据明细的表头引入,注意引入此页面:
+	新增:permission-action = add 
+	编辑:permission-action = edit 
+	删除:permission-action = remove
+-->
+<div class="caption">
+	<i class="fa fa-list"></i> 
+		<span class="caption-subject sbold uppercase bold" 
+			ng-bind="current.entity.isNew() ? getLocaleText('app.add') : current.entity.name"></span>
+	<span class="caption-helper"></span>
+</div>
+<div class="actions" ng-if="current.entity">
+	<button type="button" title="{{ 'app.edit' | appLocale }}" class="btn btn-circle btn-icon-only btn-default"
+		ng-if="!current.operator && current.operator != 'view'" app-permission="edit"
+		ng-click="edit()"><i class="fa fa-edit"></i></button>
+	<button type="submit" title="{{ 'app.save' | appLocale }}" class="btn btn-circle btn-icon-only btn-default"
+		ng-if="current.operator == 'add' || current.operator == 'edit'"	app-permission="edit"
+		ng-click="save()"><i class="fa fa-save"></i></button>
+	<button type="button" title="{{ 'app.cancel' | appLocale }}" class="btn btn-circle btn-icon-only btn-default"
+		ng-if="!!current.operator"
+		ng-click="cancel()"><i class="fa fa-undo"></i></button>
+	<button type="button" title="{{ 'app.add' | appLocale }}" class="btn btn-circle btn-icon-only btn-default"
+		ng-if="!current.entity.isNew()" app-permission="add"
+		ng-click="add()"><i class="fa fa-plus"></i></button>
+	<button type="button" title="{{ 'app.delete' | appLocale }}" class="btn btn-circle btn-icon-only btn-default"
+		app-permission="remove" ng-disabled="current.entity.isNew()"
+		ng-click="remove(current.entity)"><i class="fa fa-trash-o"></i></button>
+</div>

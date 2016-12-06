@@ -1,0 +1,99 @@
+
+<form name="queryForm" method="post" ng-submit="query()" class="form-horizontal"  >
+<div class="portlet light bordered query-container">
+	<div class="portlet-title">
+		<div class="caption">
+			<i class="fa fa-list"></i> 
+			<span class="caption-subject font-dark sbold uppercase bold" app-locale="budget.query.list">预算查询</span>
+			<span class="caption-helper"></span>
+		</div>
+		<div class="actions">
+			<button type="button" class="btn btn-circle btn-icon-only btn-default"
+				title="{{ (!hideQueryParams ? 'app.query.hide' : 'app.query.show')  | appLocale }}" 
+				ng-click="hideQueryParams = !hideQueryParams">
+				<i class="fa" 
+					ng-class="{ 'fa-angle-down' : !hideQueryParams, 'fa-angle-up': hideQueryParams }"></i>
+			</button>
+			<!-- <button type="submit" class="btn btn-circle btn-icon-only btn-default"
+				title="{{ 'app.query' | appLocale }}"  
+				ng-disabled="queryForm.$invalid"
+				app-permission="query" ng-click="query()" >
+				<i class="fa fa-search"></i>
+			</button> -->
+			<button type="button" title="{{ 'app.add' | appLocale }}" class="btn btn-circle btn-icon-only btn-default"
+				app-permission="edit" ng-click="add()">
+				<i class="fa fa-plus"></i>
+			</button>
+			<button type="button" title="{{ 'app.delete' | appLocale }}" class="btn btn-circle btn-icon-only btn-default"
+				app-permission="edit" ng-disabled="!checkedUsers || !checkedUsers.length <= 0" ng-click="remove(checkedUsers)">
+				<i class="fa fa-trash-o"></i>
+			</button>
+		</div>
+	</div>
+	
+	<div class="portlet-body form">
+		<div class="form-body" ng-show="!hideQueryParams">
+			<div class="form-group">				
+				<label class="col-sm-1 control-label" appLocale="budget.query.deptName">部门名称</label>
+				<div class="col-sm-5">
+					<div class="input-group input-group-sm dropdown" uib-dropdown is-open="queryDeptsSelector.isOpen" auto-close="outsideClick">					
+						<ul class="ztree dropdown-menu dropdown-menu-default" role="menu" uib-dropdown-menu
+							ztree="queryDeptsSelector" data-checked-model="current.params.depts"></ul>
+						<input ng-model="current.params.checkedNames" class="form-control input-sm" readonly uib-dropdown-open>
+						<sapn class="input-group-btn btn-group-sm">
+							<button type="button" class="btn btn-default" 
+								ng-click="queryDeptsSelector.tree.clearChecked(); current.params.checkedNames = '';"><i class="fa fa-remove"></i></button>
+							<button type="button" class="btn btn-default dropdown-toggle" uib-dropdown-toggle aria-expanded="false">
+								<span class="caret"></span><span class="sr-only"></span>
+							</button>
+						</sapn>
+					</div>
+				</div>
+				
+				
+				<label class="col-sm-1 control-label" appLocale="budget.query.subjectName">科目名称</label>
+				<div class="col-sm-4">
+					<input ng-model="current.params.budgetSubjectName" class="form-control" ng-trim="true">
+				</div>
+				<div class="col-sm-1">
+					<button type="submit" class="btn btn-primary" app-locale="app.query">查询</button>
+				</div>
+			</div>
+		</div>
+		
+		<!-- 参数列表表格 -->
+		<div class="table-responsive">
+			<table class="table table-striped table-bordered table-condensed" role="grid" 
+				st-table="budgets" st-safe-src="current.page.content">
+				<thead>
+					<tr>
+						<th width="30" ui-table-select-all="dictionarys"></th>
+						<th st-sort="budget.dept.name" app-locale="dept.name">部门名称</th>
+						<th st-sort="budget.company.name" app-locale="company.name">公司名称</th>
+						<th st-sort="budget.budgetSubject.name" app-locale="budget.subject">预算科目</th> 
+						<th st-sort="budget.year" app-locale="budget.year">预算年份</th>
+						<th st-sort="budget.amount" app-locale="budget.amount">预算金额</th>
+						<th st-sort="budget.amountUsed" app-locale="budget.amountUsed">已用金额</th>
+						<th st-sort="budget.amountBalance" app-locale="budget.amountBalance">可用金额</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr ng-repeat="budget in budgets">
+						<td ui-table-select="budget" selected-rows="current.selected"></td>
+						<td ng-bind="::budget.dept.name">部门名称</td>
+						<td ng-bind="::budget.company.name">公司名称</td>
+						<td ng-bind="::budget.budgetSubject.name">科目名称</td>
+						<td ng-bind="::budget.year">年份</td>
+						<td ng-bind="::budget.amount">预算总金额</td>
+						<td ng-bind="::budget.amountUsed">已用金额</td>
+						<td ng-bind="::budget.amountBalance">可用预算额</td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+		
+		<!-- 显示分页 -->
+		<div app-page></div>
+	</div>
+</div>
+</form>

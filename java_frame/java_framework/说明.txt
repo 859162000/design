@@ -1,2 +1,0 @@
-1，springmvc+mybaits+mysql实现
-2，基础的登陆功能

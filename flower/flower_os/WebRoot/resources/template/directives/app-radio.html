@@ -1,0 +1,24 @@
+<div ng-if="::(inline && useProperty)">
+	<label ng-repeat="obj in data" class="radio-inline">
+		<input type="radio" ng-required="required" name="{{ ::fieldName }}" ng-value="obj.fieldValue" ng-model="$parent.$parent.model"> {{ obj.fieldText }}
+	</label>
+</div>
+<div ng-if="::(inline && !useProperty)">
+	<label ng-repeat="obj in data track by obj[ property ]" class="radio-inline">
+		<input type="radio" ng-required="required" name="{{ ::fieldName }}" ng-value="obj" ng-model="$parent.$parent.model"> {{ obj.fieldText }}
+	</label>
+</div>
+<div ng-if="::(!inline && useProperty)">
+	<div ng-repeat="obj in data" class="radio">
+		<label>
+			<input type="radio" ng-required="required" name="{{ ::fieldName }}" ng-value="obj.fieldValue" ng-model="$parent.$parent.model"> {{ obj.fieldText }}
+		</label>
+	</div>
+</div>
+<div ng-if="::(!inline && !useProperty)">
+	<div ng-repeat="obj in data track by obj[ property ]" class="radio">
+		<label>
+			<input type="radio" ng-required="required" name="{{ ::fieldName }}" ng-value="obj" ng-model="$parent.$parent.model"> {{ obj.fieldText }}
+		</label>
+	</div>
+</div>

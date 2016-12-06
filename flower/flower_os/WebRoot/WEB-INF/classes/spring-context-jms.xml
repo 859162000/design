@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="
+         http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+         ">
+
+    <bean id="jmsTemplate" class="org.springframework.jms.core.JmsTemplate">
+        <property name="connectionFactory">
+            <bean class="org.springframework.jms.connection.CachingConnectionFactory">
+                <property name="targetConnectionFactory">
+                    <bean class="org.apache.activemq.ActiveMQConnectionFactory">
+                        <property name="brokerURL" value="tcp://192.168.200.113:61616"/>
+                        <property name="userName" value="system"/>
+                        <property name="password" value="ENC(mYRkg+4Q4hua1kvpCCI2hg==)"/>
+                    </bean>
+                </property>
+                <property name="sessionCacheSize" value="10"/>
+            </bean>
+        </property>
+        <property name="defaultDestination">
+            <bean class="org.apache.activemq.command.ActiveMQQueue">
+                <constructor-arg value="q.emailQueue"/>
+            </bean>
+        </property>
+        <property name="receiveTimeout" value="10000"/>
+    </bean>
+
+</beans>

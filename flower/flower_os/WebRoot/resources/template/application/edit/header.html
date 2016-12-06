@@ -1,0 +1,46 @@
+<!-- <div class="row">
+	<div class="col-md-4">
+		<div class="form-group">
+			<label class="control-label col-md-3" app-locale="application.id">申请单号</label>
+			<div class="col-md-9">
+				<input class="form-control" ng-model="current.entity.id" readonly>
+				<p class="form-control-static" ng-bind="current.entity.id"></p> 
+			</div>
+		</div>
+	</div>
+</div> -->
+<!-- <h3 class="form-section">
+	{{ app.setting[ app.DICT_APPLICATION_TYPE ][ current.entity.type ].i18nKey | appLocale }}
+	<small title="{{ 'application.id' | appLocale }}" ng-bind="current.entity.id"></small>
+</h3> -->
+<div class="row">
+	<div class="col-md-4">
+		<div class="form-group">
+			<label class="control-label col-md-3" app-locale="application.user">申请人</label>
+			<div class="col-md-9">
+				<input class="form-control" ng-model="current.entity.user.name" readonly>
+			</div>
+		</div>
+	</div>
+	<!--/span-->
+	<div class="col-md-4">
+		<div class="form-group">
+			<label class="control-label col-md-3"app-locale="application.dept">申请部门</label>
+			<div class="col-md-9">				
+				<!-- <input class="form-control" ng-model="current.entity.dept.name" readonly> -->
+				<p class="form-control-static" ng-bind="current.entity.dept.name"></p> 
+			</div>
+		</div>
+	</div>
+	<!--/span-->
+	<div class="col-md-4">
+		<div class="form-group">
+			<label class="control-label col-md-3"app-locale="application.date">申请日期</label>
+			<div class="col-md-9">
+				<!-- <input class="form-control" ng-value="current.entity.submitTime | date" readonly> -->
+				<p class="form-control-static" ng-bind="current.entity.submitTime | date"></p> 
+			</div>
+		</div>
+	</div>
+	<!--/span-->
+</div>

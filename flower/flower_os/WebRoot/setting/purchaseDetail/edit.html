@@ -1,0 +1,85 @@
+<div class="col-sm-6">
+		<input type="text"  style="display:none;"  class="form-control" ng-model="current.entity.type" name="entityType" ng-trim="true" required maxlength="20">
+</div>
+<div class="form-group">
+	<!-- <label class="col-sm-2 control-label">加载方式</label> -->
+	<div class="col-sm-6">
+		<input class="form-control" style="display:none;"  ng-model="current.entity.loadType" name="entityLoadType" ng-trim="true" required maxlength="2">
+	</div>
+</div>
+<div class="form-group">
+	<!-- <label class="col-sm-2 control-label">用于排序的序号</label> -->
+	<div class="col-sm-6">
+		<input class="form-control" style="display:none;" ng-model="current.entity.ordinal" name="entityOrdinal" ng-trim="true" required maxlength="2">
+	</div>
+</div>
+<!-- 认加载的隐藏部分  -->
+
+<div class="form-group">
+	<label class="col-sm-2 control-label">代码</label>
+	<div class="col-sm-6">
+		<input ng-model="current.entity.code" name="entityCode" ng-blur="testCode(current.entity.code)" class="form-control" ng-trim="true" required ng-maxlength="20">
+	</div>
+	<div class="col-sm-4">
+		<p class="form-control-static text-danger" ng-if="editForm.entityCode.$error.required">请输入用户名</p>
+		<p class="form-control-static text-danger" ng-if="editForm.entityCode.$error.maxlength">不能超出20字节</p>
+		<p class="form-control-static text-danger" ng-if="editForm.entityCode.$invalid">请输入正确的用户名</p>
+	</div>
+</div>
+<div class="form-group">
+	<label class="col-sm-2 control-label">名称</label>
+	<div class="col-sm-6">
+		<input class="form-control" ng-model="current.entity.name" name="entityName" ng-trim="true" required maxlength="100">
+	</div>
+	<div class="col-sm-4">
+		<p class="form-control-static text-danger" ng-if="editForm.entityName.$error.required">请输入名称</p>
+		<p class="form-control-static text-danger" ng-if="editForm.entityName.$error.maxlength">不能超出100字</p>
+		<p class="form-control-static text-danger" ng-if="editForm.entityName.$invalid">请输入正确的名称</p>
+	</div>
+</div>
+<div class="form-group">
+	<label class="col-sm-2 control-label">采购类别</label>
+	<div class="col-sm-6">
+		<input class="form-control" ng-model="current.entity.propertyC00" name="propertyC00" ng-trim="true" required maxlength="100">
+	</div>
+	<div class="col-sm-4">
+		<p class="form-control-static text-danger" ng-if="editForm.propertyC00.$error.required">请输入采购类别</p>
+		<p class="form-control-static text-danger" ng-if="editForm.propertyC00.$error.maxlength">不能超出10字</p>
+		<p class="form-control-static text-danger" ng-if="editForm.propertyC00.$invalid">请输入正确的采购类别</p>
+	</div>
+</div>
+<div class="form-group">
+	<label class="col-sm-2 control-label">状态</label>
+	<div class="col-sm-3" app-dict-radio="current.entity.status"  dict-type="status" inline="true"></div>
+</div>
+
+<div class="form-group">
+	<label class="col-sm-2 control-label">计量单位</label>
+	<div class="col-sm-6">
+		<input  class="form-control" ng-model="current.entity.propertyC01" name="entityPropertyC01" ng-trim="true"  ng-maxlength="10">
+	</div>
+	<div class="col-sm-4">
+	<p class="form-control-static text-danger" ng-if="editForm.propertyC01.$error.required">请输入计量单位</p>
+		<p class="form-control-static text-danger" ng-if="editForm.entityPropertyC01.$error.maxlength">不能超出10字</p> 
+		<p class="form-control-static text-danger" ng-if="editForm.entityPropertyC01.$invalid">请输入正确的计量单位</p>
+	</div>
+</div>
+
+<div class="form-group">
+	<label class="col-sm-2 control-label">参考单价</label>
+	<div class="col-sm-6">
+		<input type="number" class="form-control" ng-model="current.entity.propertyN50" name="entityPropertyN50" ng-trim="true"  ng-maxlength="10">
+	</div>
+	<div class="col-sm-4">
+	<p class="form-control-static text-danger" ng-if="editForm.propertyN50.$error.required">请输入参考单价</p>
+		<p class="form-control-static text-danger" ng-if="editForm.entityPropertyN50.$error.maxlength">不能超出10字</p> 
+		<p class="form-control-static text-danger" ng-if="editForm.entityPropertyN50.$invalid">请输入正确的参考单价</p>
+	</div>
+</div>
+
+<div class="form-group">
+	<div class="col-sm-6 col-sm-offset-2">
+		<button type="submit" class="btn btn-primary" app-locale="app.save" ng-disabled="editForm.$invalid">保存</button>
+		<button type="button" class="btn btn-primary" app-locale="app.cancel" ng-click="cancel()">取消</button>
+	</div>
+</div>

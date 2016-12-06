@@ -1,0 +1,30 @@
+<div class="row" ng-if="!!current.entity && !!current.entity.id">
+<div class="col-md-12">	
+	<span class="btn green fileinput-button">
+		<i class="fa fa-plus"></i> <span app-locale="app.uploader.add">添加附件</span>
+		<input type="file" ui-uploader uploader="current.uploader" nv-file-select="" class="form-control" multiple
+			uploader-form-data="[ { 'business.id': current.entity.id } ]" on-success-item="uploader.onSuccessItem">
+	</span>
+	<span title="{{ 'app.uploader.uploading' | appLocale }}" ng-if="current.uploader.isUploading"><i class="fa fa-spin fa-spinner"></i></span>
+	<p class="text-danger" ng-if="current.uploader.error" ng-bind="current.uploader.error.message || getText('app.uploader.failure')"></p>
+	<!-- <div class="help-block" ng-if="current.entity.files && current.entity.files.length > 0">
+		<ol>
+			<li ng-repeat="file in current.entity.files">
+				<a ng-href=" {{ ::(app.uploader.urlView + file.fileId) }}" target="_blank">
+					{{ ::file.name }}<i class="fa fa-download"></i></a>
+			</li>
+		</ol>
+	</div> -->
+</div>
+</div>
+
+<div class="row">
+<div class="col-md-3 col-lg-2 app-img-container" ng-repeat="file in current.entity.files">
+	<div class="app-img" ng-click="app.uploader.view(file.fileId)">
+		<img ng-src="{{ ::app.uploader.preview(file.fileId) }}" alt="{{ ::(file.code || file.name) }}" class="img-responsive img-thumbnail"></div>
+	<div class="app-img-title">
+		<a href="javascript:;" ng-click="app.uploader.view(file.fileId)">{{ ::(file.code || file.name) }}</a>
+		<a href="javascript:;" ng-click="current.entity.files.remove(file)" title="{{ 'app.remove' | appLocale }}"><i class="fa fa-trash-o"></i></a>
+	</div>
+</div>
+</div>

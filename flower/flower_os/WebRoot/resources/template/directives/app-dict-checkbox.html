@@ -1,0 +1,16 @@
+<div ng-if="inline">
+<!-- 所有选项在一行上,使用radio-inline样式 -->
+<label ng-repeat="dict in dicts" class="checkbox-inline">
+	<!-- ng-repeat会创建一个独立的作用域,因此无法直接通过ng-model="fieldValue"进行绑定,需要绑定到$parent.$parent作用域 -->
+	<input type="checkbox" ng-change="setValue(dict)" ng-value="::getValue(dict)" ng-model="dict.checked"> {{ show(dict) }}
+</label>
+
+</div>
+
+<div ng-if="!inline">
+<!-- 每个选项单独一行 -->
+<div ng-repeat="dict in dicts" class="checkbox">
+	<label><input type="checkbox" ng-change="setValue(dict)" ng-value="::getValue(dict)" ng-model="dict.checked"> {{ show(dict) }}</label>
+</div>
+
+</div>

@@ -1,0 +1,28 @@
+<!-- 部门选择下拉菜单,通过include此页面得到的部门tree将会放到current.deptsSelector.tree中. 
+	在整个$scope中，应该只有一个include此页面的dom.
+	auto-close="outsideClick"表示外部点击时自动关闭菜单
+-->
+<ul class="ztree" uib-dropdown is-open="current.deptSelector.isOpen" auto-close="outsideClick"
+	ztree="current.deptSelector.tree" 
+	data-setting="deptSelectorSetting"
+	ng-model="current.deptSelector.dept" 
+	data-checked-model="current.deptSelector.checked"
+	data-url="/system/dept/load.do"></ul>
+<!-- 以下为下来选择部门的例子 -->
+<!-- <div class="input-group dropdown" uib-dropdown is-open="current.deptSelector.isOpen" auto-close="outsideClick">					
+	<ul class="ztree dropdown-menu dropdown-menu-default" role="menu" uib-dropdown-menu
+		ztree="current.deptSelector.tree" ng-focus="current.deptSelector.isOpen = true"
+		ng-model="current.deptSelector.dept"
+		data-checked-model="current.deptSelector.checked"
+		data-setting="deptSelectorSetting"
+		data-url="/system/dept/load.do"></ul>
+	<input ng-model="current.entity.parent.name" name="parent" class="form-control" readonly 
+		ng-click="current.deptSelector.isOpen = true"
+		placeholder="{{ system.dept.parent | appLocale }}">
+	<sapn class="input-group-btn">
+		<button type="button" class="btn btn-default"><i class="fa fa-remove"></i></button>
+		<button type="button" class="btn btn-default dropdown-toggle" uib-dropdown-toggle aria-expanded="false">
+			<span class="caret"></span><span class="sr-only"></span>
+		</button>
+	</sapn>
+</div> -->

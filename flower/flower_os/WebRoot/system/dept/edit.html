@@ -1,0 +1,91 @@
+<!-- 修改部门信息 -->
+<form name="saveForm" method="post" ng-submit="save()" class="form-horizontal" novalidate="novalidate">
+<div class="form-body">
+
+	<div class="form-group">
+		<label class="col-sm-2 control-label">机构代码</label>
+		<div class="col-sm-6">
+			<input ng-model="current.entity.code" name="entityCode" class="form-control" 
+				ng-trim="true" required maxlength="10">
+		</div>
+		<div class="col-sm-4">
+			<p class="form-control-static text-danger" ng-if="saveForm.entityCode.$error.required">请输入机构代码</p>
+			<p class="form-control-static text-danger" ng-if="saveForm.entityCode.$error.maxlength">不能超出10字节</p>
+		</div>
+	</div>
+	<div class="form-group">
+		<label class="col-sm-2 control-label">机构名称</label>
+		<div class="col-sm-6">
+			<input type="text" class="form-control" ng-model="current.entity.name" name="entityName" ng-trim="true" required
+				maxlength="30">
+		</div>
+		<div class="col-sm-4">
+			<p class="form-control-static text-danger" ng-if="saveForm.entityName.$error.required">请输入机构名称</p>
+			<p class="form-control-static text-danger" ng-if="saveForm.entityName.$error.maxlength">不能超出30字</p>
+		</div>
+	</div>
+	<div class="form-group">
+		<label class="col-sm-2 control-label" appLocale="system.dept.parent">上级机构</label>
+		<div class="col-sm-6">
+			<div class="input-group dropdown" uib-dropdown is-open="parentSelector.isOpen" auto-close="outsideClick">					
+				<ul class="ztree dropdown-menu dropdown-menu-default" role="menu" uib-dropdown-menu
+					ztree="parentSelector"	ng-model="current.entity.parent"></ul>
+				<input ng-model="current.entity.parent.name" name="entityParentName" class="form-control" readonly 
+					ng-focus="parentSelector.isOpen = true" required>
+				<sapn class="input-group-btn">
+					<button type="button" class="btn btn-default" ng-click="current.entity.parent = null"><i class="fa fa-remove"></i></button>
+					<button type="button" class="btn btn-default dropdown-toggle" uib-dropdown-toggle aria-expanded="false">
+						<span class="caret"></span><span class="sr-only"></span>
+					</button>
+				</sapn>
+			</div>
+		</div>
+	</div>
+	<div class="form-group">
+		<label class="col-sm-2 control-label">审批金额</label>
+		<div class="col-sm-6">
+			<input type="number" class="form-control" ng-model="current.entity.approvalAmount" name="approvalAmount" ng-trim="true" required
+				min="0"
+				maxlength="10">
+		</div>
+		<div class="col-sm-4">
+			<p class="form-control-static text-danger" ng-if="saveForm.approvalAmount.$error.required">请输入审批金额</p>
+			<p class="form-control-static text-danger" ng-if="saveForm.approvalAmount.$error.maxlength">不能超出10字</p>
+		</div>
+	</div>
+	<div class="form-group">
+		<label class="col-sm-2 control-label">类型</label>
+		<div class="col-sm-6">
+			<input type="text" class="form-control" ng-model="current.entity.type" name="entityType" ng-trim="true" required
+				maxlength="2">
+		</div>
+		<div class="col-sm-4">
+			<p class="form-control-static text-danger" ng-if="saveForm.entityType.$error.required">请输入组织架构类型</p>
+			<p class="form-control-static text-danger" ng-if="saveForm.entityType.$error.maxlength">不能超出2字</p>
+		</div>
+	</div>
+	<div class="form-group">
+		<label class="col-sm-2 control-label">状态</label>
+		<div class="col-sm-6">
+			<input maxlength="1" type="text" class="form-control" ng-model="current.entity.status" name="entityStatus" ng-trim="true" required
+				>
+		</div>
+		<div class="col-sm-4">
+			<p class="form-control-static text-danger" ng-if="saveForm.entityStatus.$error.required">请输入状态</p>
+			<p class="form-control-static text-danger" ng-if="saveForm.entityStatus.$error.maxlength">不能超出1个字</p>
+		</div>
+	</div>
+	<div class="form-group">
+		<label class="col-sm-2 control-label">同步</label>
+		<div class="col-sm-6">
+			<input type="text" class="form-control" ng-model="current.entity.syncStatus" name="entitySyncStatus" ng-trim="true" required
+				maxlength="1">
+		</div>
+		<div class="col-sm-4">
+			<p class="form-control-static text-danger"  ng-if="saveForm.entitySyncStatus.$error.required""
+			>请输入是否同步</p>
+			<p class="form-control-static text-danger" ng-if="saveForm.entitySyncStatus.$error.maxlength">不能超出1个字</p>
+		</div>
+	</div>
+</div>
+</form>

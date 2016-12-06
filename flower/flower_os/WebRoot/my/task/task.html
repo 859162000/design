@@ -1,0 +1,42 @@
+<!-- 审批 -->
+<div class="portlet light bordered" ng-if="!!current.entity">
+	<div class="portlet-title" app-print-hide>
+		<div class="caption">
+			<span class="caption-subject sbold uppercase bold">
+				{{ app.setting[ app.DICT_APPLICATION_TYPE ][ current.entity.type ].i18nKey | appLocale }}
+				<small ng-bind="current.entity.id"></small>
+			</span>
+			<span class="caption-helper"></span>
+		</div>
+	</div>
+	
+	<div class="portlet-body form">
+	<div class="form-body app-body">
+		<div class="row">
+			<div class="col-sm-12" ng-include=" app.url(getNamespace(current.entity) + '/view-details.html') "></div>
+		</div>
+		<div class="row margin-vertical">
+			<div class="col-md-12">
+				<div class="form-group">
+					<label class="control-label col-md-1" app-locale="my.task.message">审批信息</label>
+					<div class="col-md-7">
+						<textarea class="form-control" rows="3" ng-model="current.task.message" ng-trim="true" ng-disabled="current.task.status != TASK_STATUS.PENDING"></textarea>
+					</div>
+				</div>
+			</div>
+		</div>
+		
+		<div class="row">
+			<div class="col-sm-12 text-center" app-print-action>
+				<button ng-if="current.task.status == TASK_STATUS.PENDING" type="button" class="btn btn-primary" app-locale="app.approve" ng-click="approve()">通过</button>
+				<button ng-if="current.task.status == TASK_STATUS.PENDING" type="button" class="btn btn-primary" app-locale="app.reject" ng-click="reject()">退回</button>
+	
+				<!-- <button type="button" class="btn btn-primary" app-locale="app.countersign" ng-click="countersign()">指定会签人</button> -->
+	
+				<!-- <button type="button" class="btn btn-primary" app-locale="app.print" app-print></button> -->
+				<button type="button" class="btn btn-primary" app-locale="app.cancel" ng-click="cancel()"></button>
+			</div>
+		</div>
+	</div>
+	</div>
+</div>

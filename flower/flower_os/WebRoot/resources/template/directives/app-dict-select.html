@@ -1,0 +1,5 @@
+<select name="{{ ::fieldName }}" ng-model="fieldValue" 
+	ng-required="required"
+	ng-options="dict.fieldValue as dict.fieldText for dict in dicts track by dict.id" >
+	<option ng-if="showHeader"></option>
+</select>

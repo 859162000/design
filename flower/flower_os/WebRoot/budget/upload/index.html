@@ -1,0 +1,10 @@
+<!-- 预算导入列表 -->
+<div class="row">
+	<!-- 查询列表 -->
+	<div class="col-sm-12" ng-show="!current.operator"
+		ng-include=" 'resources/template/application/my-application-query.html' "></div>
+
+	<!-- 详细信息 -->
+	<div class="col-sm-12" ng-if="!!current.operator"
+		ng-include=" 'resources/template/application/my-application-detail.html' "></div>
+</div>

@@ -1,0 +1,84 @@
+
+<div class="form-group">
+	<!-- <label class="col-sm-2 control-label">类别</label> -->
+	<div class="col-sm-6">
+		<input type="text"  style="display:none;"  class="form-control" ng-model="current.entity.type" name="entityType" ng-trim="true" required maxlength="20">
+	</div>
+</div>
+<div class="form-group">
+	<!-- <label class="col-sm-2 control-label">加载方式</label> -->
+	<div class="col-sm-6">
+		<input class="form-control" style="display:none;"  ng-model="current.entity.loadType" name="entityLoadType" ng-trim="true" required maxlength="2">
+	</div>
+</div>
+<div class="form-group">
+	<!-- <label class="col-sm-2 control-label">用于排序的序号</label> -->
+	<div class="col-sm-6">
+		<input class="form-control" style="display:none;" ng-model="current.entity.ordinal" name="entityOrdinal" ng-trim="true" required maxlength="2">
+	</div>
+</div>
+<!-- 上面是合同类别设置默认加载的隐藏部分  -->
+
+
+
+<div class="form-group">
+	<label class="col-sm-2 control-label">参数状态</label>
+	<div class="col-sm-3" app-dict-radio="current.entity.status"  dict-type="status" inline="true"></div>
+</div>
+<div class="form-group">
+	<label class="col-sm-2 control-label">合同类别代码</label>
+	<div class="col-sm-6">
+		<input  ng-model="current.entity.code" name="entityCode" ng-blur="testCode(current.entity.code)" class="form-control" ng-trim="true" required ng-maxlength="20">
+	</div>
+	<div class="col-sm-4">
+		<p class="form-control-static text-danger" ng-if="editForm.entityCode.$error.required">请输入类别代码</p>
+		<p class="form-control-static text-danger" ng-if="editForm.entityCode.$error.maxlength">不能超出20字节</p>
+		<p class="form-control-static text-danger" ng-if="editForm.entityCode.$invalid">请输入正确的类别代码</p>
+	</div>
+</div>
+
+<div class="form-group">
+	<label class="col-sm-2 control-label">合同类别名称</label>
+	<div class="col-sm-6">
+		<input class="form-control" ng-model="current.entity.name" name="entityPropertyName" ng-trim="true" required maxlength="20">
+	</div>
+	<div class="col-sm-4">
+		<p class="form-control-static text-danger" ng-if="editForm.entityPropertyName.$error.required">请输入合同类别名称</p>
+		<p class="form-control-static text-danger" ng-if="editForm.entityPropertyName.$error.maxlength">不能超出20字</p>
+		<p class="form-control-static text-danger" ng-if="editForm.entityPropertyName.$invalid">请输入正确的合同类别名称</p>
+	</div>
+</div>
+<div class="form-group">
+	<label class="col-sm-2 control-label">印花税率</label>
+	<div class="col-sm-6">
+		<input type="number" class="form-control" ng-model="current.entity.propertyN50" name="entityProperty50" ng-trim="true" required maxlength="20">
+	</div>
+	<div class="col-sm-4">
+		<p class="form-control-static text-danger" ng-if="editForm.entityProperty50.$error.required">请输入印花税率</p>
+		<p class="form-control-static text-danger" ng-if="editForm.entityProperty50.$error.maxlength">不能超出20字</p>
+		<p class="form-control-static text-danger" ng-if="editForm.entityProperty50.$invalid">请输入正确的印花税率</p>
+	</div>
+</div>
+<div class="form-group">
+	<label class="col-sm-2 control-label">预先计税金额</label>
+	<div class="col-sm-6">
+		<input type="number" class="form-control" ng-model="current.entity.propertyN51" name="entityProperty51" ng-trim="true" required maxlength="100">
+	</div>
+	<div class="col-sm-4">
+		<p class="form-control-static text-danger" ng-if="editForm.entityProperty51.$error.required">请输入预先计税金额</p>
+		<p class="form-control-static text-danger" ng-if="editForm.entityProperty51.$error.maxlength">不能超出100字</p>
+		<p class="form-control-static text-danger" ng-if="editForm.entityProperty51.$invalid">请输入正确的预先计税金额</p>
+	</div>
+</div>
+<div class="form-group">
+	<label class="col-sm-2 control-label">状态</label>
+	<div class="col-sm-3" app-dict-radio="current.entity.status"  dict-type="status" inline="true"></div>
+</div>
+
+
+<div class="form-group">
+	<div class="col-sm-6 col-sm-offset-2">
+		<button type="submit" class="btn btn-primary" app-locale="app.save" ng-disabled="editForm.$invalid">保存</button>
+		<button type="button" class="btn btn-primary" app-locale="app.cancel" ng-click="cancel()">取消</button>
+	</div>
+</div>

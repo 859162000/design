@@ -1,0 +1,70 @@
+
+<form name="queryForm" method="post" ng-submit="query()" class="form-horizontal"  >
+<div class="portlet light bordered query-container">
+	<div class="portlet-title">
+		<div class="caption">
+			<i class="fa fa-list"></i> 
+			<span class="caption-subject font-dark sbold uppercase bold" app-locale="setting.associateCompany.list">关联公司查询列表</span>
+			<span class="caption-helper"></span>
+		</div>
+		<div class="actions">
+			<button type="button" class="btn btn-circle btn-icon-only btn-default"
+				title="{{ (!hideQueryParams ? 'app.query.hide' : 'app.query.show')  | appLocale }}" 
+				ng-click="hideQueryParams = !hideQueryParams">
+				<i class="fa" 
+					ng-class="{ 'fa-angle-down' : !hideQueryParams, 'fa-angle-up': hideQueryParams }"></i>
+			</button>
+			<!-- <button type="submit" class="btn btn-circle btn-icon-only btn-default"
+				title="{{ 'app.query' | appLocale }}"  
+				ng-disabled="queryForm.$invalid"
+				app-permission="query" ng-click="query()" >
+				<i class="fa fa-search"></i>
+			</button> -->
+			<button type="button" title="{{ 'app.add' | appLocale }}" class="btn btn-circle btn-icon-only btn-primary"
+				app-permission="edit" ng-click="add()">
+				<i class="fa fa-plus"></i>
+			</button>
+			<button type="button" title="{{ 'app.delete' | appLocale }}" class="btn btn-circle btn-icon-only btn-default"
+				app-permission="edit" ng-disabled="!checkedUsers || !checkedUsers.length <= 0" ng-click="remove(checkedUsers)">
+				<i class="fa fa-trash-o"></i>
+			</button>
+		</div>
+	</div>
+	
+	<div class="portlet-body form">
+		<div  ng-include="'setting/nomal/queryHeader.html'" ></div>
+		
+		<!-- 参数列表表格 -->
+		<div class="table-responsive">
+			<table class="table table-striped table-bordered table-condensed" role="grid" 
+				st-table="dictionarys" st-safe-src="current.page.content">
+				<thead>
+					<tr>
+						<!-- <th width="30" ui-table-select-all="dictionarys"></th> -->
+						<th st-sort="associateCompany.code" app-locale="setting.associateCompany.code">公司代码</th>
+						<th st-sort="associateCompany.name" app-locale="setting.associateCompany.name">公司名称</th>
+						<th st-sort="associateCompany.nation" app-locale="setting.associateCompany.nation">所属国家</th>
+						<th st-sort="associateCompany.status" app-locale="setting.associateCompany.status">状态</th>
+						<th st-sort="associateCompany.accounting" app-locale="setting.associateCompany.accounting">会计科目</th>
+						<th width="30" class="text-center"></th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr ng-repeat="dictionary in dictionarys">
+						<!-- <td ui-table-select="dictionary" selected-rows="current.selected"></td> -->
+						<td><a href="javascript:;" ng-bind="::dictionary.code" ng-click="view(dictionary)"></a></td>
+						<td ng-bind="::dictionary.name">公司名称</td>
+						<td ng-bind="::dictionary.propertyC01">所属国家</td>
+						<td app-dict="::dictionary.status" dict-type="status"></td>
+						<td  app-show="::dictionary.propertyC03"   url="/accountingSubject.do">会计科目</td>
+						<td class="text-center"><a href="javascript:;" title="{{ ::('app.edit' | appLocale) }}" ng-click="edit(dictionary)"><i class="fa fa-edit"></i></a></td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+		
+		<!-- 显示分页 -->
+		<div app-page></div>
+	</div>
+</div>
+</form>

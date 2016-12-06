@@ -1,0 +1,28 @@
+<!-- 详细查看页面，在view-details页面加上了表头和操作按钮 -->
+<div class="portlet light bordered">
+
+<div class="portlet-title" app-print-hide>
+	<div class="caption">
+		<i class="fa fa-edit" ng-if="current.operator != 'view'"></i>
+		<span class="caption-subject sbold uppercase bold">
+			<span app-locale="expense.phoneBills">电话费报销</span>
+			<small ng-bind="current.entity.id"></small>
+		</span>
+		<span class="caption-helper"></span>
+	</div>
+	<div class="actions" ng-include=" 'resources/template/application/view/actions.html' "></div>
+</div>
+<div class="portlet-body form">
+	<div class="form-body app-body">
+
+		<div class="row">
+			<div class="col-sm-12" ng-include=" 'expense/other/view-details.html' "></div>
+		</div>
+		
+		<div class="row">
+			<div class="col-sm-12 text-center" app-print-hide ng-include=" 'resources/template/application/view/buttons.html' "></div>
+		</div>
+	</div>
+</div>
+
+</div>

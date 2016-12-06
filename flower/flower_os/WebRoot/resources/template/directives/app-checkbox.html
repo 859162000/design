@@ -1,0 +1,20 @@
+<div ng-if="::(inline && useProperty)">
+	<label ng-repeat="obj in data" class="checkbox-inline">
+		<input type="checkbox" ng-change="setCheckedValues()" ng-model="obj.checked"> {{ obj.fieldText }}
+	</label>
+</div>
+<div ng-if="::(inline && !useProperty)">
+	<label ng-repeat="obj in data track by obj[ property ]" class="checkbox-inline">
+		<input type="checkbox" ng-change="setCheckedValues()" ng-model="obj.checked"> {{ obj.fieldText }}
+	</label>
+</div>
+<div ng-if="::(!inline && useProperty)">
+	<div ng-repeat="obj in data" class="checkbox">
+		<label><input type="checkbox" ng-change="setCheckedValues()" ng-model="obj.checked"> {{ obj.fieldText }}</label>
+	</div>
+</div>
+<div ng-if="::(!inline && !useProperty)">
+	<div ng-repeat="obj in data track by obj[ property ]" class="checkbox">
+		<label><input type="checkbox" ng-change="setCheckedValues()" ng-model="obj.checked"> {{ obj.fieldText }}</label>
+	</div>
+</div>

@@ -1,0 +1,20 @@
+<!-- 审批 -->
+<div class="portlet light bordered">
+	<div class="portlet-title" app-print-hide>
+		<div class="caption">
+			<span class="caption-subject sbold uppercase bold">
+				{{ app.setting[ app.DICT_APPLICATION_TYPE ][ current.entity.type ].i18nKey | appLocale }}
+				<small ng-bind="current.entity.id"></small>
+			</span>
+			<span class="caption-helper"></span>
+		</div>
+	</div>
+	
+	<div class="portlet-body form">
+	<div class="form-body app-body">
+		<div class="row">
+			<div class="col-sm-12" ng-include=" app.url(namespace(current.entity) + '/view.html') "></div>
+		</div>
+	</div>
+	</div>
+</div>

@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>login.html</title>
+    <meta name="keywords" content="keyword1,keyword2,keyword3">
+    <meta name="description" content="this is my page">
+    <meta name="content-type" content="text/html; charset=UTF-8">
+
+  </head>
+  
+  <body>
+  	<div ng-app="" ng-controller="loginController">
+	  	登陆模块     
+	   	<form action="">
+	   		<div>姓名:<input name="name" ng-model="current.name"/></div>
+	   		<div>密码:<input name="pass" ng-model="current.pass"/></div>
+	  
+	   		<div> 
+	   		<button ng-click="commit()">提交</button>
+	   		</div>
+	   	</form>
+  	</div>
+   	<script src="resources/angular/angular.min.js"></script>
+	<script>
+		function loginController($scope, $http) {
+			$scope.commit = function() {
+				$http({
+					method:"POST",
+					url:"/java_frame_opensource/login/login.do",	
+					params:{
+						"userName":$scope.current.name,
+						"password":$scope.current.pass
+					}
+				}).success(function(response) {
+					if(response.data && response.data.flag == "success"){
+						location.href="main.html";
+					}else{
+						console.log("name or password error...");
+					}
+				}).error(function() {
+					alert("fail...");
+				});
+			
+			};
+		};
+	</script> 
+</body> 
+</html>

@@ -1,0 +1,45 @@
+<div class="form-group">
+	<label class="col-sm-2 control-label" app-locale="setting.budget.code">科目代码</label>
+	<div class="col-sm-4">
+		<p class="form-control-static" ng-bind="current.entity.code"></p>
+	</div>
+	<label class="col-sm-2 control-label" app-locale="setting.budget.name">科目代码</label>
+	<div class="col-sm-4">
+		<p class="form-control-static" ng-bind="current.entity.name"></p>
+	</div>
+</div>
+<div class="form-group">
+	<label class="col-sm-2 control-label" appLocale="setting.budget.control">是否涉及预算</label>
+	<div class="col-sm-4" app-dict="current.entity.control" dict-type="yes_no"></div>
+	<label class="col-sm-2 control-label" appLocale="setting.budget.release">释放方式</label>
+	<div class="col-sm-4" app-dict="current.entity.releaseType" dict-type="releaseType"></div>
+</div>
+<div class="form-group">
+	<label class="col-sm-2 control-label" appLocale="setting.budget.status">状态</label>
+	<div class="col-sm-4" app-dict="current.entity.status" dict-type="status"></div>
+</div>
+
+
+<div class="form-group">
+	<label class="col-sm-2 control-label" appLocale="setting.budget.control">是否涉及预算</label>
+	<div class="col-sm-4" app-dict="current.entity.control"  dict-type="yes_no" ></div>
+	<label class="col-sm-2 control-label">是否允许调整</label>
+	<div class="col-sm-4" app-dict="current.entity.adjust"  dict-type="yes_no" ></div>
+</div>
+
+<div class="form-group">
+	<label class="col-sm-2 control-label">释放方式</label>
+	<div class="col-sm-4" app-dict="current.entity.releaseType"  dict-type="releaseType"></div>
+	<label class="col-sm-2 control-label">资金计划科目</label>
+	<div class="col-sm-4" app-dict="current.entity.capitalSubjects"  dict-type="capitalPlan"></div>
+</div>
+
+
+<div class="form-group">
+	<div class="col-sm-6 col-sm-offset-2">
+		<button type="button" class="btn btn-primary" app-locale="app.edit"
+			ng-click="edit()">编辑</button>
+		<button type="button" class="btn btn-primary" app-locale="app.cancel"
+			ng-click="cancel()">取消</button>
+	</div>
+</div>

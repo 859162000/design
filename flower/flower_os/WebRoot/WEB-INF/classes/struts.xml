@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE struts PUBLIC "-//Apache Software Foundation//DTD Struts Configuration 2.1//EN" "http://struts.apache.org/dtds/struts-2.1.dtd">
+<struts>
+	<constant name="struts.custom.i18n.resources" value="messageResource"/>
+	
+	<!-- 后缀的类型 -->
+	<constant name="struts.action.extension" value="do" />
+	<!-- struts改变是否重新加载，开发时打开 -->
+	<constant name="struts.configuration.xml.reload" value="true"/>
+	
+    <package name="org.wanwan.flower.login" extends="struts-default">
+        <action name="loginz" class="loginzAction" method="loginz">
+            <result name="error">/index.html</result>
+            <result name="success">/main.html</result>        
+        </action>
+        <action name="main" class="mainAction" method="main">
+            <result name="success">/pages/welcome.html</result>        
+        </action>
+        
+    </package>
+    
+    <!-- 使用json返回数据格式 -->
+    <package name="jsons" extends="json-default">
+      	<!-- 测试的一个方法 -->
+		<action name="query" class="mainAction" method="query">
+			<result type="json">
+				<!-- 这里指定将被Struts2序列化的属性，该属性在action中必须有对应的getter方法 -->
+				<param name="root">dataMap</param>
+			</result>
+		</action>
+	 
+	</package>
+	
+	<!-- 子文件 
+	<include file="config/struts/struts-base-html.xml" />
+	-->
+	
+</struts>    

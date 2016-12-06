@@ -1,0 +1,8 @@
+	<!-- 类型：初始化为自动带出不显示 -->
+	<div class="col-sm-6">
+		<input type="text"  style="display:none;"  class="form-control" ng-model="current.entity.type" name="entityType" ng-trim="true" required maxlength="20">
+	</div>
+	<!-- 是否复核：初始化为否, 09约定为是否复核 -->
+	<div class="col-sm-6">
+		<div class="col-sm-3" app-dict-radio="current.entity.property09"  dict-type="yes_no" inline="true"></div>
+	</div>

@@ -1,0 +1,146 @@
+<!-- 单个菜单的个人申请单详细页面,可用于每个独立的申请页面,此页面没有进行权限控制,均只能操作自己的数据 -->
+<form name="payForm" method="post" ng-submit="pay()" class="form-horizontal" novalidate="novalidate">
+<div class="portlet light bordered">
+
+<div class="portlet-title" app-print-hide>
+	<div class="caption">
+		<i class="fa fa-edit"></i>
+		<span class="caption-subject sbold uppercase bold">
+			<span app-locale="payment">财务支付</span>
+			<small ng-bind="current.entity.id"></small>
+		</span>
+		<span class="caption-helper"></span>
+	</div>
+</div>
+<div class="portlet-body form">
+	<div class="form-body app-body">
+		<div class="row">
+			<div class="col-md-12" ng-include=" 'resources/template/application/view/header.html' "></div>
+		</div>
+		
+		<div class="row">
+			<div class="col-md-4">
+				<div class="form-group">
+					<label class="control-label col-md-3" app-locale="payment.method">支付方式</label>
+					<div class="col-md-9" app-dict-select="current.payment.method" app-filter=""
+						dict-type="payment_method" required="true" show-property="code,name" header="true"></div>
+				</div>
+			</div>
+			<div class="col-md-4">
+				<div class="row static-info">
+					<div class="col-md-3 name" app-locale="payment.payee.supplier">供应商</div>
+					<div class="col-md-9 value" ng-bind=" current.payment.supplier.name + ( current.payment.supplier.id ? ('(' + current.payment.supplier.id + ')') : '') "></div>
+				</div>
+			</div>
+			<div class="col-md-4" ng-if="current.payment.payMethod != PAY_METHODS.CASH">
+				<div class="row static-info">
+					<div class="col-md-3 name" app-locale="payment.payee">收款人</div>
+					<div class="col-md-9 value" ng-bind="current.payment.name"></div>
+				</div>
+			</div>
+		</div>
+		
+		<div class="row" ng-if="current.payment.payMethod == PAY_METHODS.CASH">
+			<div class="col-md-12" >
+				<div class="row static-info">
+					<div class="col-md-1 name" app-locale="payment.cash.remarks">现金收款原因</div>
+					<div class="col-md-11 value" ng-bind="current.payment.remarks"></div>
+				</div>
+			</div>
+		</div>
+		
+		<div class="row" ng-if="current.payment.payMethod != PAY_METHODS.CASH">
+			<div class="col-md-4">
+				<div class="row static-info">
+					<div class="col-md-3 name" app-locale="payment.account">账号</div>
+					<div class="col-md-9 value" ng-bind="current.payment.account"></div>
+				</div>
+			</div>
+			<div class="col-md-4">
+				<div class="row static-info">
+					<div class="col-md-3 name" app-locale="payment.bank">开户行</div>
+					<div class="col-md-9 value" ng-bind="current.payment.bank"></div>
+				</div>
+			</div>
+			<div class="col-md-4">
+				<div class="row static-info">
+					<div class="col-md-3 name" app-locale="payment.payee.remarks">支付备注</div>
+					<div class="col-md-9 value" ng-bind="current.payment.remarks"></div>
+				</div>
+			</div>
+		</div>
+		<div class="row">	
+			<div class="col-md-4">
+				<div class="form-group">
+					<label class="control-label col-md-3" app-locale="payment.currency">币种</label>
+					<div class="col-md-9" app-select="current.payment.currency" use-property="false"
+						change="changeCurrency()"
+						url="currency.do" args="{ statsus: '1' }" required="true" show-property="id,name" header="true"></div>
+				</div>
+			</div>
+			<div class="col-md-4">
+				<div class="row">			
+					<div class="form-group">
+						<label class="control-label col-md-3" app-locale="payment.exchangeRate">汇率</label>
+						<div class="col-md-9">
+							<input type="number" class="form-control" ng-model="current.payment.exchangeRate"
+								ng-disabled="current.payment.currency.id == app.currency.id" 
+								ng-change="changeExchangeRate()" required min="0.000001">
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="col-md-4">
+				<div class="row static-info">
+					<div class="col-md-3 name" app-locale="payment.amount">金额</div>
+					<div class="col-md-9 value" ng-bind="current.payment.amount | currency:current.payment.currency.symbol"></div>
+				</div>
+			</div>
+		</div>
+		
+		
+		<div class="row">
+			<div class="col-md-4">
+				<div class="form-group">
+					<label class="control-label col-md-3" app-locale="payment.company.account">财务支付银行</label>
+					<div class="col-md-9" app-select="current.payment.companyAccount" use-property="false"
+						url="/companyAccount.do" required="true" show-property="id,name" header="true"></div>
+				</div>
+			</div>
+			<div class="col-md-4" ng-if="current.payment.currency.id != app.currency.id">
+				<div class="row static-info">
+					<div class="col-md-3 name" app-locale="payment.amount.cny">人民币金额</div>
+					<div class="col-md-9 value" ng-bind="current.payment.amount * current.payment.exchangeRate | currency"></div>
+				</div>
+			</div>
+		</div>
+		
+		
+		<div class="row">
+			<div class="col-md-12">
+				<div class="form-group">
+					<label class="col-md-1 control-label" app-locale="payment.message">支付信息</label>
+					<div class="col-md-7">
+						<textarea class="form-control" rows="3" ng-model="current.entity.message" ng-trim="true"></textarea>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<div class="row">
+			<div class="col-md-12 text-center" app-print-action>
+				<button type="submit" class="btn btn-primary" app-locale="payment.pay"
+					ng-disabled="payForm.$invalid || session.requesting"></button>
+				<button type="button" class="btn btn-primary" app-locale="payment.pay.reject"
+					ng-click="reject()"
+					ng-disabled="payForm.$invalid || session.requesting"></button>
+				<button type="button" class="btn btn-primary" app-locale="app.cancel" ng-click="cancel()"></button>
+			</div>			
+		</div>
+
+
+	</div>
+</div>
+
+</div>
+</form>

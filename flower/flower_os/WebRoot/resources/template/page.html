@@ -1,0 +1,44 @@
+<div xng-if="page && page.content.length" class="row">
+	<div class="col-sm-12">
+		<div class="pull-left">
+			<div class="pagination-helper" ng-if="!hideInput">			
+				<span app-locale-bind="app.page.elements" app-locale-args="[ page.numberOfElements, page.totalElements ]">本页{{ page.numberOfElements }}条,共{{ page.totalElements }}条.</span>
+				<span app-locale="app.page.pages.per">每页</span><input type="number" class="pagination-panel-input form-control input-sm input-inline input-mini" required
+						ng-model="parentPageRequest.pageSize" min="1"><span app-locale="app.page.pages.item">条</span>
+				<span app-locale-bind="app.page.pages.total" app-locale-args="[ page.totalPages ]">共{{ page.totalPages }}页.</span>
+				<span app-locale="app.page.goto">转到</span><input type="number" class="pagination-panel-input form-control input-sm input-inline input-mini"
+						ng-change="parentPageRequest.pageNumber = pageRequest.pageNumberView - 1" 
+						ng-model="pageRequest.pageNumberView" required min="1"><span app-locale="app.page.goto.page">页</span>
+				<button type="submit" class="btn btn-default btn-sm btn-outline btn btn-primary table-group-action-submit"
+					ng-disabled="queryForm.$invalid"><i class="fa fa-search"></i></button>
+			</div>
+			<div class="pagination-helper" ng-if="!!hideInput">
+				<span app-locale-bind="app.page.elements.simple" app-locale-args="[ page.numberOfElements, page.totalElements ]">{{ page.numberOfElements }}/{{ page.totalElements }}</span>
+			</div>
+		</div>
+		
+		<div class="pull-right">
+
+	<ul class="pagination pagination-sm">
+		<li class="first" ng-class="{ disabled : page.first, active : page.first  }">
+			<a href ng-click="first()" aria-label="First" title="{{ app.page.first | appLocale }}"><i class="fa fa-angle-double-left"></i></a>
+		</li>
+		<li class="previous" ng-class="{ disabled : page.first, active : page.first }">
+			<a href ng-click="previous()" aria-label="Previous" title="{{ app.page.pervious | appLocale }}"><span aria-hidden="true"><i class="fa fa-angle-left"></i></span></a>
+		</li>
+		
+		<li ng-repeat="pageNumber in pageRequest.pageNumberScope track by $index" ng-class="{ active : pageNumber == pageRequest.pageNumberFinal }">
+			<a href ng-click="go(pageNumber)" aria-label="{{ pageNumber + 1 }}" title="{{ pageNumber + 1 }}">{{ pageNumber + 1 }}</a>
+		</li>
+		
+		<li class="next" ng-class="{ disabled : page.last, active : page.last }">
+			<a href ng-click="next()" aria-label="Next" title="{{ app.page.next | appLocale }}"><span aria-hidden="true"><i class="fa fa-angle-right"></i></span></a>
+		</li>
+		<li class="last" ng-class="{ disabled : page.last, active : page.last }">
+			<a href ng-click="last()" aria-label="Last" title="{{ app.page.last | appLocale }}"><span aria-hidden="true"><i class="fa fa-angle-double-right"></i></span></a>
+		</li>
+	</ul>
+			
+		</div>
+	</div>
+</div>

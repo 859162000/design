@@ -1,0 +1,22 @@
+<!-- View表单右上角操作按钮 -->
+<a title="{{ 'app.edit' | appLocale }}" class="btn btn-circle btn-icon-only btn-default"
+	ng-href="{{ $state.href('.edit', { id: current.entity.id }, { relative: $state.$current.parent.self } ) }}" ng-if="canEdit(current.entity)">
+	<i class="fa fa-edit"></i>
+</a>
+<button type="button" title="{{ 'application.payee.edit' | appLocale }}" class="btn btn-circle btn-icon-only btn-default"
+	ng-click="editPayee()" ng-if="canEditPayee(current.entity)"><i class="fa fa-edit"></i></button>
+<button type="button" title="{{ 'app.revoke' | appLocale }}" class="btn btn-circle btn-icon-only btn-default" 
+	ng-click="revoke()" ng-if="canRevoke(current.entity)">
+	<i class="fa fa-level-down"></i>
+</button>
+<button type="button" title="{{ 'app.delete' | appLocale }}" class="btn btn-circle btn-icon-only btn-default"
+	ng-if="canRemove(current.entity)" ng-click="remove()">
+	<i class="fa fa-trash-o"></i>
+</button>
+<button type="button" title="{{ 'app.print' | appLocale }}" class="btn btn-circle btn-icon-only btn-default" app-print>
+	<i class="fa fa-print"></i>
+</button>
+<button type="button" title="{{ 'app.cancel' | appLocale }}" class="btn btn-circle btn-icon-only btn-default"
+	ng-click="cancel()">
+	<i class="fa fa-undo"></i>
+</button>

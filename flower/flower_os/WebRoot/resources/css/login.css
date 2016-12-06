@@ -1,0 +1,12 @@
+/** 用于登录的CSS样式 */
+.page-login .login-container {
+	padding: 30px;
+	background-color: #fff;
+}
+/* .page-login .page-footer {
+	padding: 30px 20px 20px 20px;
+} */
+.page-login .page-header.navbar .menu-toggler.responsive-toggler {
+	display: none;
+	height: 0;
+}

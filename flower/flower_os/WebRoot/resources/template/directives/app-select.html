@@ -1,0 +1,8 @@
+<select ng-if="::useProperty" class="form-control" name="{{ ::fieldName }}" ng-model="$parent.model"
+	ng-required="required" ng-class="ngClass"
+	ng-options="obj.fieldValue as obj.fieldText for obj in data" >
+</select>
+<select ng-if="::!useProperty" class="form-control" name="{{ ::fieldName }}" ng-model="$parent.model"
+	ng-required="required" ng-class="ngClass"
+	ng-options="obj.fieldText for obj in data track by obj[ property ]" >
+</select>

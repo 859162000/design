@@ -1,0 +1,117 @@
+<!-- 生成凭证 -->
+<form name="accountingForm" method="post" ng-submit="pay()" class="form-horizontal" novalidate="novalidate">
+<div class="portlet light bordered" ng-if="!!current.entity">
+
+<div class="portlet-title" app-print-hide>
+	<div class="caption">
+		<i class="fa fa-edit"></i>
+		<span class="caption-subject sbold uppercase bold">
+			<span app-locale="accounting">会计凭证</span>
+		</span>
+		<span class="caption-helper"></span>
+	</div>
+</div>
+<div class="portlet-body form">
+	<div class="form-body app-body">			
+	
+		<div class="row">
+			<div class="col-md-12">
+				<h4 class="form-section">
+					<span app-locale="accounting.items">会计分录</span>
+					<small><a href="javascript:;" ng-click="addItem()" title="{{ 'app.add' | appLocale }}"><i class="fa fa-plus"></i></a></small>
+				</h4>
+				<div class="table-responsive">
+					<table class="table table-striped table-bordered table-condensed" role="grid">
+						<thead>
+							<tr>
+								<th class="text-center row-number">#</th>
+								<th app-locale="accounting.subject">会计科目</th>
+								<th app-locale="accounting.item.dc">借/贷</th>
+								<th app-locale="accounting.item.amount.currency">原币金额</th>
+								<th app-locale="accounting.item.currency">币种</th>
+								<th app-locale="accounting.item.exchangeRate">汇率</th>
+								<th app-locale="accounting.item.amount">人民币</th>
+								<th app-locale="accounting.item.remarks">详细事项描述</th>
+								<th app-locale="accounting.item.costDept">成本中心</th>
+								<th app-locale="accounting.item.cashFlow">现金流</th>
+								<th app-locale="accounting.item.order">内部订单</th>
+								<th app-locale="accounting.item.risk">险种代码</th>
+								<th app-locale="accounting.item.supplier">往来单位</th>
+								<!-- <th app-locale="accounting.item.company">公司</th> -->
+								<th app-locale="budget.subject">预算科目</th>
+								<th app-locale="accounting.item.assetCode">资产代码</th>
+								<th app-locale="accounting.item.deposit">存款单号</th>
+								<th app-locale="accounting.item.deposit.startDate">生效日</th>
+								<th app-locale="accounting.item.deposit.endDate">到期日</th>
+								
+								<th class="text-center row-actions">
+									<a href="javascript:;" ng-click="clearItems()" title="{{ 'app.remove.all' | appLocale }}"><i class="fa fa-remove"></i></a>
+									<a href="javascript:;" ng-click="addItem()" title="{{ 'app.add' | appLocale }}"><i class="fa fa-plus"></i></a>
+								</th>
+							</tr>
+						</thead>
+						<tbody class="table-form">
+							<tr ng-repeat="item in current.entity.items track by item.ordinal">
+								<td class="row-number" ng-bind="$index+1"></td>
+								<td app-ui-select="item.subject" url="/accountingSubject.do" args="{ budgetCode: item.propertyC07 }" use-property="false" required="true"></td>
+								<td><select class="form-control" ng-model="item.dc" required><option value="D">D</option><option value="C">C</option></select></td>
+								<td><input type="number" min="0.01" class="form-control" ng-model="item.amountCurrency" required></td>
+								<td app-ui-select="item.currency" use-property="false" url="/currency.do" required="true"></td>
+								<td><input type="number" min="0.01" class="form-control" ng-model="item.exchangeRate" required></td>
+								<td><input type="number" min="0.01" class="form-control" ng-model="item.amount" required></td>
+								<td><input ng-model="item.remarks" class="form-control" required maxlength="1000"></td>
+								<td app-ui-select="item.propertyC00" property="code" url="/dept.do" args="{ companyId: current.accounting.company.id }" required="isRequired(item, 0)"></td>
+								<td app-ui-select="item.propertyC01" property="code" url="/setting.do" args="{ type: 'cashFlow' }" ng-required="isRequired(item, 1)"></td>
+								<td app-ui-select="item.propertyC02" property="code" url="/setting.do" args="{ type: 'expenseProject' }" ng-required="isRequired(item, 2)"></td>
+								<td app-ui-select="item.propertyC04" property="code" url="/setting.do" args="{ type: 'insurance' }" ng-required="isRequired(item, 4)"></td>
+								<td ng-if="item.propertyC13 == 'V'" app-ui-select="item.propertyC05" url="/supplier.do" ng-required="isRequired(item, 5)"></td>
+								<td ng-if="item.propertyC13 == 'U'" app-ui-select="item.propertyC05" property="code" url="/user.do" ng-required="isRequired(item, 5)"></td>
+								<td app-ui-select="item.propertyC07" url="/budgetSubject.do" ng-required="isRequired(item, 6)"></td>
+								<td app-ui-select="item.propertyC08" url="/asset.do" ng-required="isRequired(item, 7)"></td>
+								<td><input class="form-control" ng-model="item.propertyC09" ng-required="isRequired(item, 8)"></td>
+								<td>
+									<div class="input-group">
+										<input type="date" class="form-control" ng-model="item.propertyD00" required datepicker-append-to-body="true"
+											uib-datepicker-popup is-open="openDatepickerD00" ng-required="isRequired(item, 9)">
+										<div class="input-group-btn">
+											<button class="btn btn-default" type="button" ng-click="openDatepicker=true">
+												<span class="icon icon-calendar"></span><span class="sr-only">Split button!</span>
+											</button>
+										</div>
+									</div>
+								</td>
+								<td>
+									<div class="input-group">
+										<input type="date" class="form-control" ng-model="item.propertyD01" required datepicker-append-to-body="true"
+											uib-datepicker-popup is-open="openDatepickerD01" ng-required="isRequired(item, 10)">
+										<div class="input-group-btn">
+											<button class="btn btn-default" type="button" ng-click="openDatepicker=true">
+												<span class="icon icon-calendar"></span><span class="sr-only">Split button!</span>
+											</button>
+										</div>
+									</div>
+								</td>
+								<td class="text-center row-actions">
+									<a href="javascript:;" ng-click="removeItem(item)" title="{{ 'app.remove' | appLocale }}"><i class="fa fa-remove"></i></a>
+									<a href="javascript:;" ng-click="addItem(item)" title="{{ 'application.item.copy' | appLocale }}"><i class="fa fa-copy"></i></a>
+								</td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+			</div>
+		</div>
+	
+		<div class="row">
+			<div class="col-md-12 text-center" app-print-action>
+				<button type="submit" class="btn btn-primary" app-locale="app.submit"
+					ng-disabled="accountingForm.$invalid || session.requesting"></button>
+				<button type="button" class="btn btn-primary" app-locale="app.cancel" ng-click="cancel()"></button>
+			</div>			
+		</div>
+
+	</div>
+</div>
+
+</div>
+</form>

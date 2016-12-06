@@ -1,0 +1,56 @@
+<div class="row">
+	<div class="col-md-12" ng-include=" 'resources/template/application/edit/header.html' "></div>
+</div>
+<div class="row">
+	<div class="col-md-4">
+		<div class="form-group">
+			<label class="control-label col-md-3"app-locale="budget.year">预算年份</label>
+			<div class="col-md-9">				
+				<input type="number" class="form-control" ng-model="current.entity.propertyN00" required min="app.currentMonth.year">
+			</div>
+		</div>
+	</div>
+</div>
+
+<div class="row">
+	<div class="col-md-12">
+		<div class="form-group">
+			<label class="control-label col-md-1" app-locale="budget.upload.file">预算文件</label>
+			<div class="col-md-7">
+				<input type="file" ui-uploader uploader="current.uploader" nv-file-select="" class="form-control" no-multiple
+					uploader-form-data="[ { 'business.id': current.entity.id } ]"
+					uploader-accept-types="xls,xlsx" uploader-url="/readExcel.do" on-success-item="uploader.onSuccessItem">
+				<div class="help-block" title="{{ 'app.uploader.uploading' | appLocale }}" ng-if="current.uploader.isUploading"><i class="fa fa-spin fa-spinner"></i></div>
+				<div class="help-block text-danger" ng-if="current.uploader.error" ng-bind="current.uploader.error.message || getText('app.uploader.failure')"></div>
+				<div class="help-block" ng-if="current.entity.files && current.entity.files.length > 0">
+					<ol>
+						<li ng-repeat="file in current.entity.files">
+							<a ng-href=" {{ ::(app.uploader.urlView + file.fileId) }}" target="_blank">
+								{{ ::file.name }}<i class="fa fa-download"></i></a>
+						</li>
+					</ol>
+				</div>
+				<div class="help-block"><a href="budget/upload/budget-import-template.xlsx" target="_blank" app-locale="budget.upload.file.template">导入文件模板 <i class="fa fa-download"></i></a></div>
+			</div>
+		</div>
+	</div>
+</div>
+<div class="row">
+	<div class="col-md-4">
+		<div class="form-group">
+			<label class="control-label col-md-3"app-locale="application.amount.total">合计金额</label>
+			<div class="col-md-9">
+				<p class="form-control-static" ng-bind="current.entity.amount | currency"></p>
+				<input type="number" ng-model="current.entity.amount" required min="0.01" ng-show="false">
+			</div>
+		</div>
+	</div>
+</div>
+
+<div class="row" ng-if="current.entity.logs && current.entity.logs.length">
+	<div class="col-md-12" ng-include=" 'resources/template/application/logs.html' "></div>
+</div>
+
+<!-- <div class="row">
+	<div class="col-md-12 text-center" ng-include=" 'resources/template/application/edit/buttons.html' "></div>
+</div> -->

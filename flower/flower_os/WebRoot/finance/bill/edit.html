@@ -1,0 +1,31 @@
+<div class="form-group">
+	<div class="col-sm-6">
+		<input class="form-control" style="display:none;" ng-model="current.entity.id"  ng-trim="true" required>
+	</div>
+</div>
+
+<div class="form-group">
+	<label class="col-sm-2 control-label">退回理由</label>
+	<div class="col-sm-6" app-dict-select="current.entity.propertyC01"  dict-type="sign_reject_type" 
+			show-property="name" required="true"></div>
+</div>
+
+<div class="form-group">
+	<label class="col-sm-2 control-label">详细信息</label>
+	<div class="col-sm-6">
+		<input class="form-control" ng-model="current.entity.propertyC02" name="entityPropertyC02" ng-trim="true" required maxlength="100">
+	</div>
+	<div class="col-sm-4">
+		<p class="form-control-static text-danger" ng-if="editForm.entityPropertyC02.$error.required">请输入详细信息</p>
+		<p class="form-control-static text-danger" ng-if="editForm.entityPropertyC02.$error.maxlength">不能超出50字</p>
+		<p class="form-control-static text-danger" ng-if="editForm.entityPropertyC02.$invalid">请输入正确的详细信息</p>
+	</div>
+</div>
+
+
+<div class="form-group">
+	<div class="col-sm-6 col-sm-offset-2">
+		<button type="submit" class="btn btn-primary" app-locale="app.reject" ng-disabled="editForm.$invalid">退回</button>
+		<button type="button" class="btn btn-primary" app-locale="app.cancel" ng-click="cancel()">取消</button>
+	</div>
+</div>

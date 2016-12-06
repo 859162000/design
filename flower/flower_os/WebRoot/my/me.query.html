@@ -1,0 +1,87 @@
+<form name="queryForm" method="post" ng-submit="queryForm()" class="form-horizontal"  >
+<div class="portlet light bordered query-container">
+	<div class="portlet-title">
+		<div class="caption">
+			<i class="fa fa-list"></i> 
+			<span class="caption-subject font-dark sbold uppercase bold" app-locale="my.info">个人信息修改</span>
+			<span class="caption-helper"></span>
+		</div>
+	</div>
+
+	<div class="form-group">
+		<label class="col-sm-2 control-label" app-locale="system.user.payee.namek">账户名称</label>
+		<div class="col-sm-6">
+			<input readOnly class="form-control" ng-model="current.entity.payeeName" name="payeeName" ng-trim="true" ng-maxlength="200">
+		</div>
+		<div class="col-sm-4">
+			<p class="form-control-static text-danger" ng-if="queryForm.payeeName.$error.maxlength"
+				app-locale-bind="app.validator.maxlength" app-locale-args="[ getText('system.user.payee.bank'), 200 ]">不能超出200字</p>
+		</div>
+	</div>
+	<div class="form-group">
+		<label class="col-sm-2 control-label" app-locale="system.user.email">Email</label>
+		<div class="col-sm-6">
+			<input type="email" class="form-control"
+				ng-model="current.entity.email" name="entityEmail" ng-trim="true"
+				required ng-maxlength="50">
+		</div>
+		<div class="col-sm-4">
+			<p class="form-control-static text-danger" ng-if="queryForm.entityEmail.$error.required"
+				app-locale-bind="app.validator.required" app-locale-args="[ getText('system.user.email') ]">请输入Email</p>
+			<p class="form-control-static text-danger" ng-if="queryForm.entityEmail.$error.maxlength"
+				app-locale-bind="'app.validator.maxlength'" app-locale-args="[ getText('system.user.email'), 50 ]">不能超出50字节</p>
+			<p class="form-control-static text-danger" ng-if="queryForm.entityEmail.$error.email && !editForm.entityEmail.$error.required && !editForm.entityEmail.$error.maxlength"
+				app-locale-bind="'app.validator.invalid'" app-locale-args="[ getText('system.user.email') ]">Email无效</p>
+		</div>
+	</div>
+	
+	<div class="form-group">
+		<label class="col-sm-2 control-label" app-locale="system.user.payee.bank">开户行</label>
+		<div class="col-sm-6">
+			<input class="form-control" ng-model="current.entity.payeeBank" name="payeeBank" ng-trim="true" ng-maxlength="50">
+		</div>
+		<div class="col-sm-4">
+			<p class="form-control-static text-danger" ng-if="queryForm.payeeBank.$error.maxlength"
+				app-locale-bind="app.validator.maxlength" app-locale-args="[ getText('system.user.payee.bank'), 50 ]">不能超出50字</p>
+		</div>
+	</div>
+	<div class="form-group">
+		<label class="col-sm-2 control-label" app-locale="system.user.payee.account">银行账号</label>
+		<div class="col-sm-6">
+			<input class="form-control" ng-model="current.entity.payeeAccount" name="payeeAccount" ng-trim="true" ng-maxlength="20">
+		</div>
+		<div class="col-sm-4">
+			<p class="form-control-static text-danger" ng-if="queryForm.payeeAccount.$error.maxlength"
+				app-locale-bind="app.validator.maxlength" app-locale-args="[ getText('system.user.payee.account'), 20 ]">不能超出20字</p>
+		</div>
+	</div>
+	
+	<div class="form-group">
+		<label class="col-sm-2 control-label">手机号</label>
+		<div class="col-sm-6">
+			<input class="form-control" ng-model="current.entity.mobile" name="entityMobile" ng-trim="true" ng-maxlength="30">
+		</div>
+		<div class="col-sm-4">
+			<p class="form-control-static text-danger" ng-if="queryForm.entityMobile.$error.maxlength">不能超出30字</p>
+			<p class="form-control-static text-danger" ng-if="!queryForm.entityMobile.$error.maxlength && queryForm.entityMobile.$invalid">请输入正确的手机号</p>
+		</div>
+	</div>
+	<div class="form-group">
+		<label class="col-sm-2 control-label">座机</label>
+		<div class="col-sm-6">
+			<input class="form-control" ng-model="current.entity.telephone" name="entityTelephone" ng-trim="true" ng-maxlength="30">
+		</div>
+		<div class="col-sm-4">
+			<p class="form-control-static text-danger" ng-if="queryForm.entityTelephone.$error.maxlength">不能超出30字</p>
+			<p class="form-control-static text-danger" ng-if="!queryForm.entityTelephone.$error.maxlength && queryForm.entityTelephone.$invalid">请输入正确的座机号</p>
+		</div>
+	</div>
+	<div class="form-group">
+		<div class="col-sm-6 col-sm-offset-2">
+			<button type="button" class="btn btn-primary" app-locale="app.save" ng-click="saveEntity()">保存</button>
+			<button type="button" class="btn btn-primary" app-locale="app.cancel">取消</button>
+		</div>
+	</div>
+</div>
+
+</form>

@@ -1,0 +1,128 @@
+<h3 class="page-title" app-locale="title.straffManagement"></h3>
+<div class="portlet-body form" >
+                <!-- BEGIN FORM-->
+                 <form name="queryStaffForm" ng-submit="queryStaff()" class="form-horizontal" novalidate="novalidate">
+                    <div class="form-body">
+                        <div class="form-group">
+                            <label class="control-label col-md-1" for="userCode" app-locale="query.staff.userCode">工号</label>
+                            <div class="col-md-3">
+                                <input class="form-control" type="text"  ng-model="staff.userCode" name="userCode"/>
+                            </div>
+                            <label class="control-label col-md-1" for="dept_name" app-locale="query.staff.dept_name">归属部门</label>
+                            <div class="col-md-1">
+                                <input class="form-control" type="text" ng-model="staff.dept_name" name="dept_name"/>
+                            </div>
+                            <div class="col-md-2">
+                                <input class="form-control" type="text" />
+                            </div>
+                            <label class="control-label col-md-1" for="dept_type" app-locale="query.staff.dept_type">部门类型</label>
+                            <div class="col-md-3" ng-controller="queryDictionaryController">
+                                	<select class="form-control"  ng-change="queryDictionary()"  name="dept_type"  ng-model="staff.dept_type"  ng-options="ab.xiala1 for ab in di.xiala">
+                               	 	</select>
+                            </div>
+                        </div>
+                        
+                        
+                        <div class="form-group">
+                            <label class="control-label col-md-1" for="name" app-locale="query.staff.name">姓名</label>
+                            <div class="col-md-3">
+                                <input class="form-control" type="text"   ng-model="staff.name" name="name"/>
+                            </div>
+                            <label class="control-label col-md-1" for="org_name" app-locale="query.staff.org_name">归属机构</label>
+                            <div class="col-md-1">
+                                <input class="form-control" type="text"  ng-model="staff.org_name" name="org_name"/>
+                            </div>
+                            <div class="col-md-2">
+                                <input class="form-control" type="text" />
+                            </div>
+                            <label class="control-label col-md-1" for="level" app-locale="query.staff.level">人员级别</label>
+                            <div class="col-md-3">
+                                	<select class="form-control"  name="level" ng-model="staff.level" ng-options="ab.code for ab in di.level">
+                               	 	</select>
+                              	</div>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label class="control-label col-md-1" for="certNo" app-locale="query.staff.certNo">身份证号</label>
+                            <div class="col-md-3">
+                                <input class="form-control" type="text"  ng-model="staff.certNo" name="certNo"/>
+                            </div>
+                            <label class="control-label col-md-1" for="mobile" app-locale="query.staff.mobile">电话号码</label>
+                            <div class="col-md-3">
+                                <input class="form-control" type="text"  ng-model="staff.mobile" name="mobile"/>
+                            </div>
+                            <label class="control-label col-md-1" for="email" app-locale="query.staff.email">邮箱</label>
+                            <div class="col-md-3">
+                                <input class="form-control" type="text" ng-model="staff.email" name="email"/>
+                            </div>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label class="control-label col-md-1" for="postcode" app-locale="query.staff.postcode">邮政编码</label>
+                            <div class="col-md-3">
+                                <input class="form-control" type="text" ng-model="staff.postcode" name="postcode"/>
+                            </div>
+                            <label class="control-label col-md-1" for="address" app-locale="query.staff.address">通讯地址</label>
+                            <div class="col-md-3">
+                                <input class="form-control" type="text"  ng-model="staff.address" name="address"/>
+                            </div>
+                        </div>
+                        
+                        
+                        
+                    </div>
+                    <div class="form-group">
+                        <div class="row">
+                            <div class="col-md-offset-5 col-sm-offset-5  col-xs-offset-5">
+                                <button type="submit" class="btn blue" >
+                                    <i class="fa fa-check"></i>
+				                    <span class="title" app-locale-bind="app.query"></span></button>
+                                <button type="reset" class="btn default" app-locale="app.reset"></button>
+                                <button class="btn blue" app-locale="app.application"></button>
+                                <button class="btn blue" app-locale="app.sync"></button>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+                <!-- END FORM-->
+            </div>
+         <div class="col-sm-12 col-md-12 div-grid">
+		  <div class="row">
+            <table class="table table-striped table-bordered table-hover table-checkable order-column" id="sample_1">
+                    <thead>
+                        <tr> 
+                             <th><input type="checkbox" class="group-checkable" data-set="#sample_1 .checkboxes" /> </th>
+                             <th app-locale="query.staff.no"></th>
+                             <th app-locale="query.staff.userCode"></th>
+                             <th app-locale="query.staff.name"></th>
+                             <th app-locale="query.staff.level"></th>
+                             <th app-locale="query.staff.dept_name"></th>
+                             <th app-locale="query.staff.org_name"></th>
+                             <th app-locale="query.staff.org_level"></th>
+                             <th app-locale="query.staff.certno"></th>
+                             <th app-locale="query.staff.mobile"></th>
+                             <th app-locale="query.staff.email"></th>
+                             <th app-locale="query.staff.postcode"></th>
+                             <th app-locale="query.staff.address"></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr class="odd gradeX" ng-repeat="staff in staffs.user">
+								<td> <input type="checkbox" class="checkboxes" value="1" /> </td>
+								<td ng-bind="staff.id"></td> 
+								<td ng-bind="staff.userCode"></td> 
+								<td ng-bind="staff.name"></td>
+								<td ng-bind="staff.level"></td> 
+								<td ng-bind="staff.dept_name"></td>
+								<td ng-bind="staff.org_name"></td>
+								<td ng-bind="staff.org_level"></td> 
+								<td ng-bind="staff.certno"></td> 
+								<td ng-bind="staff.mobile"></td>
+								<td ng-bind="staff.email"></td> 
+								<td ng-bind="staff.postcode"></td> 
+								<td ng-bind="staff.address"></td>
+                        </tr>
+                    </tbody>
+                </table>
+               </div>
+            </div>

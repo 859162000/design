@@ -1,0 +1,40 @@
+<!-- 登录页面 -->
+<form name="loginForm" ng-submit="login()" class="form-horizontal container-login" novalidate="novalidate">
+	<div class="form-group">
+		<label class="col-sm-offset-4 col-sm-4"><strong aapp-locale="login.please">请您登陆</strong></label>
+	</div>
+	<div class="form-group">
+		<label for="user" class="col-sm-4 control-label" app-locale="login.user.code">用户名</label>
+		<div class="col-sm-4">
+			<input class="form-control" ng-model="user.code" name="user" placeholder="{{ 'login.user.code' | appLocale }}"
+				required>
+		</div>
+		<div class="col-sm-4">
+			<p class="form-control-static text-danger" ng-if="loginForm.user.$error.required"
+				app-locale-bind="app.validator.required" app-locale-args="[ getLocaleText('login.user.code') ]">请输入用户名</p>
+		</div>
+	</div>
+	<div class="form-group">
+		<label for="password" class="col-sm-4 control-label" app-locale="login.user.password">密码</label>
+		<div class="col-sm-4">
+			<input type="password" class="form-control" ng-model="user.password" name="password"
+				placeholder="{{ 'login.user.password' | appLocale }}" required>
+		</div>
+		<div class="col-sm-4">
+			<p class="form-control-static text-danger" ng-if="loginForm.password.$error.required"
+				app-locale-bind=" 'app.validator.required' " app-locale-args="[ getLocaleText('login.user.password') ]">请输入密码</p>
+			<!-- <p class="form-control-static text-danger" ng-if="loginForm.password.$error.pattern">密码必须至少为8位，并且同时包含大小写字母和数字</p> -->
+		</div>
+	</div>
+	<div class="form-group">
+		<div class="col-sm-offset-4 col-sm-4">
+			<button type="submit" class="btn btn-primary" ng-disabled="loginForm.$invalid || logining" login-action app-locale="app.login"></button>
+		</div>
+	</div>
+	<div class="form-group">
+		<div class="col-sm-offset-4 col-sm-4">
+			<p class="form-control-static text-danger" ng-if="!!message && error">{{ message }}</p>
+			<p class="form-control-static text-info" ng-if="!!message && !error">{{ message }}</p>
+		</div>
+	</div>
+</form>

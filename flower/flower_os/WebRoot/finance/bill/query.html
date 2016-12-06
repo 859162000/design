@@ -1,0 +1,99 @@
+<form name="queryForm" method="post" ng-submit="query()" class="form-horizontal"  >
+<div class="portlet light bordered query-container">
+	<div class="portlet-title">
+		<div class="caption">
+			<i class="fa fa-list"></i>
+			<span class="caption-subject font-dark sbold uppercase bold" app-locale="finance.bill.list">费用单据签收查询列表</span>
+			<span class="caption-helper"></span>
+		</div>
+		<div class="actions">
+			<button type="button" class="btn btn-circle btn-icon-only btn-default"
+				title="{{ (!hideQueryParams ? 'app.query.hide' : 'app.query.show')  | appLocale }}" 
+				ng-click="hideQueryParams = !hideQueryParams">
+				<i class="fa" 
+					ng-class="{ 'fa-angle-down' : !hideQueryParams, 'fa-angle-up': hideQueryParams }"></i>
+			</button>
+			<button type="button" title="{{ 'app.add' | appLocale }}" class="btn btn-circle btn-icon-only btn-primary"
+				app-permission="edit" ng-click="add()">
+				<i class="fa fa-plus"></i>
+			</button>
+			<button type="button" title="{{ 'app.delete' | appLocale }}" class="btn btn-circle btn-icon-only btn-default"
+				app-permission="edit" ng-disabled="!checkedUsers || !checkedUsers.length <= 0" ng-click="remove(checkedUsers)">
+				<i class="fa fa-trash-o"></i>
+			</button>
+		</div>
+	</div>
+	
+	<div class="portlet-body form">
+		<div class="form-body" ng-show="!hideQueryParams">
+			<div class="row">
+				<div class="col-sm-11">				
+					<div class="form-group">
+						<label class="col-sm-1 control-label" appLocale="app.application.id">申请单号</label>
+						<div class="col-sm-3">
+							<input ng-model="current.params.id" class="form-control input-sm" ng-trim="true">
+						</div>
+						<label class="col-sm-1 control-label" appLocale="app.application.date">申请时间</label>
+						<div class="col-sm-3">
+							<div class="input-group input-daterange input-group-sm">
+								<input type="date" class="form-control" ng-model="current.params.submitTimes[0]" uib-datepicker-popup> 
+								<span class="input-group-addon" app-locale="app.datepicker.to">-</span> 
+								<input type="date" class="form-control" ng-model="current.params.submitTimes[1]" uib-datepicker-popup>
+							</div>
+						</div>
+						<label class="col-sm-1 control-label" appLocale="app.amount">金额</label>
+						<div class="col-sm-3">
+							<div class="input-group input-daterange input-group-sm">
+								<input type="number" class="form-control" ng-model="current.params.amounts[0]" min="0"> 
+								<span class="input-group-addon" app-locale="app.datepicker.to">-</span> 
+								<input type="number" class="form-control" ng-model="current.params.amounts[1]" min="current.params.amounts[0] || 0">
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="col-sm-1 btn-group-sm">
+					<button type="submit" class="btn btn-primary" title="{{ 'app.query' | appLocale }}" ng-disabled="queryForm.$invalid">
+						<i class="fa fa-search"></i>
+					</button>
+				</div>
+			</div>
+		</div>
+		
+		<!-- 参数列表表格 -->
+		<div class="table-responsive">
+			<table class="table table-striped table-bordered table-condensed" role="grid" 
+				st-table="dictionarys" st-safe-src="current.page.content">
+				<thead>
+					<tr>
+						<th class="row-number text-center">#</th>
+						<th st-sort="bill.id" app-locale="finance.bill.id">申请单号</th>
+						<th st-sort="bill.type" app-locale="finance.bill.type">申请类型</th>
+						<th st-sort="bill.user.id" app-locale="finance.bill.user">申请人</th>
+						<th st-sort="bill.dept.id" app-locale="finance.bill.dept">申请部门</th>
+						<th st-sort="bill.submitTime" app-locale="application.date">申请日期</th>
+						<th st-sort="bill.amount" app-locale="application.amount">申请金额</th>
+						<th style="min-width: 40px;" app-locale="finance.bill.sign">签收</th>
+						<th style="min-width: 40px;" app-locale="finance.bill.back">退回</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr ng-repeat="bill in dictionarys">
+						<td ui-table-select="dictionary" selected-rows="current.selected"></td>
+						<td><a href="javascript:;" ng-bind="::bill.id" ng-click="doView(bill)"></a></td>
+						<td app-dict="::bill.type" dict-type="application_type" property="code"></td>
+						<td app-show="::bill.user.id" url="/user.do">申请人</td>
+						<td app-show="::bill.dept.id" url="/dept.do">申请部门</td>
+						<td ng-bind="::bill.submitTime | date"></td>
+						<td ng-bind="::bill.amount | currency"></td>
+						<td class="text-center"><a href="javascript:;" title="{{ ::('app.edit' | appLocale) }}" ng-click="sign(bill)"><i class="fa fa-edit"></i></a></td>
+						<td class="text-center"><a href="javascript:;" title="{{ ::('app.edit' | appLocale) }}" ng-click="editBill(bill)"><i class="fa fa-edit"></i></a></td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+		
+		<!-- 显示分页 -->
+		<div app-page></div>
+	</div>
+</div>
+</form>

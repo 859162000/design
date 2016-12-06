@@ -1,0 +1,64 @@
+<h3 class="page-title">个人电话费标准申请</h3>
+		<div class="portlet-body form">
+                <!-- BEGIN FORM-->
+                <form action="#" class="form-horizontal">
+                    <div class="form-group">
+                            <label class="control-label col-md-1">申请单号</label>
+                            <div class="col-md-3">
+                                <input class="form-control" id="mask_number" type="text"  />
+                            </div>
+                            <label class="control-label col-md-1">状态</label>
+                            <div class="col-md-3">
+                                <select class="form-control" ng-model="mstep" ng-options="a.state for a in session.approvals">
+                                
+                                </select>
+                            </div>
+                            
+                     </div>
+                        
+                    <div class="form-group">
+                        <div class="row">
+                            <div class="col-md-offset-5 col-sm-offset-5  col-xs-offset-5">
+                                <button type="submit" class="btn blue">
+                                    <i class="fa fa-check"></i> 查询</button>
+                                <button type="reset" class="btn default">重置</button>
+                                <button  class="btn blue">申请</button>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+                <!-- END FORM-->
+            </div>
+         
+         
+         
+         <div class="col-sm-12 col-md-12 div-grid">
+		  <div class="row">
+            <table class="table table-striped table-bordered table-hover table-checkable order-column" id="sample_1">
+                    <thead>
+                        <tr>
+                            <th><input type="checkbox" class="group-checkable" data-set="#sample_1 .checkboxes" /> </th>
+                             <th>序号</th>
+ 							 <th>申请号</th>
+  							 <th>申请人</th>
+  							 <th>最高金额</th>
+  							 <th>员工级别</th>
+  							 <th>申请原因</th>
+  							 <th>状态 </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr class="odd gradeX" ng-repeat="approval in session.approvals">
+								<td> <input type="checkbox" class="checkboxes" value="1" /> </td>
+								<td ng-bind="approval.serial"></td> 
+								<td ng-bind="approval.number"></td> 
+								<td ng-bind="approval.type"></td> 
+								<td ng-bind="approval.deptNo"></td> 
+								<td ng-bind="approval.dept"></td> 
+								<td ng-bind="approval.name"></td> 
+								<td ng-bind="approval.approver"></td>
+                        </tr>
+                    </tbody>
+                </table>
+               </div>
+            </div>

@@ -1,0 +1,49 @@
+<h3 class="page-title">个人电话费标准申请</h3>
+<div class="portlet-body form">
+                <!-- BEGIN FORM-->
+                 <form action="#" class="form-horizontal">
+                    <div class="form-body">
+                        <div class="form-group">
+                            <label class="control-label col-md-1">电话标准</label>
+                            <div class="col-md-3">
+                                	<select class="form-control"  ng-model="mstep" ng-options="ab.state for ab in session.approvals">
+                               	 	</select>
+                              	</div>
+                        </div>
+                        
+                        
+                    </div>
+                    <div class="form-group">
+                        <div class="row">
+                            <div class="col-md-offset-5 col-sm-offset-5  col-xs-offset-5">
+                                <button type="submit" class="btn blue">
+                                    <i class="fa fa-check"></i> 查询</button>
+                                <button class="btn blue">申请</button>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+                <!-- END FORM-->
+            </div>
+         <div class="col-sm-12 col-md-12 div-grid">
+		  <div class="row">
+            <table class="table table-striped table-bordered table-hover table-checkable order-column" id="sample_1">
+                    <thead>
+                        <tr>                            
+                            <th><input type="checkbox" class="group-checkable" data-set="#sample_1 .checkboxes" /> </th>
+                  			 <th>序号</th>
+                  			 <th>代码</th>
+ 							 <th>名称</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr class="odd gradeX" ng-repeat="approval in session.approvals">
+								<td> <input type="checkbox" class="checkboxes" value="1" /> </td>
+								<td ng-bind="approval.serial"></td> 
+								<td ng-bind="approval.number"></td> 
+								<td ng-bind="approval.type"></td>
+                        </tr>
+                    </tbody>
+                </table>
+               </div>
+            </div>

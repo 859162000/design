@@ -1,0 +1,118 @@
+<div class="row">
+	<div class="col-md-12" ng-include=" 'resources/template/application/view/header.html' "></div>
+</div>
+<div class="row">
+	<div class="col-md-4">
+		<div class="row static-info">
+			<div class="col-md-3 name" app-locale="application.risk">险种</div>
+			<div class="col-md-9 value" app-dict="current.entity.expense.riskCode" dict-type="insurance"></div>
+		</div>
+	</div>
+	<div class="col-md-4">
+		<div class="row static-info">
+			<div class="col-md-3 name" app-locale="accrual.instalment">是否分期</div>
+			<div class="col-md-9 value" app-dict="current.entity.propertyC00" dict-type="yes_no"></div>
+		</div>
+	</div>
+</div>
+<div class="row">
+	<div class="col-md-12">
+		<div class="row static-info">
+			<div class="col-md-1 name"  app-locale="accrual.remarks">事前审批原因</div>
+			<div class="col-md-11 value" ng-bind="current.entity.remarks"></div>
+		</div>
+	</div>
+</div>
+
+<div class="row">
+	<div class="col-md-4">
+		<div class="row static-info">
+			<div class="col-md-3 name" app-locale="payment.payee.supplier">供应商</div>
+			<div class="col-md-9 value" ng-bind="current.entity.payee.supplier.name"></div>
+		</div>
+	</div>
+	<div class="col-md-4">
+		<div class="row static-info">
+			<div class="col-md-3 name" app-locale="payment.currency">币种</div>
+			<div class="col-md-9 value" ng-bind="current.entity.payee.currency.id + ' - ' + current.entity.payee.currency.name"></div>
+		</div>
+	</div>
+	<div class="col-md-4">
+		<div class="row static-info">
+			<div class="col-md-3 name" app-locale="payment.exchangeRate">汇率</div>
+			<div class="col-md-9 value" ng-bind="current.entity.payee.exchangeRate | exchangeRate"></div>
+		</div>
+	</div>
+</div>
+
+<div class="row">
+<div class="col-md-12">
+	<h4 class="form-section">
+		<span app-locale="application.items">申请明细</span>
+	</h4>
+	<div class="table-responsive">
+		<table class="table table-striped table-bordered table-condensed" role="grid">
+			<thead>
+				<tr>
+					<th class="text-center row-number">#</th>
+					<th app-locale="budget.dept">预算中心</th>
+					<th app-locale="application.cost.dept">成本中心</th>
+					<th app-locale="budget.subject">预算科目</th>
+					<th app-locale="installment.period" ng-if="app.yes_no.yes == current.entity.propertyC00">归属期</th>
+					<th app-locale="application.item.remarks">详细事项描述</th>
+					<th app-locale="application.amount.cost">不含税价</th>
+					<th app-locale="application.amount.tax">税金</th>
+					<th app-locale="application.amount.total">合计</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr ng-repeat="item in current.entity.items track by item.ordinal">
+					<td class="row-number" ng-bind="$index+1"></td>
+					<td ng-bind="item.budgetDept.name"></td>
+					<td ng-bind="item.costDept.name"></td>
+					<td app-show="item.budgetSubject.id" url="/budgetSubject.do"></td>
+					<td ng-if="app.yes_no.yes == current.entity.propertyC00" ng-bind="item.propertyD00 | date:'yyyy-MM'"></td>					
+					<td ng-bind="item.remarks"></td>					
+					<td class="text-right" ng-bind="item.amountCost | amount"></td>
+					<td class="text-right" ng-bind="item.amountTax | amount"></td>
+					<td class="text-right" ng-bind="item.amount | amount"></td>
+				</tr>
+			</tbody>
+			<tfoot>
+				<tr class="info">
+					<td colspan="{{ app.yes_no.yes == current.entity.propertyC00 ? 6 : 5 }}" app-locale="app.amount.total" class="text-right nowrap">合计金额</td>
+					<td class="text-right nowrap" ng-bind="current.entity.payee.amountCost | currency:current.entity.payee.currency.symbol"></td>
+					<td class="text-right nowrap" ng-bind="current.entity.payee.amountTax | currency:current.entity.payee.currency.symbol"></td>
+					<td class="text-right nowrap" ng-bind="current.entity.payee.amount | currency:current.entity.payee.currency.symbol"></td>
+				</tr>
+				<tr class="success" ng-if="app.currency.id != current.entity.payee.currency.id">
+					<td colspan="{{ app.yes_no.yes == current.entity.propertyC00 ? 6 : 5 }}" app-locale="app.amount.total.cny" class="text-right nowrap">人民币合计</td>
+					<td class="text-right nowrap" ng-bind="current.entity.amountCost | currency:current.entity.payee.currency.symbol"></td>
+					<td class="text-right nowrap" ng-bind="current.entity.amountTax | currency:current.entity.payee.currency.symbol"></td>
+					<td class="text-right nowrap" ng-bind="current.entity.amount | currency"></td>
+				</tr>
+			</tfoot>
+		</table>
+	</div>
+</div>
+</div>
+
+
+<div class="row"><!-- 附件，流程等信息 -->
+<div class="col-md-12">
+	<div class="tabbable-custom" uib-tabset>
+		<div uib-tab heading="{{ 'application.files' | appLocale }}">
+			<div ng-include=" 'resources/template/application/view/files.html' "></div>
+		</div>
+		<div uib-tab heading="{{ 'application.relations' | appLocale }}">
+			<div ng-include=" 'resources/template/application/view/relations.html' "></div>
+		</div>
+		<div uib-tab heading="{{ 'application.logs' | appLocale }}">
+			<div ng-include=" 'resources/template/application/logs.html' "></div>
+		</div>
+		<div uib-tab heading="{{ 'application.approvers' | appLocale }}">
+			<div ng-include=" 'resources/template/application/approvers.html' "></div>
+		</div>
+	</div>
+</div>
+</div>

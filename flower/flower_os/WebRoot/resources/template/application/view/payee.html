@@ -1,0 +1,71 @@
+<h4 class="form-section" app-locale="application.payment"></h4>
+<div class="row">
+	<div class="col-md-4">
+		<div class="row static-info">
+			<div class="col-md-3 name"app-locale="payment.method">支付方式</div>
+			<div class="col-md-9 value" app-dict="current.entity.payee.payMethod" dict-type="payment_method"></div>
+		</div>
+	</div>
+	<div class="col-md-4">
+		<div class="row static-info">
+			<div class="col-md-3 name" app-locale="payment.payee.supplier">供应商</div>
+			<div class="col-md-9 value" ng-bind=" current.entity.payee.supplier.name + ( current.entity.payee.supplier.id ? ('(' + current.entity.payee.supplier.id + ')') : '') "></div>
+		</div>
+	</div>
+	<div class="col-md-4" ng-if="current.entity.payee.payMethod != PAY_METHODS.CASH">
+		<div class="row static-info">
+			<div class="col-md-3 name" app-locale="payment.payee">收款人</div>
+			<div class="col-md-9 value" ng-bind="current.entity.payee.name"></div>
+		</div>
+	</div>
+</div>
+
+<div class="row" ng-if="current.entity.payee.payMethod == PAY_METHODS.CASH">
+	<div class="col-md-12" >
+		<div class="row static-info">
+			<div class="col-md-1 name" app-locale="payment.cash.remarks">现金收款原因</div>
+			<div class="col-md-11 value" ng-bind="current.entity.payee.remarks"></div>
+		</div>
+	</div>
+</div>
+
+<div class="row" ng-if="current.entity.payee.payMethod != PAY_METHODS.CASH">
+	<div class="col-md-4">
+		<div class="row static-info">
+			<div class="col-md-3 name" app-locale="payment.account">账号</div>
+			<div class="col-md-9 value" ng-bind="current.entity.payee.account"></div>
+		</div>
+	</div>
+	<div class="col-md-4">
+		<div class="row static-info">
+			<div class="col-md-3 name" app-locale="payment.bank">开户行</div>
+			<div class="col-md-9 value" ng-bind="current.entity.payee.bank"></div>
+		</div>
+	</div>
+	<div class="col-md-4">
+		<div class="row static-info">
+			<div class="col-md-3 name" app-locale="payment.payee.remarks">支付备注</div>
+			<div class="col-md-9 value" ng-bind="current.entity.payee.remarks"></div>
+		</div>
+	</div>
+</div>
+<div class="row">
+	<div class="col-md-4">
+		<div class="row static-info">
+			<div class="col-md-3 name" app-locale="payment.currency">币种</div>
+			<div class="col-md-9 value" app-show="current.entity.payee.currency.id" url="/currency.do"></div>
+		</div>
+	</div>
+	<div class="col-md-4">
+		<div class="row static-info">
+			<div class="col-md-3 name" app-locale="payment.exchangeRate">汇率</div>
+			<div class="col-md-9 value" ng-bind="current.entity.payee.exchangeRate | exchangeRate"></div>
+		</div>
+	</div>
+	<div class="col-md-4">
+		<div class="row static-info">
+			<div class="col-md-3 name" app-locale="payment.amount">金额</div>
+			<div class="col-md-9 value" ng-bind="current.entity.payee.amount | currency:(current.entity.payee.currency.symbol || current.entity.payee.currency.id)"></div>
+		</div>
+	</div>
+</div>

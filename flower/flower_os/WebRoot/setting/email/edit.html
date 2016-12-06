@@ -1,0 +1,53 @@
+
+<div class="form-group">
+	<!-- <label class="col-sm-2 control-label">类别</label> -->
+	<div class="col-sm-6">
+		<input type="text"  style="display:none;"  class="form-control" ng-model="current.entity.type" name="entityType" ng-trim="true" required maxlength="20">
+	</div>
+</div>
+<div class="form-group">
+	<!-- <label class="col-sm-2 control-label">加载方式</label> -->
+	<div class="col-sm-6">
+		<input class="form-control" style="display:none;"  ng-model="current.entity.loadType" name="entityLoadType" ng-trim="true" required maxlength="2">
+	</div>
+</div>
+<div class="form-group">
+	<!-- <label class="col-sm-2 control-label">用于排序的序号</label> -->
+	<div class="col-sm-6">
+		<input class="form-control" style="display:none;" ng-model="current.entity.ordinal" name="entityOrdinal" ng-trim="true" required maxlength="2">
+	</div>
+</div>
+
+<!-- 上面是 应税项目逻辑设置默认加载的隐藏部分  -->
+
+
+
+<div class="form-group">
+	<label class="col-sm-2 control-label">参数状态</label>
+	<div class="col-sm-3" app-dict-radio="current.entity.status"  dict-type="status" inline="true"></div>
+</div>
+
+
+<div class="form-group">
+	<label class="col-sm-2 control-label">邮箱</label>
+	<div class="col-sm-6">
+		<input type="email" ng-model="current.entity.code"  ng-blur="testCode(current.entity.code)" name="entityName" class="form-control" ng-trim="true" required ng-maxlength="100">
+	</div>
+	<div class="col-sm-4">
+		<p class="form-control-static text-danger" ng-if="editForm.entityName.$error.required">请输入邮箱</p>
+		<p class="form-control-static text-danger" ng-if="editForm.entityName.$error.maxlength">不能超出100字节</p>
+		<p class="form-control-static text-danger" ng-if="editForm.entityName.$invalid">请输入正确的邮箱</p>
+	</div>
+</div>
+<div class="form-group">
+	<label class="col-sm-2 control-label">是否接收审批邮件</label>
+	<div class="col-sm-3" app-dict-radio="current.entity.name"  dict-type="yes_no" inline="true"></div>
+</div>
+
+
+<div class="form-group">
+	<div class="col-sm-6 col-sm-offset-2">
+		<button type="submit" class="btn btn-primary" app-locale="app.save" ng-disabled="editForm.$invalid">保存</button>
+		<button type="button" class="btn btn-primary" app-locale="app.cancel" ng-click="cancel()">取消</button>
+	</div>
+</div>

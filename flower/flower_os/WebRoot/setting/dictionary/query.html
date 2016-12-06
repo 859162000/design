@@ -1,0 +1,95 @@
+
+<form name="queryForm" method="post" ng-submit="query()" class="form-horizontal"  >
+<div class="portlet light bordered query-container">
+	<div class="portlet-title">
+		<div class="caption">
+			<i class="fa fa-list"></i> 
+			<span class="caption-subject font-dark sbold uppercase bold" app-locale="setting.dictionary.list">电子词典列表</span>
+			<span class="caption-helper"></span>
+		</div>
+		<div class="actions">
+			<button type="button" class="btn btn-circle btn-icon-only btn-default"
+				title="{{ (!hideQueryParams ? 'app.query.hide' : 'app.query.show')  | appLocale }}" 
+				ng-click="hideQueryParams = !hideQueryParams">
+				<i class="fa" 
+					ng-class="{ 'fa-angle-down' : !hideQueryParams, 'fa-angle-up': hideQueryParams }"></i>
+			</button>
+			<!-- <button type="submit" class="btn btn-circle btn-icon-only btn-default"
+				title="{{ 'app.query' | appLocale }}"  
+				ng-disabled="queryForm.$invalid"
+				app-permission="query" ng-click="query()" >
+				<i class="fa fa-search"></i>
+			</button> -->
+			<button type="button" title="{{ 'app.add' | appLocale }}" class="btn btn-circle btn-icon-only btn-primary"
+				app-permission="edit" ng-click="add()">
+				<i class="fa fa-plus"></i>
+			</button>
+			<button type="button" title="{{ 'app.delete' | appLocale }}" class="btn btn-circle btn-icon-only btn-default"
+				app-permission="edit" ng-disabled="!checkedUsers || !checkedUsers.length <= 0" ng-click="remove(checkedUsers)">
+				<i class="fa fa-trash-o"></i>
+			</button>
+		</div>
+	</div>
+	
+	<div class="portlet-body form">
+			<div class="form-body" ng-show="!hideQueryParams">
+			<div class="form-group">	
+			 <div class="col-sm-11">			
+				<label class="col-sm-1 control-label" app-Locale="setting.dictionary.type">类型</label>
+				<div class="col-sm-5">
+					<input ng-model="current.params.type" class="form-control" ng-trim="true">
+				</div>
+				
+				
+				<label class="col-sm-1 control-label" app-Locale="setting.dictionary.status">状态</label>
+				<div class="col-sm-5" app-dict-checkbox="current.params.status"  dict-type="status" inline="true"></div>
+			 </div>
+				<div class="col-sm-1">
+					<button type="submit" class="btn btn-default btn-sm btn-outline btn btn-primary table-group-action-submit"
+					ng-disabled="queryForm.$invalid"><i class="fa fa-search"></i></button>
+				</div>
+			</div>
+		</div>
+		
+		<!-- 参数列表表格 -->
+		<div class="table-responsive">
+			<table class="table table-striped table-bordered table-condensed" role="grid" 
+				st-table="dictionarys" st-safe-src="current.page.content">
+				<thead>
+					<tr>
+						<!-- <th width="30" ui-table-select-all="dictionarys"></th> -->
+						<th st-sort="code" app-locale="setting.dictionary.code">代码</th>
+						<th st-sort="name" app-locale="setting.dictionary.name">名称</th>
+						<th st-sort="dictionary.type" app-locale="setting.dictionary.type">类型</th>
+						<th st-sort="dictionary.status" app-locale="setting.dictionary.status">状态</th>
+						<th st-sort="dictionary.property00" app-locale="setting.dictionary.property00">选项1</th>
+						<th st-sort="dictionary.property01" app-locale="setting.dictionary.property01">选项2</th>
+						<th st-sort="dictionary.property02" app-locale="setting.dictionary.property02">选项3</th>
+						<th st-sort="dictionary.property03" app-locale="setting.dictionary.property03">选项4</th>
+						<th st-sort="dictionary.property04" app-locale="setting.dictionary.property04">选项5</th>
+						<th width="30" class="text-center"></th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr ng-repeat="dictionary in dictionarys">
+						<!-- <td ui-table-select="dictionary" selected-rows="current.selected"></td> -->
+						<td><a href="javascript:;" ng-bind="::dictionary.code" ng-click="view(dictionary)"></a></td>
+						<td ng-bind="::dictionary.name">名称</td>
+						<td ng-bind="::dictionary.type">类型</td>
+						<td app-dict="::dictionary.status" dict-type="status"></td>
+						<td ng-bind="::dictionary.propertyC00">选项1</td>
+						<td ng-bind="::dictionary.propertyC01">选项2</td>
+						<td ng-bind="::dictionary.propertyC02">选项3</td>
+						<td ng-bind="::dictionary.propertyC03">选项4</td>
+						<td ng-bind="::dictionary.propertyC04">选项5</td>
+						<td class="text-center"><a href="javascript:;" title="{{ 'app.edit' | appLocale }}" ng-click="edit(dictionary)"><i class="fa fa-edit"></i></a></td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+		
+		<!-- 显示分页 -->
+		<div app-page></div>
+	</div>
+</div>
+</form>

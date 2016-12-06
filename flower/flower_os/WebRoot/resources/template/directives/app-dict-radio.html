@@ -1,0 +1,23 @@
+<!-- <div class="radio-list">
+	<label ng-class="{ 'radio-inline' : inline }" ng-repeat="dict in dicts">
+		<div class="radio">
+			<span><input type="radio" ng-click="setValue(dict)"></span>
+		</div> {{ show(dict) }}
+	</label>
+</div> -->
+<div ng-if="inline">
+<!-- 所有选项在一行上,使用radio-inline样式 -->
+<label ng-repeat="dict in dicts" class="radio-inline">
+	<!-- ng-repeat会创建一个独立的作用域,因此无法直接通过ng-model="fieldValue"进行绑定,需要绑定到$parent.$parent作用域 -->
+	<input type="radio" name="{{ ::fieldName }}" ng-value="::getValue(dict)" ng-model="$parent.$parent.fieldValue"> {{ show(dict) }}
+</label>
+
+</div>
+
+<div ng-if="!inline">
+<!-- 每个选项单独一行 -->
+<div ng-repeat="dict in dicts" class="radio">
+	<label><input type="radio" name="{{ ::fieldName }}" ng-value="::getValue(dict)" ng-model="$parent.$parent.fieldValue"> {{ show(dict) }}</label>
+</div>
+
+</div>

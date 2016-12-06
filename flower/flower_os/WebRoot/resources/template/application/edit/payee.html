@@ -1,0 +1,95 @@
+<h4 class="form-section" app-locale="application.payment"></h4>
+<div class="row">
+	<div class="col-md-4">
+		<div class="form-group">
+			<label class="control-label col-md-3" app-locale="payment.method">支付方式</label>
+			<div class="col-md-9" app-dict-select="current.entity.payee.payMethod" 
+				change="changePayMethod()"
+				dict-type="payment_method" required="true" show-property="code,name" header="true"></div>
+		</div>
+	</div>
+	<div class="col-md-4">
+		<div class="form-group">
+			<label class="control-label col-md-3" app-locale="payment.payee.supplier">供应商</label>
+			<div class="col-md-9" app-ui-select="current.entity.payee.supplier" url="/supplier.do" 
+				use-property="false" xxrequired="current.entity.payee.payMethod != PAY_METHOD.CASH">
+			</div>
+		</div>
+	</div>
+	<div class="col-md-4" ng-if="[ PAY_METHOD.BANK, PAY_METHOD.PAY_METHOD.BANK_OFFLINE ].include(current.entity.payee.payMethod)">
+		<div class="form-group">
+			<label class="control-label col-md-3" app-locale="payment.payee">收款人</label>
+			<div class="col-md-9">
+				<input class="form-control" ng-model="current.entity.payee.name" required ng-readonly="mustSupplier()">
+			</div>
+		</div>
+	</div>
+</div>
+
+<div class="row" ng-if="current.entity.payee.payMethod == PAY_METHOD.CASH">
+	<div class="col-md-12" >
+		<div class="form-group">
+			<label class="control-label col-md-1" app-locale="payment.cash.remarks">现金收款原因</label>
+			<div class="col-md-11">
+				<textarea class="form-control" rows="3" ng-model="current.entity.payee.remarks" required></textarea>
+			</div>
+		</div>
+	</div>
+</div>
+
+<div class="row" ng-if="[ PAY_METHOD.BANK, PAY_METHOD.BANK_OFFLINE ].include(current.entity.payee.payMethod)">
+	<div class="col-md-4">
+		<div class="form-group">
+			<label class="control-label col-md-3"app-locale="payment.account">账号</label>
+			<div class="col-md-9">
+				<input class="form-control" ng-model="current.entity.payee.account" required ng-readonly="mustSupplier()">
+			</div>
+		</div>
+	</div>
+	<div class="col-md-4">
+		<div class="form-group">
+			<label class="control-label col-md-3"app-locale="payment.bank">开户行</label>
+			<div class="col-md-9">
+				<input class="form-control" ng-model="current.entity.payee.bank" required ng-readonly="mustSupplier()">
+			</div>
+		</div>
+	</div>
+	<div class="col-md-4">
+		<div class="form-group">
+			<label class="control-label col-md-3" app-locale="payment.payee.remarks">支付备注</label>
+			<div class="col-md-9">
+				<input class="form-control" ng-model="current.entity.payee.remarks">
+			</div>
+		</div>
+	</div>
+</div>
+<div class="row">
+	<div class="col-md-4">
+		<div class="form-group">
+			<label class="control-label col-md-3" app-locale="payment.currency">币种</label>
+			<div class="col-md-9" app-select="current.entity.payee.currency"
+				default-value="app.currency" use-property="false"
+				change="changeCurrency()"
+				url="currency.do" args="{ statsus: '1' }" required="true" show-property="id,name" header="true"></div>
+		</div>
+	</div>
+	<div class="col-md-4">
+		<div class="form-group">
+			<label class="control-label col-md-3" app-locale="payment.exchangeRate">汇率</label>
+			<div class="col-md-9">
+				<input type="number" class="form-control" ng-model="current.entity.payee.exchangeRate" 
+					ng-disabled="current.entity.payee.currency.id == app.curreny.id" 
+					ng-change="changeExchangeRate()" required min="0.000001">
+			</div>
+		</div>
+	</div>
+	<div class="col-md-4">
+		<div class="form-group">
+			<label class="control-label col-md-3" app-locale="payment.amount">支付金额</label>
+			<div class="col-md-9">
+				<p class="form-control-static" ng-bind="current.entity.payee.amount | currency:current.entity.payee.currency.symbol"></p>
+				<input type="number" class="form-control" ng-model="current.entity.payee.amount" required readonly min="0" ng-show="false">
+			</div>
+		</div>
+	</div>
+</div>

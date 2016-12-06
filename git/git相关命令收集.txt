@@ -2,13 +2,12 @@ git相关收集
 
 1，clone
 	sudo git clone @git.oschina.net:paladins/code-creator.git
-	sudo git clone https://paladins:lironghai@git.oschina.net/paladins/zkclient.git	带用户名密码检出
+	sudo git clone https://paladins:*@git.oschina.net/paladins/zkclient.git	带用户名密码检出
 	sudo git pull	更新
 
 	1.1 github url:https://github.com/lironghai/wanwan.git
-		1.1.1 git clone https://lironghai:Lironghai1987@github.com/lironghai/wanwan.git
-	1.2 ssh协议
-		git clone ssh://gitolite@localhost/gitolite-admin.git
+		1.1.1 git clone https://lironghai:*@github.com/lironghai/wanwan.git
+	1.2 ssh协议 git clone ssh://gitolite@localhost/gitolite-admin.git
 
 2，config
 	git config --global user.name 	[wanwang2]
@@ -18,7 +17,7 @@ git相关收集
 	2.2，修改密码，直接到下载目录 .git文件夹里找config里的下载路径:
 		[remote "origin"]
 	
-		  url = https://wanwang2:2wanwang@github.com/wanwang2/log.git
+		  url = https://wanwang2:*@github.com/wanwang2/log.git
 	
 		  fetch = +refs/heads/*:refs/remotes/origin/*
 
@@ -29,7 +28,7 @@ git相关收集
 
 	3.3 git commit -am "###"      --以上3步只是本地提交
 		3.1. git remote add origin git@git.oschina.net/paladins/zkclient.git	--只有在远程没有目录时使用
-		     git remote add origin http://wanwang2:2wanwang@git.oschina.net/name/project.git
+		     git remote add origin http://wanwang2:*@git.oschina.net/name/project.git
 		3.2. git push origin 远程分支，需要和.git目录平级
 
 4，git server安装
@@ -63,4 +62,11 @@ git相关收集
 	6.1 撤销本地提交
 		git reset --hard commitId	撤销某commitId的提交记录
 		git log	查看commitId
+		
+	6.2 git checkout --<filename>	用head区的文件替换工作目录的文件, 添加到缓存区的文件不受影响
+	
+7，git本地分区
+	7.1 工作目录
+	7.2 暂存区
+	7.3 head区
 	

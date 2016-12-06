@@ -241,4 +241,6 @@ linux相关收集
 20，正则表达式 ls -l 0?.pem	列出所有的匹配表达式：0?.pem 的文件
 	20.1 grep date whologged.sh	grep正则表达式命令
 	
-21，重定向 ./whologged.sh -> 00.pem
+21，重定向
+	21.1 ./whologged.sh -> 00.pem
+	21.2 ./a.out <test.c

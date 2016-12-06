@@ -1,0 +1,4 @@
+@set INSTALLDIR=%CD%
+@PATH=%PATH%;%INSTALLDIR%
+@set BISON_SIMPLE=%INSTALLDIR%\bison.simple
+@set BISON_HAIRY=%INSTALLDIR%\bison.hairy

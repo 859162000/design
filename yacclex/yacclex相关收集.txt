@@ -1,0 +1,67 @@
+yacclex相关收集
+
+
+1，yacc语义分析
+	1.1 词法分析scanning,lexical analysis
+	1.2 语法分析parsing,syntax analysis
+	
+2，模式必须在行首出现，flex认为以包括空白在内的字符的出现都是代码，会把他们复杂到c程序中
+	2.1 %{ ... %}部分会直接拷贝到c代码中
+	2.2 %% ... %%部分会在一个模式后面执行{}里的c代码
+		2.2.1 yytext-> 匹配输入的文本
+		2.2.2 . 	-> 任意一个字符
+		2.2.3 [ ^\t\n\r\f\v]+	非空白字符
+		
+	2.3 main() 主程序 调用 yylex()
+	
+3，yywarp缺少时，可以如下
+	3.1 定义
+	int yywrap() {
+		return 1;
+	}
+	3.2 使用 %option noyywrap
+	3.3 
+	
+4，flex运行
+	4.1 替换
+	%%
+	"colour"	{printf("color");}
+	%%
+	
+	4.2 运行
+	flex word_count.l
+	cc lex.yy.c -lfl	--linux环境下运行，lfl：flex库文件链接
+	./a.out
+
+5，生成词法分析器
+	5.1 简单匹配
+		"+"	{return Add;}
+		[0-9]+	{return NUMBER;}
+		[\t]	{/* 忽略空白字符 */}
+	5.2 token{number, value} 一个记号包括一个编号和一个值value
+	5.3 匹配数学记号并输出
+		%{
+			enum mathtoken{
+				Number = 258，
+				Add = 259，
+				Sub = 260
+			}；
+			int mathValue；
+		%}
+		
+		%%
+		"+"		{return Add;}
+		"-"		{return Sub;}
+		[0-9]+	{mathValue = atoi(yytext); return Number}
+		%%
+	
+6，lex与yacc联合运行
+	6.1 flex&yacc
+		6.1.1 flex c.l 		编译词法文件
+			生成yy.lex.c
+		6.1.2 yacc -dv c.y 	编译语法文件
+			生成 c.tab.h, c.tab.c, c.output
+		6.1.3 cc lex.yy.c y.tab.c -ll	编译语法分析器[需要把c.tab.h改名为y.tab.h]
+			生成a.out
+	6.2 cc -o parser lex.yy.c -ll 使用cc直接链接lex.yy.c
+	

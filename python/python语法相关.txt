@@ -1,0 +1,37 @@
+python语法相关
+
+
+1，一种面向对象的解释型计算机程序设计语言，由荷兰人Guido van Rossum于1989年发明，第一个公开发行版发行于1991年。
+	1.1 第一个例子
+	#!/usr/bin/python 
+	print "Hello, ...World!";
+
+	1.2 python 3.0
+	#!/usr/bin/python3
+	print("Hello, World!");
+
+2，缩进是一种语法
+	if age<21:
+    		print("你不能买酒。")
+    		print("不过你能买口香糖。")
+	print("这句话处於if语句块的外面。")
+
+3，for循环 
+	#!/usr/bin/python
+	# -*- coding: UTF-8 -*-
+
+	for letter in 'Python':     # 第一个实例
+   		print('当前字母 :', letter)
+
+	fruits = ['banana', 'apple',  'mango']
+	for fruit in fruits:        # 第二个实例
+  		print('当前字母 :', fruit)
+
+	print("Good bye!")
+
+4，注释
+	4.1 #单行注释
+	4.2 三个引号
+	'''
+	多行注释
+	''' 

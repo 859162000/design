@@ -1,0 +1,91 @@
+camel相关收集
+
+
+1，如果你想多个应用程序使用不同的协议和技术集成，Apache Camel是真棒。除了支持如此多的技术和除了支持不同的编程语言，每个集成使用EIP下的相同概念！
+	无论您使用何种协议。无论您使用什么技术。
+	无论您使用何种领域特定语言（ DSL） - 它可以通过Java ， Scala， Groovy的或Spring的XML 。
+
+2，camel：timer定时器的一种
+
+3，public interface Processor {...}用于进行定时器
+	3.1比如：
+	from("timer://timer1?period=1000").process(new Processor() {
+		public void process(Exchange msg) {
+			LOG.info("Processing {}", msg);
+		}
+	});
+	
+	3.2timer后面的域名无语法意义
+	timer://vv?period=500
+	
+4，camel组件
+	4.1timer	timer://vv?period=500
+				如果书写不正确，报错：No component found with scheme: timeruuu
+				
+	4.2file		file:d:/temp/inbox?delay=30000
+				file:g:/temp/inbox/?scheduler=quartz2&amp;scheduler.cron=0+0+0/1+*+*+?"
+				
+	4.3zookeeper	from("zookeeper://localhost:39913/somepath/somenode").to("mock:result");
+				<groupId>org.apache.camel</groupId>
+				<artifactId>camel-zookeeper</artifactId>
+				
+	4.4ftp		ftp://localhost/inbox?username=yorker&password=123456
+				<route id="ibossFtp">
+					<from uri="ftp://127.0.0.1/data/test/iboss?username=coco&amp;password=coco&amp;delay=10000"/>
+					<process ref="ibossFtpAction"/>
+				</route>
+				
+	4.5sql		<from uri="timer:foo?period=5s" />
+				<transform>
+					<method ref="topicBean" method="generateNewTopic" />
+				</transform>
+				<to uri="sqlComponent:{{sql.insertNewTopic}}" />
+				<log message="Inserted new NewTopic ${body[TopicId]}" />
+				sql.properties:
+				## sql that insert new orders
+				sql.insertNewTopic=INSERT INTO newtopic(TopicId, TopicName, url, ModuleId, CreateDate)...
+				
+	4.6from(file:path).to(ftp://url).to(ftp://url)
+	4.7from(activeMQComponent:queue:queuename).to(ftp://url)
+		<bean id="activeMQComponent" class="org.apache.activemq.camel.component.ActiveMQComponent">
+			<property name="brokerURL" value="${mq.uri}"/>
+			<property name="userName" value="${mq.username}"/>
+			<property name="password" value="${mq.password}"/>
+		</bean>
+	4.8from().log().process().log().to() // camel里面的process和jms里面的process是一个interface
+
+5，配置多个路由
+	<bean id="meProcessor" class="cn.iot.m2m.pboss.collector.task.MeProcessor"/> 
+    <bean id="meProcessor2" class="cn.iot.m2m.pboss.collector.task.MeProcessor2"/>  
+    <camelContext id="testCamelContext" xmlns="http://camel.apache.org/schema/spring">  
+        <route>  
+            <from uri="timer://vv?period=1000"/>  
+            <process ref="meProcessor"/>    
+        </route>
+        <route>  
+            <from uri="timer://vv?period=1000"/>  
+            <process ref="meProcessor2"/>    
+        </route>   
+    </camelContext>
+	
+6，camel多个xml配置：多个xml配置camelContext的id相同会覆盖前面的
+	6.1多个camel配置不要给camelContext使用相同的id
+	6.2camel-spring-boot，这个jar会使应用只支持一个camelContext
+
+7，camel配置文件上传
+	<camelContext xmlns="http://camel.apache.org/schema/spring">
+		<propertyPlaceholder id="properties" location="config.properties"/>
+		<route id="ftpUploadRoute">
+			<from uri="file://{{file.sourceDir}}" />
+			<to uri="{{ftp.to.url}}"/>
+		</route>
+	</camelContext>
+	7.1 ftp.to.url = ftp://127.0.0.1/data?username=coco&password=coco
+	7.2 file.sourceDir = E:\\design\\linux\\error_coco
+
+
+	
+	
+	
+
+	

@@ -1,0 +1,52 @@
+1，普通日期输出
+create or replace procedure output_date is
+begin
+dbms_output.put_line(sysdate);
+dbms_output.put_line('ccc');
+end output_date;
+
+2，普通统计表行数
+create or replace procedure query_login
+as
+V_TOTAL NUMBER(10);
+begin
+select count(*) into V_TOTAL from gepurchase;
+DBMS_OUTPUT.PUT_LINE('gepurchase共有多少行：'||V_TOTAL);
+end query_login;
+
+3，is和as效果一样
+在存储过程（PROCEDURE）和函数(FUNCTION)中没有区别；
+在视图（VIEW）中只能用AS不能用IS，在游标(CURSOR)中只能用IS不能用AS
+
+4，将查询出来的一行结果输出
+create or replace procedure query_login_select
+as
+v_rate varchar2(50);
+begin
+select purchasecode into v_rate from gepurchase where purchasecode = '2015120100133';
+DBMS_OUTPUT.PUT_LINE('exchangeRate：'||v_rate);
+end query_login_select;
+
+5，声明变量
+a.单独变量
+declare 
+ id login.id%type;
+ begin
+  select id into id from login where id = '2400010006';
+  dbms_output.put_line(id||'/');
+ end;
+
+b.结构体变量
+declare 
+ type idinfo is record(
+      cc varchar2(20)
+ );
+ id_data idinfo;
+ begin
+  select id into id_data from login where id = '2400010006';
+  dbms_output.put_line(id_data.cc||'/');
+ end;
+ 
+  
+
+

@@ -1,0 +1,123 @@
+
+Snandy
+
+If you cannot hear the sound of the genuine in you, you will all of your life spend your days on the ends of strings that somebody else pulls.
+jQuery 3.0 的变化
+
+时隔 3 个月，jQuery 团队终于发布了 3.0 Alpha 版本。有两个版本 jQuery compat 3.0 和 jQuery 3.0。
+
+    jQuery compat 3.0 对应之前的 1.x， 兼容更多的浏览器，对于IE支持到 8.0 版本
+    jQuery 3.0 对应之前的 2.x，关注更新的浏览器，对于IE支持到 9.0 版本
+
+此外， 3.0还增加了对 Yandex 浏览器的支持，一款来自俄罗斯的浏览器。
+
+ 
+
+1、简化了 show/hide
+
+之前的 show/hide 是大兼容，比如 show， 无论元素的 display 是写在style，stylesheet里都能显示出来。3.0 则不同了，写在 stylesheet 里的 display:none 调用 show 后仍然隐藏。 3.0 建议采用 class 方式去显示隐藏，或者完全采用 hide 先隐藏（不使用css代码），再调用 show 也可以。
+1
+2
+3
+4
+5
+6
+7
+8
+9
+	
+<style>
+    input {
+        display: none;
+    }
+</style>
+<input id="txt" type="text" value=""/>
+<script>
+    $('#txt').show(); // 仍然隐藏的状态
+</script>
+
+　　
+
+2、data 方法兼容 data-name-11 写法
+1
+2
+3
+4
+5
+	
+<input id="txt" type="text" value="" data-name-11="aa"/>
+<script>
+     // 3.0 版本 输出 {"name-11": aa}， 之前版本输出 {}
+    $('#txt').data()
+</script>
+
+这个问题本质是$.camelCase方法的实现差异
+1
+2
+	
+// 3.0 输出 "name-11", 3.0 之前版本输出 "name11"
+$.camelCase('data-name-11')
+
+　　
+
+3、derferred 兼容了 Promise/A+
+
+3.0 终于可以自信的宣告支持 Promise/A 了，之前一直被诟病是阉割版的。
+
+ 
+
+4、$.ajax 对象删除了 success | error | complete 方法
+
+这是因为 Promise/A 规范的推动，大家对 Promise 的使用越来越多，之前对应 Derferred 上的几个方法没有存在的必要了
+
+    derferred.done -> jqXHR.success
+    derferred.fail    -> jqXHR.error
+    derrerred.always -> jqXHR.complete
+
+1
+2
+3
+4
+	
+// 以下方法在 3.0 后没有了
+$.ajax().success
+$.ajax().error
+$.ajax().complete
+
+ 
+
+5、width/height，css(width) / css(height) 的返回值一律是十进制
+
+之前部分浏览器特殊情况下返回浮点数。
+
+ 
+
+6、 移除了注册事件的快捷函数 load | unload | error
+
+    load 名称和 ajax load 同名， 含糊不清。
+    unload 如果 load 去掉， unload 也没有存在的意义了。
+    error 采用 window.onerror 注册，不是一个标准事件 hander，因此也建议移除
+
+ bug：http://bugs.jquery.com/ticket/11733
+
+ 
+
+7、动画模块使用 “requestAnimationFrame” 替代 setTimeout
+
+requestAnimationFrame IE9及android4.4以下仍然不支持，但其它浏览器则明显提升性能
+
+ 
+
+ 
+
+ 
+
+补：
+
+正式版于2016-6-9 发布 http://blog.jquery.com/2016/06/09/jquery-3-0-final-released/
+
+ 
+
+相关：
+
+http://blog.jquery.com/2015/07/13/jquery-3-0-and-jquery-compat-3-0-alpha-versions-released/

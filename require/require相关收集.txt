@@ -1,0 +1,37 @@
+require相关收集
+
+
+1, 防止js加载阻塞页面渲染，使用程序调用的方式加载js
+   
+2，<script src="resources/lib/require/require.js" data-main="app"></script>
+	当使用require.js的库的时候才这么用的。require(["moduleA", "moduleB"], function(moduleA, moduleB){});
+	2.1:data-main类似C语言中的main函数，表示入口文件是哪个。
+	
+
+3，require会定义三个变量：define,require,requirejs，其中require === requirejs，一般使用require更简短
+
+	3.1
+	require.config({
+    	paths: {
+        	jquery: 'jquery-1.7.2'
+    	}
+	});
+
+	require(["lzd"], function (returnValue) {
+    		returnValue.lzd123("asdf");
+    		alert(returnValue.userName);
+	});
+
+4.主模块的依赖模块是['jquery', 'underscore', 'backbone']。默认情况下，require.js假定这三个模块与main.js在同一个目录，文件名分别为jquery.js，underscore.js和backbone.js，然后自动加载。
+
+5，requirejs主要用来做模块化的功能
+
+6,require的config配置中可以用deps来添加依赖，类似入口js一样
+	require.config({
+		baseUrl : "js/scripts",
+		...
+		deps : [ 'app' ]
+		...
+	}
+	6.1baseUrl : "js/scripts"...这个语法可以省略掉以后依赖的模块的路径
+	define([ 'app', 'service/common/ajaxService' ]...中的'app'实际就是以baseUrl为路径的

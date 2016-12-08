@@ -1,0 +1,9 @@
+
+<!-- 参数列表表格 -->
+		
+<div app-ui-select="current.selected" url="/budgetSubject.do" multiple property="code" css-class="input-sm"></div>
+current.selected = {{ current.selected }}
+
+
+<div app-ui-select="current.selectedUser" url="/user.do"  property="code" css-class="input-sm" required="true"></div>
+current.selectedUser = {{ current.selectedUser }}

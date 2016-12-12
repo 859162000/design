@@ -4,8 +4,8 @@ idea相关收集
 1，maven插件相关
 	1.1jetty：run，idea安装完jetty插件后，并jetty依赖后会自动显示出执行jetty
 		<groupId>org.mortbay.jetty</groupId>
-        	<artifactId>maven-jetty-plugin</artifactId>
-        	<version>6.1.26</version> 
+        <artifactId>maven-jetty-plugin</artifactId>
+        <version>6.1.26</version> 
 
 	1.2 maven执行前，点击同步按钮
 	

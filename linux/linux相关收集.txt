@@ -193,6 +193,19 @@ linux相关收集
 	10.9 yacclex:
 		sudo apt install flex;
 		sudo apt install bison;
+	10.10 gitlab:
+		https://mirrors.tuna.tsinghua.edu.cn/gitlab-ce/ubuntu/pool/trusty/main/g/gitlab-ce/
+		sudo apt-get install curl openssh-server ca-certificates postfix
+		sudo dpkg -i gitlab-ce_8.9.9-ce.0_amd64.deb		--安装
+		
+		10.10.1 配置
+			sudo mkdir -p /etc/gitlab
+			sudo touch /etc/gitlab/gitlab.rb
+			sudo chmod 600 /etc/gitlab/gitlab.rb
+			sudo gedit /etc/gitlab/gitlab.rb
+		10.10.2 启动
+			sudo gitlab-ctl reconfigure
+			
 11，gnome-session-quit 注销用户
 
 12，ssh相关：

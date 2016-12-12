@@ -1,0 +1,183 @@
+maven各个模块依赖相关收集
+
+
+1，aop
+	<dependency>
+		<groupId>org.springframework</groupId>
+		<artifactId>spring-aop</artifactId>
+	</dependency>
+	<dependency>
+		<groupId>org.aspectj</groupId>
+		<artifactId>aspectjweaver</artifactId>
+		<version>1.6.9</version>
+	</dependency>
+	
+2，cache
+	<dependency>
+		<groupId>com.chinamobile.iot.udm</groupId>
+		<artifactId>udm-plugin-log</artifactId>
+		<version>1.0-SNAPSHOT</version>
+	</dependency>
+	<dependency>
+		<groupId>com.googlecode.xmemcached</groupId>
+		<artifactId>xmemcached</artifactId>
+		<version>${xmemcached.version}</version>
+	</dependency>
+	<dependency>
+		<groupId>org.springframework</groupId>
+		<artifactId>spring-jdbc</artifactId>
+	</dependency>
+
+3，encrypt
+	<dependency>
+		<groupId>org.springframework</groupId>
+		<artifactId>spring-beans</artifactId>
+	</dependency>
+	<dependency>
+		<groupId>org.bouncycastle</groupId>
+		<artifactId>bouncycastle</artifactId>
+		<version>1.1</version>
+	</dependency>
+	<dependency>
+		<groupId>com.chinamobile.iot.udm</groupId>
+		<artifactId>udm-plugin-log</artifactId>
+		<version>1.0-SNAPSHOT</version>
+	</dependency>
+		
+4,ftp
+	<dependency>
+		<groupId>org.apache.camel</groupId>
+		<artifactId>camel-ftp</artifactId>
+	</dependency>
+	<dependency>
+		<groupId>org.apache.camel</groupId>
+		<artifactId>camel-spring</artifactId>
+	</dependency>
+	<dependency>
+		<groupId>com.chinamobile.iot.udm</groupId>
+		<artifactId>udm-plugin-log</artifactId>
+		<version>1.0-SNAPSHOT</version>
+	</dependency>
+	
+5,httpclient
+	<dependency>
+		<groupId>org.apache.httpcomponents</groupId>
+		<artifactId>httpclient</artifactId>
+		<version>${httpclient.version}</version>
+	</dependency>
+	<dependency>
+		<groupId>org.apache.httpcomponents</groupId>
+		<artifactId>httpmime</artifactId>
+		<version>${httpclient.version}</version>
+	</dependency>
+	
+6,jdbc
+	<dependency>
+		<groupId>org.springframework</groupId>
+		<artifactId>spring-jdbc</artifactId>
+	</dependency>
+	<dependency>
+		<groupId>org.springframework</groupId>
+		<artifactId>spring-tx</artifactId>
+	</dependency>
+	<dependency>
+		<groupId>com.alibaba</groupId>
+		<artifactId>druid</artifactId>
+		<version>1.0.20</version>
+	</dependency>
+	<dependency>
+		<groupId>oracle</groupId>
+		<artifactId>ojdbc</artifactId>
+		<version>6</version>
+	</dependency>
+	
+7,jms
+	<dependency>
+		<groupId>org.springframework</groupId>
+		<artifactId>spring-jms</artifactId>
+	</dependency>
+	<dependency>
+		<groupId>org.apache.activemq</groupId>
+		<artifactId>activemq-client</artifactId>
+		<version>${activemq.version}</version>
+		<exclusions>
+			<exclusion>
+				<groupId>org.slf4j</groupId>
+				<artifactId>slf4j-api</artifactId>
+			</exclusion>
+		</exclusions>
+	</dependency>
+	<!--<dependency>
+		<groupId>org.apache.activemq</groupId>
+		<artifactId>activemq-openwire-legacy</artifactId>
+		<version>${activemq.version}</version>
+	</dependency>-->
+	<dependency>
+		<groupId>org.apache.activemq</groupId>
+		<artifactId>activemq-pool</artifactId>
+		<version>${activemq.version}</version>
+		<exclusions>
+			<exclusion>
+				<groupId>org.slf4j</groupId>
+				<artifactId>slf4j-api</artifactId>
+			</exclusion>
+		</exclusions>
+	</dependency>
+	<dependency>
+		<groupId>org.apache.activemq</groupId>
+		<artifactId>activemq-camel</artifactId>
+		<version>${activemq.version}</version>
+		<exclusions>
+			<exclusion>
+				<groupId>org.slf4j</groupId>
+				<artifactId>slf4j-api</artifactId>
+			</exclusion>
+		</exclusions>
+	</dependency>
+	<dependency>
+		<groupId>org.apache.activemq</groupId>
+		<artifactId>activemq-broker</artifactId>
+		<version>${activemq.version}</version>
+		<scope>test</scope>
+	</dependency>
+	<dependency>
+		<groupId>org.springframework</groupId>
+		<artifactId>spring-test</artifactId>
+		<scope>test</scope>
+	</dependency>
+	
+8,web
+	<dependency>
+		<groupId>javax.servlet.jsp</groupId>
+		<artifactId>javax.servlet.jsp-api</artifactId>
+		<version>2.3.1</version>
+		<scope>provided</scope>
+	</dependency>
+	<dependency>
+		<groupId>javax.servlet</groupId>
+		<artifactId>javax.servlet-api</artifactId>
+		<version>3.1.0</version>
+	</dependency>
+	<dependency>
+		<groupId>org.springframework</groupId>
+		<artifactId>spring-web</artifactId>
+	</dependency>
+	<dependency>
+		<groupId>org.springframework</groupId>
+		<artifactId>spring-webmvc</artifactId>
+	</dependency>
+	
+9,log
+	<dependency>
+		<groupId>org.slf4j</groupId>
+		<artifactId>slf4j-api</artifactId>
+	</dependency>
+
+	<dependency>
+		<groupId>ch.qos.logback</groupId>
+		<artifactId>logback-classic</artifactId>
+	</dependency>
+	
+	
+	
+	

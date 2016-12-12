@@ -1,0 +1,91 @@
+ tomcat-maven-plugin的使用 ［转］
+
+环境：
+
+Ubuntu 8.10,  tomcat6, mave2
+
+ 
+
+maven2有一个把web应用部署到tomcat下的插件 tomcat-maven-plugin , 我们可以使用这个插件把web应用一键式的部署到一个远程的tomcat中。
+
+ 
+
+插件的url： http://mojo.codehaus.org/tomcat-maven-plugin/
+
+ 
+
+1、要打开tomcat的manager功能
+
+这里要注意的问题是，如果你的web应用使用了虚拟主机，如www.test.com，那么你需要把manager在www.test.com下也部署一个。虚拟主机和应用的部署这里就不说明了。
+
+ 
+
+访问： http://www.test.com:8080/manager/html
+
+需要输入用户名和口令。如果你不知道，请打开文件tomcat_install_dir/conf/tomcat-users.xml，找找看有没有用户有manager的role，很可能是没有的，那就添加一个用户。
+
+我的tomcat-users.xml内容如下：
+
+<?xml version='1.0' encoding='utf-8'?>
+<tomcat-users>
+  <role rolename="manager"/>
+  <user username="tomcat" password="123456" roles="manager"/>
+</tomcat-users>
+
+ 
+
+重新启动tomcat，再次访问http://www.test.com:8080/manager/html，现在你知道你的用户名和口令了。在这个页面你可以看到www.test.com所有的应用。
+
+ 
+
+2、在你的web应用的pom.xml文件中增加
+
+    <build>
+        <finalName>ROOT</finalName>
+        <plugins>
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>tomcat-maven-plugin</artifactId>
+                <configuration>
+                    <url>http://www.test.com:8080/manager</url>
+                    <server>test</server>
+                    <path>/</path>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
+
+ 
+
+finalName这里设置为ROOT，所以mvn package生成的war的文件名为ROOT.war，叫啥名字其实是无所谓的。
+
+这里配置了发布应用的tomcat manager的url, 已及应用要部署在根/下。但是没有配置用户名和口令,这和<server>test</server>有关。这里把用户名和口令 配置在外部其他文件中了，避免不同的环境下有修改pom.xml。
+
+缺省情况下，如果我的登录用户名是arthur, 则你需要编辑这个文件 /home/arthur/.m2/settings.xml，其中内容为：
+
+ 
+
+<?xml version="1.0" encoding="UTF-8"?>
+<settings>
+    <servers>
+        <server>
+            <id>test</id>
+            <username>tomcat</username>
+            <password>123456</password>
+        </server>
+    </servers>
+</settings>
+
+ 
+
+原来可以这样配置
+
+ 
+
+3、运行
+
+mvn tomcat:deploy 或
+
+mvn tomcat:redeploy
+
+访问： http://www.test.com:8080/manager/html， 看看应用是不是部署好了？

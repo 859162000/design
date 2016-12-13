@@ -1,7 +1,19 @@
 xml-xjc相关收集
 
 
-1，xjc test.xsd
+1，概述：Trang 命令行下XML生成XSD的工具，生成XML文件对应的XSD文件只需要3个简单的步骤：
+
+	1.1 下载Trang
+		http://www.thaiopensource.com/relaxng/trang.html	trang-version.zip
+	1.2 过程	
+		xml生成xsd
+		xsd生成java对象
+
+2，生成
+	2.1，xml生成xsd
+	——java -jar trang.jar iboss-data-update.xml iboss-data-update.xsd
+	
+	2.2，xsd生成java对象：xjc test.xsd
 	——xjc -p com.chinamobile.iot.udm.iboss.http.bean test.xsd
 
-2，xml生成xsd
+

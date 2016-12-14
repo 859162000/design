@@ -1,0 +1,23 @@
+md相关收集
+	——markdown：目标是实现易读易写
+	
+
+1，概述：
+	Setext、atx、Textile、reStructuredText、Grutatext 和 EtText，而最大灵感来源其实是纯文本电子邮件的格式。
+	1.1 简单格式
+	在文字两旁加上星号，看起来就像*强调*。Markdown 的列表看起来，嗯，就是列表。Markdown 的区块引用看起来就真的像是引用一段文字，就像你曾在电子邮件中见过的那样
+	
+2，标题
+	2.1 
+		# 这是 H1
+		## 这是 H2
+		###### 这是 H6
+3，列表
+	*   Red
+	*   Green
+	*   Blue
+	
+4，代码区块
+	<p>这是一个普通段落：</p>
+	<pre><code>这是一个代码区块。
+	</code></pre>

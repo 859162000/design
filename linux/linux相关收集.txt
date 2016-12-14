@@ -36,6 +36,7 @@ linux相关收集
 	3.1 ifconfig	ip
 		ifconfig eth4	以太网卡信息
 	3.2 ctrl+alt+t	终端
+		ctrl+alt+f1	终端
 	3.3 ssh客户端	
 		3.3.1需要安装xshell 5
 	3.4 ctrl+c	结束命令
@@ -257,3 +258,28 @@ linux相关收集
 21，重定向
 	21.1 ./whologged.sh -> 00.pem
 	21.2 ./a.out <test.c
+	
+22，桌面 dpkg -l *desktop
+	$ gnome-about --gnome-version
+	22.1 卸载
+		22.1.1 卸载gnome
+			sudo apt-get remove gnome-shell 
+			sudo apt-get remove gnome 
+			sudo apt-get autoremove
+			sudo apt-get purge gnome
+		22.1.2 安装unity
+			sudo apt-get install ubuntu-desktop
+			sudo apt-get install unity
+			sudo apt-get install unity-common
+			sudo apt-get install unity-lens*
+			sudo apt-get install unity-services
+			sudo apt-get install unity-asset-pool
+			
+			sudo apt-get update
+			sudo apt-get upgrade
+			
+	22.2 移除
+		sudo apt-get autoremove
+		sudo apt-get autoclean
+	
+	
